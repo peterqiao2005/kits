@@ -1,0 +1,27 @@
+services:
+  executor:
+    image: daturaai/compute-subnet-executor:latest
+    env_file: ./.env
+    ports:
+      - ${EXTERNAL_PORT}:${INTERNAL_PORT}
+      - ${SSH_PORT}:22
+    expose:
+      - ${INTERNAL_PORT}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/docker/daemon.json:/etc/docker/daemon.json
+      - /etc/nvidia-container-runtime/config.toml:/etc/nvidia-container-runtime/config.toml
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  watchtower:
+    image: containrrr/watchtower:1.7.1
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 60 --cleanup --label-enable
