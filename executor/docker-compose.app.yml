@@ -2,6 +2,7 @@ services:
   executor:
     image: daturaai/compute-subnet-executor:latest
     env_file: ./.env
+    privileged: true
     ports:
       - ${EXTERNAL_PORT}:${INTERNAL_PORT}
       - ${SSH_PORT}:22
