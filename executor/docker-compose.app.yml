@@ -19,6 +19,8 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   watchtower:
     image: containrrr/watchtower:1.7.1
