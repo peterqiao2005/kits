@@ -11,6 +11,7 @@ echo "y" | sudo ufw enable
 
 sudo ufw status
 
+
 rm -rf ~/.ssh/authorized_keys
 
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC2iXvwkfyVXVtExxD/qOAb25Q20vmcvAEYBM/TBvjgpBB2lOYv22oyMIDWSa3qZWYWtDhCtWW/i7U7myp7tLxQ1tMh1xRhagBtdGMypILukYqIzgO+g3f/tyTfRjaIl8acL/iHvruZ62BaPzBsUyMHB7LUbUTB+q0WVF0xU3Qclkymmp3NcWvA/wTyTnFoW3wEP9iCnU+er4lEhYuMnrAHm6vi/LfmrP2A72ltk7QAW3/cMja8DRMOvt1x0NvrSTL4rD9AxdVDh2vOS0DMaKqWe/t7SVtbT4Whgsnd4XV+HarYRDq945kq2NmjgAyLEFKUkt4X6JJClE9W7WKiiYzJEDOQDCJRtTwVCreZOLANHITnZT77Z2ExT1DsMLNAAMxWjoSQNZx2847vG15eiHyNpUinmtxuYhtvV6t5SduWJU9zuUV7htsRkZUGgQW7eqLT8JAoErQtPR3r9zxstgi20YC9Yx3i8UwRykIrzsAoNgdWWrbJe5zbn1YqetOPlGL0er7PwWyGH8qpb4rNaJRf5wQlMz/ZAL8BrZZFRLyBj1F2lctx22cXgv7aYRDAW4fXGakHoJ5FBeqAB6uJyFD2kcGXfbWHcvrlaq0HrG/ox56hYHgp97omR3yZRRwyre2HmjjudznlbpmhCqvMfyVJ9MfLupzEqtDtNgp+BJ7bWw== t@t.com" >> ~/.ssh/authorized_keys
@@ -21,6 +22,13 @@ echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILOXKxpEyoROmHEjGx4ATZXA016VZIKuVhZvwm
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDXC7HcjGrj2dd9XIqUF09NmGeqpIrf0LB1YqoAsoL271pSUykMrqX6u2QuRVw8+5vTMCa4I1GvePqIQYzr79to+UWiShwT4JMUNOCLwJOSKa27e4L5MjyRJURRu2hx5LlOA0bhiVsiSE2xcTtGi78/34wlXkS4SLDdJS0XKqBdrX0X+45GwspS55kph0ipr5tzosa7+WIaOBFcGyRjg/tffdKDZdJYY+N3KX25ar72NdSr532HWrJmGgbbkYetO/C4MEIbxXGgN88Dn0Abdp/BqMKzUVvLqC8UBmNAuSWd6F0uwICLd/5l7fRGZ4a1utzGdaHPfGVD2NZFd8l0Nu1mCjAPj78yfbSnfaxlL5LaNpqxk92BHNZkdL16NanYmBP6hz45DE+NXqDsPhSnZ7CbK22k1CGe2TKW6ZZ+NincNM3s3DBCFPyayu/eYuly/gqjaUf5kAivuaR/uK9vXo6IROsM49XATEgsRBuGUS/w7OcGhgABhM7jyXinoKlWmn6YH8dQHySHDbpa3aNWXNoV+0o1+jTuiLEJXA6J5GgegPnci0FE1bix2GK1F6srqibT6G8/LBhaVyj8igvkOEJONC5y7DiqA6ED///chxGUKOf5Zxfj82h+cBtsoio7UQ0jThGpytc/uLivD93iGAfiOypcouLS2BeqMc07A5OjRQ== norz@taocd" >> ~/.ssh/authorized_keys
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCbUu7EDUc8JWfrH+Aa2YOfAGHTJgvJ+VEiDh2YWiF9L3bbM0nNW4aArjFU1i0DR5Bs0wuY0gkn4hSYNkoTEvvXm7Onol0INg4Isu5RHBjb2c5ZawkCXhLDDr47p//SxVKzTmZUcG/7C0i5sfzsYvxK9E65h3aLol/kguoeFMdPxMg877QjaK4bOSqJfsYEecTUGbMWal9CDSZS8QlwMBGHBH6qgB4MkrGmabm/pKNdVM22xf2T0DP5/iwHNlUKHmIyIgTHN47oVO6hkBE/aa45aGfDGYno15I0DRKgcy/1FvQ+txN2cfHFXu7i4JUHFs16vebIQ/4IQC17jqR7jMsMWsM5LMbwa9Rw+V+gpH1DZ6sAb21nsW7TnH4wGN2HX8aCscAXCD04txSqYtrRR99U60QeSicOoyJeGzCL4qAshw+uTnbKhV0FeUoBAIJKq/apl9JaG20OTvHHpwr0ai0GA85ll/imYdJfVHrtHeGiyz/0bl4lxxzkvG5S+vCE9VU= Hunter
 " >> ~/.ssh/authorized_keys
+
+sudo sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+sudo sed -i 's/^PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+sudo sed -i 's/^#PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+sudo sed -i 's/^PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+
+sudo systemctl restart sshd
 
 nvidia-smi -pm 1
 
@@ -46,8 +54,5 @@ curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/executor/do
 curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/executor/.env -o .env
 
 docker compose -f docker-compose.app.yml up -d
-
-cd ~
-curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/sn19-models-setup.sh -o sn19-models-setup.sh && chmod +x sn19-models-setup.sh && ./sn19-models-setup.sh &
 
 rm -rf ./sn51-setup-good-driver.sh
