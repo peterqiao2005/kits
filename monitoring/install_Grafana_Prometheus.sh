@@ -86,8 +86,14 @@ pm2 save
 
 # 启动PM2开机自启
 echo "配置PM2开机自启..."
-eval "$(pm2 startup | tail -n +2)"
+pm2 startup
+
+# 提示用户执行生成的命令
+echo "如果PM2提示需要执行额外命令，请手动复制并运行提示的命令以完成配置。"
+
+# 获取服务器公网IP
+SERVER_IP=$(curl -s ip.gs)
 
 # 打印Grafana服务状态和访问提示
 echo "Grafana服务已启动。"
-echo "访问地址: http://<服务器IP>:$GRAFANA_PORT"
+echo "访问地址: http://${SERVER_IP}:$GRAFANA_PORT"
