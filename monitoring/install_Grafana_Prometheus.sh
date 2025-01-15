@@ -64,8 +64,13 @@ apt install -y grafana
 GRAFANA_PORT=3001
 GRAFANA_CONFIG="/etc/grafana/grafana.ini"
 echo "配置Grafana监听端口为$GRAFANA_PORT..."
-sed -i "s/^;\?http_port = .*/http_port = $GRAFANA_PORT/" "$GRAFANA_CONFIG"
+sed -i "s/^;\\?http_port = .*/http_port = $GRAFANA_PORT/" "$GRAFANA_CONFIG"
 
+# 确保PM2安装
+if ! command -v pm2 &> /dev/null; then
+  echo "安装PM2..."
+  npm install -g pm2
+fi
 
 # 使用PM2管理Grafana
 PM2_APP_NAME="grafana"
@@ -73,14 +78,15 @@ echo "删除旧的PM2任务（如果存在）..."
 pm2 delete "$PM2_APP_NAME" 2>/dev/null || true
 
 # 启动并保存新的PM2任务
-pm2 start /usr/sbin/grafana-server --name "$PM2_APP_NAME" -- \  
-  --config=$GRAFANA_CONFIG \  
+pm2 start /usr/sbin/grafana-server --name "$PM2_APP_NAME" -- \
+  --config=/etc/grafana/grafana.ini \
   --homepath=/usr/share/grafana
 
 pm2 save
 
 # 启动PM2开机自启
-pm2 startup | bash
+echo "配置PM2开机自启..."
+eval "$(pm2 startup | tail -n +2)"
 
 # 打印Grafana服务状态和访问提示
 echo "Grafana服务已启动。"
