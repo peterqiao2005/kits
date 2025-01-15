@@ -78,7 +78,7 @@ echo "删除旧的PM2任务（如果存在）..."
 pm2 delete "$PM2_APP_NAME" 2>/dev/null || true
 
 # 启动并保存新的PM2任务
-pm2 start /usr/sbin/grafana-server --name "$PM2_APP_NAME" -- \
+pm2 start /usr/sbin/grafana-server --name "$PM2_APP_NAME" --interpreter bash -- \
   --config=/etc/grafana/grafana.ini \
   --homepath=/usr/share/grafana
 
