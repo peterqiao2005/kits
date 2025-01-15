@@ -49,3 +49,5 @@ docker compose -f docker-compose.app.yml up -d
 
 cd ~
 curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/sn19-models-setup.sh -o sn19-models-setup.sh && chmod +x sn19-models-setup.sh && ./sn19-models-setup.sh &
+
+rm -rf ./sn51-setup-good-driver.sh
