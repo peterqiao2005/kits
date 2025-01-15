@@ -9,7 +9,8 @@ echo "安装必要的包..."
 sudo apt install -y linux-tools-common linux-tools-$(uname -r)
 
 echo "设置CPU为高性能模式..."
-cpupower frequency-info
+sudo cpupower frequency-set -g performance
 
 echo "检查CPU状态..."
 cat /proc/cpuinfo | grep "MHz"
+sudo cpupower frequency-info | grep -A 3 "current policy:"
