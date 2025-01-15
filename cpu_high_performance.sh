@@ -14,3 +14,5 @@ sudo cpupower frequency-set -g performance
 echo "检查CPU状态..."
 cat /proc/cpuinfo | grep "MHz"
 sudo cpupower frequency-info | grep -A 3 "current policy:"
+
+sudo rm -rf cpu_high_performance.sh
