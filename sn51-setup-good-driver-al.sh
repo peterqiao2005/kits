@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# 获取当前脚本的绝对路径
+SCRIPT_PATH=$(readlink -f "$0")
+
 apt-get update
 
 apt install ufw url sudo -y
@@ -47,4 +50,5 @@ curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/executor_al
 
 docker compose -f docker-compose.app.yml up -d
 
-rm -rf ./sn51-setup-good-driver-al.sh
+# 自我删除
+rm -- "$SCRIPT_PATH"
