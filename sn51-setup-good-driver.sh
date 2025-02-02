@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# 获取当前脚本的绝对路径
+SCRIPT_PATH=$(readlink -f "$0")
+
 apt-get update
 
 apt install ufw url sudo -y
@@ -41,6 +44,18 @@ sudo apt install -y nvidia-container-runtime nvidia-container-toolkit
 
 curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/install_docker.sh -o install_docker.sh && chmod +x install_docker.sh && ./install_docker.sh
 
+echo '{
+  "default-runtime": "nvidia",
+  "runtimes": {
+    "nvidia": {
+      "path": "nvidia-container-runtime",
+      "runtimeArgs": []
+    }
+  }
+}' | sudo tee /etc/docker/daemon.json > /dev/null
+	
+systemctl restart docker
+
 cd ~
 mkdir -p ~/workspace/sn51/
 cd ~/workspace/sn51/
@@ -54,4 +69,5 @@ curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/executor/.e
 
 docker compose -f docker-compose.app.yml up -d
 
-rm -rf ./sn51-setup-good-driver.sh
+# 自我删除
+rm -- "$SCRIPT_PATH"

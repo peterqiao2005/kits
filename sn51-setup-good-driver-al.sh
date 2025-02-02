@@ -37,6 +37,18 @@ sudo apt install -y nvidia-container-runtime nvidia-container-toolkit
 
 curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/install_docker.sh -o install_docker.sh && chmod +x install_docker.sh && ./install_docker.sh
 
+echo '{
+  "default-runtime": "nvidia",
+  "runtimes": {
+    "nvidia": {
+      "path": "nvidia-container-runtime",
+      "runtimeArgs": []
+    }
+  }
+}' | sudo tee /etc/docker/daemon.json > /dev/null
+
+systemctl restart docker
+
 cd ~
 mkdir -p ~/workspace/sn51/
 cd ~/workspace/sn51/
