@@ -61,4 +61,4 @@ awk -v target="$container" '
 docker-compose -f docker-compose.tmp.yaml up -d
 
 # 删除临时文件
-cp docker-compose.tmp.yaml docker-compose.yaml
+mv docker-compose.tmp.yaml docker-compose.yaml
