@@ -4,6 +4,8 @@ mkdir -p ~/workspace/vllm-docker
 cd ~/workspace/vllm-docker
 curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/sn19_text/docker-compose.yaml -o docker-compose.yaml
 
+cd ~/workspace/vllm-docker
+
 # 提示用户输入容器名或数字（数字n代表vllm_n）
 read -p "请输入要启动的容器名或数字(数字n代表vllm_n): " input
 if [[ $input =~ ^[0-9]+$ ]]; then
