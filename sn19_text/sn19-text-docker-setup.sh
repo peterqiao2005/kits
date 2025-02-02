@@ -22,25 +22,38 @@ fi
 
 # 利用 awk 过滤 docker-compose.yaml，仅保留选定的容器
 awk -v target="$container" '
-BEGIN { in_services=0; print_block=0; }
-/^services:/ { in_services=1; print; next; }
+# 处理 version 和 services 之前的部分，直接打印
+/^version:/ { print; next }
+/^services:/ { print; in_services=1; next }
+
 {
-  if (in_services && match($0, /^[ ]{2}([^:]+):/, arr)) {
-      service = arr[1];
-      if (service == target) {
-          print_block=1;
-          print;
-          next;
-      } else {
-          print_block=0;
-          next;
-      }
-  }
-  if (in_services && print_block && ($0 ~ /^[ ]{4,}/ || $0 ~ /^[[:space:]]*$/)) {
-      print;
-      next;
-  }
-  if (!in_services) { print; }
+    if (in_services) {
+        # 如果遇到空行，若当前正在打印目标服务块则输出，否则跳过
+        if ($0 ~ /^[[:space:]]*$/) {
+            if (printing) { print }
+            next
+        }
+        # 获取当前行前面的空格数（缩进）
+        match($0, /^([ ]*)/, arr)
+        indent = length(arr[1])
+        # 如果缩进为2，则认为是服务头行
+        if (indent == 2) {
+            if ($0 ~ ("^[ ]{2}"target":")) {
+                printing = 1
+                base_indent = indent
+                print
+            } else {
+                printing = 0
+            }
+        }
+        else if (printing && indent > base_indent) {
+            # 只打印目标服务块内，缩进大于服务头的内容
+            print
+        }
+    }
+    else {
+        print
+    }
 }
 ' docker-compose.yaml > docker-compose.tmp.yaml
 
