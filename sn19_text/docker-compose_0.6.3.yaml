@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   vllm_1:
-    image: vllm/vllm-openai:v0.7.1
+    image: vllm/vllm-openai:v0.6.3
     container_name: vllm_1
     runtime: nvidia
     deploy:
@@ -16,7 +16,6 @@ services:
       - "8000:8000"
     ipc: "host"
     environment:
-      - VLLM_USE_V1=0
       - NCCL_NVLS_ENABLE=0
       - VLLM_API_KEY=sk-DtT3YuhbLJ8NLc7n730cFbA584794b5890C30e173859A00e
     command:
@@ -27,20 +26,15 @@ services:
       - --max_model_len
       - "20000"
       - --gpu_memory_utilization
-      - "0.95"
+      - "0.9"
       - --port
       - "8000"
       - --tensor-parallel-size
       - "8"
-      - --distributed-executor-backend
-      - "ray"
-      - --compilation-config
-      - "3"
-    network_mode: host
     restart: always
 
   vllm_2:
-    image: vllm/vllm-openai:v0.7.1
+    image: vllm/vllm-openai:v0.6.3
     container_name: vllm_2
     runtime: nvidia
     deploy:
@@ -54,7 +48,6 @@ services:
       - "8001:8001"
     ipc: "host"
     environment:
-      - VLLM_USE_V1=0
       - NCCL_NVLS_ENABLE=0
       - VLLM_API_KEY=sk-DtT3YuhbLJ8NLc7n730cFbA584794b5890C30e173859A00e
     command:
@@ -65,20 +58,15 @@ services:
       - --max_model_len
       - "16000"
       - --gpu_memory_utilization
-      - "0.95"
+      - "0.9"
       - --port
       - "8001"
       - --tensor-parallel-size
       - "8"
-      - --distributed-executor-backend
-      - "ray"
-      - --compilation-config
-      - "3"
-    network_mode: host
     restart: always
 
   vllm_3:
-    image: vllm/vllm-openai:v0.7.1
+    image: vllm/vllm-openai:v0.6.3
     container_name: vllm_3
     runtime: nvidia
     deploy:
@@ -92,7 +80,6 @@ services:
       - "8002:8002"
     ipc: "host"
     environment:
-      - VLLM_USE_V1=0
       - NCCL_NVLS_ENABLE=0
       - VLLM_API_KEY=sk-DtT3YuhbLJ8NLc7n730cFbA584794b5890C30e173859A00e
     command:
@@ -103,20 +90,15 @@ services:
       - --max_model_len
       - "20000"
       - --gpu_memory_utilization
-      - "0.95"
+      - "0.9"
       - --port
       - "8002"
       - --tensor-parallel-size
       - "8"
-      - --distributed-executor-backend
-      - "ray"
-      - --compilation-config
-      - "3"
-    network_mode: host
     restart: always
   
   vllm_4:
-    image: vllm/vllm-openai:v0.7.1
+    image: vllm/vllm-openai:v0.6.3
     container_name: vllm_4
     runtime: nvidia
     deploy:
@@ -130,7 +112,6 @@ services:
       - "8003:8003"
     ipc: "host"
     environment:
-      - VLLM_USE_V1=0
       - NCCL_NVLS_ENABLE=0
       - VLLM_API_KEY=sk-DtT3YuhbLJ8NLc7n730cFbA584794b5890C30e173859A00e
     command:
@@ -141,20 +122,15 @@ services:
       - --max_model_len
       - "4096"
       - --gpu_memory_utilization
-      - "0.95"
+      - "0.9"
       - --port
       - "8003"
       - --tensor-parallel-size
       - "8"
-      - --distributed-executor-backend
-      - "ray"
-      - --compilation-config
-      - "3"
-    network_mode: host
     restart: always
   
   vllm_5:
-    image: vllm/vllm-openai:v0.7.1
+    image: vllm/vllm-openai:v0.6.3
     container_name: vllm_5
     runtime: nvidia
     deploy:
@@ -168,7 +144,6 @@ services:
       - "8004:8004"
     ipc: "host"
     environment:
-      - VLLM_USE_V1=0
       - NCCL_NVLS_ENABLE=0
       - VLLM_API_KEY=sk-DtT3YuhbLJ8NLc7n730cFbA584794b5890C30e173859A00e
     command:
@@ -179,14 +154,9 @@ services:
       - --max_model_len
       - "16000"
       - --gpu_memory_utilization
-      - "0.95"
+      - "0.9"
       - --port
       - "8004"
       - --tensor-parallel-size
       - "8"
-      - --distributed-executor-backend
-      - "ray"
-      - --compilation-config
-      - "3"
-    network_mode: host
     restart: always
