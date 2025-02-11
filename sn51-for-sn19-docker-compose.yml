@@ -6,7 +6,7 @@ services:
       command: /usr/sbin/sshd -D  # 启动 SSH 服务
       privileged: true
       ports:
-        - "50022:22"
+        - "50022:20022"
       ipc: "host"
       runtime: nvidia
       deploy:
@@ -28,7 +28,7 @@ services:
       command: /usr/sbin/sshd -D  # 启动 SSH 服务
       privileged: true
       ports:
-        - "20022:22"
+        - "20022:20022"
       ipc: "host"
       volumes:        
         - /var/run/docker.sock:/var/run/docker.sock
