@@ -8,7 +8,7 @@ apt-get update
 apt install ufw url sudo -y
 
 sudo ufw allow 22
-sudo ufw allow 3000:30000/tcp
+sudo ufw allow 3000:40000/tcp
 
 echo "y" | sudo ufw enable
 
@@ -23,7 +23,6 @@ echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCdpkJ5UVTvmSDaczqr8ETofGHifvGrLBrdVc
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILOXKxpEyoROmHEjGx4ATZXA016VZIKuVhZvwmaE/1KF malcolmself@outlook.com" >> ~/.ssh/authorized_keys
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCbUu7EDUc8JWfrH+Aa2YOfAGHTJgvJ+VEiDh2YWiF9L3bbM0nNW4aArjFU1i0DR5Bs0wuY0gkn4hSYNkoTEvvXm7Onol0INg4Isu5RHBjb2c5ZawkCXhLDDr47p//SxVKzTmZUcG/7C0i5sfzsYvxK9E65h3aLol/kguoeFMdPxMg877QjaK4bOSqJfsYEecTUGbMWal9CDSZS8QlwMBGHBH6qgB4MkrGmabm/pKNdVM22xf2T0DP5/iwHNlUKHmIyIgTHN47oVO6hkBE/aa45aGfDGYno15I0DRKgcy/1FvQ+txN2cfHFXu7i4JUHFs16vebIQ/4IQC17jqR7jMsMWsM5LMbwa9Rw+V+gpH1DZ6sAb21nsW7TnH4wGN2HX8aCscAXCD04txSqYtrRR99U60QeSicOoyJeGzCL4qAshw+uTnbKhV0FeUoBAIJKq/apl9JaG20OTvHHpwr0ai0GA85ll/imYdJfVHrtHeGiyz/0bl4lxxzkvG5S+vCE9VU= Hunter
 " >> ~/.ssh/authorized_keys
-echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCmIujAL68w8YHPdzJodeS1R1wZ+HhoUhxI4hpeERENzuUZszo8bRDD2lZFttGk6lKLobkhUwjIFN9sdLz8Xe8V6ZTOGgVvkiKCyU1BAQ6TwyGdOm4fs+PpCVA3u1NRSkf3oPDXiRu2/7WIV7J/s+JZjvMUlEaD/LicDUg1hx0uLPkhlaj6mMbz+8jqv5LGFmkr079d6oWfkiyk6ecfRGMH8ry8DE0XS33ZTt7rOYlb2NHNL69btVg7UOhRM8VZLMEJjei2UmamnW/JFnz0heI1o0giFLOJs9KZ+SofhtKylMwCOg+5ibGRxWyF2cNwnNdcmHg8wYK6YCvazsWcyH4H2Qkb0kFCk/A4U+hoF9hKQDg6BMsX8V5cTOF3D5ArlrUVscGxM+nhwMr7p+bstCoSdNuHt4rHi5Z3TH62F6AA6aRTAA+PtAFhUq8pedYrSrsDlFXm7T1ZLYyNUN9OM+sXOkVVqbWPDDdxCjiwAtyKFTaHJBKHr2MTiLKqsG9PsU8= norz@DESKTOP-NIBHABF" >> ~/.ssh/authorized_keys
 
 sudo sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
 sudo sed -i 's/^PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config

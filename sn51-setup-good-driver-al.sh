@@ -8,7 +8,7 @@ apt-get update
 apt install ufw url sudo -y
 
 sudo ufw allow 22
-sudo ufw allow 3000:30000/tcp
+sudo ufw allow 3000:40000/tcp
 
 echo "y" | sudo ufw enable
 
