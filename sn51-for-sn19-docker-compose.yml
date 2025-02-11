@@ -6,11 +6,8 @@ services:
       command: /usr/sbin/sshd -D  # 启动 SSH 服务
       privileged: true
       ports:
-        - "3000-5000:3000-5000"
-        - "7000-15999:7000-15999"
-	- "16001-29000:16001-29000"
-        - "35000-50000:35000-50000"
-        - "20022:22"
+        - "50022:22"
+      ipc: "host"
       runtime: nvidia
       deploy:
         resources:
@@ -20,8 +17,30 @@ services:
                   count: all
                   capabilities: [gpu]
         replicas: 1
-      volumes:
-        - $HOME/.bittensor/wallets/:/root/.bittensor/wallets/
+      volumes:        
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /etc/docker/daemon.json:/etc/docker/daemon.json
+        - /etc/nvidia-container-runtime/config.toml:/etc/nvidia-container-runtime/config.toml
+    
+    sn19-app-container:
+      image: peterqiao2005/sn51-std-container
+      container_name: sn19-all
+      shm_size: '100g'  # 配置共享内存大小为 100GB
+      command: /usr/sbin/sshd -D  # 启动 SSH 服务
+      privileged: true
+      ports:
+        - "20022:22"
+      ipc: "host"
+      runtime: nvidia
+      deploy:
+        resources:
+            reservations:
+              devices:
+                - driver: nvidia
+                  count: all
+                  capabilities: [gpu]
+        replicas: 1
+      volumes:        
         - /var/run/docker.sock:/var/run/docker.sock
         - /etc/docker/daemon.json:/etc/docker/daemon.json
         - /etc/nvidia-container-runtime/config.toml:/etc/nvidia-container-runtime/config.toml
