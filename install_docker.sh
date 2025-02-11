@@ -33,6 +33,18 @@ sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-
 echo "赋予 Docker Compose 可执行权限..."
 sudo chmod +x /usr/local/bin/docker-compose
 
+echo '{
+  "default-runtime": "nvidia",
+  "runtimes": {
+    "nvidia": {
+      "path": "nvidia-container-runtime",
+      "runtimeArgs": []
+    }
+  }
+}' | sudo tee /etc/docker/daemon.json > /dev/null
+	
+systemctl restart docker
+
 echo "验证 Docker Compose 安装..."
 docker-compose --version
 
