@@ -24,22 +24,12 @@ services:
     
     sn19-app-container:
       image: peterqiao2005/sn51-std-container
-      container_name: sn19-all
-      shm_size: '100g'  # 配置共享内存大小为 100GB
+      container_name: sn19-app      
       command: /usr/sbin/sshd -D  # 启动 SSH 服务
       privileged: true
       ports:
         - "20022:22"
       ipc: "host"
-      runtime: nvidia
-      deploy:
-        resources:
-            reservations:
-              devices:
-                - driver: nvidia
-                  count: all
-                  capabilities: [gpu]
-        replicas: 1
       volumes:        
         - /var/run/docker.sock:/var/run/docker.sock
         - /etc/docker/daemon.json:/etc/docker/daemon.json
