@@ -22,7 +22,7 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock
         - /etc/docker/daemon.json:/etc/docker/daemon.json
         - /etc/nvidia-container-runtime/config.toml:/etc/nvidia-container-runtime/config.toml
-        - ~/.bittensor/wallets:/root/.bittensor/wallets
+        - "$HOME/.bittensor/wallets:/root/.bittensor/wallets"
     
     sn19-app-container:
       image: peterqiao2005/sn51-std-container
@@ -37,4 +37,4 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock
         - /etc/docker/daemon.json:/etc/docker/daemon.json
         - /etc/nvidia-container-runtime/config.toml:/etc/nvidia-container-runtime/config.toml
-        - ~/.bittensor/wallets:/root/.bittensor/wallets
+        - "$HOME/.bittensor/wallets:/root/.bittensor/wallets"
