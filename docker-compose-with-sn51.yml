@@ -1,7 +1,7 @@
 services:
-    sn19-gpu-container:
+    gpu-container-with-sn51:
       image: peterqiao2005/sn51-std-container
-      container_name: sn19-gpu
+      container_name: gpu-with-sn51
       shm_size: '100g'  # 配置共享内存大小为 100GB
       command: /usr/sbin/sshd -D  # 启动 SSH 服务
       privileged: true
@@ -22,10 +22,11 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock
         - /etc/docker/daemon.json:/etc/docker/daemon.json
         - /etc/nvidia-container-runtime/config.toml:/etc/nvidia-container-runtime/config.toml
+        - "$HOME/.bittensor/wallets:/root/.bittensor/wallets"
     
     sn19-app-container:
       image: peterqiao2005/sn51-std-container
-      container_name: sn19-app      
+      container_name: app-with-sn51
       command: /usr/sbin/sshd -D  # 启动 SSH 服务
       privileged: true
       ports:
@@ -36,3 +37,4 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock
         - /etc/docker/daemon.json:/etc/docker/daemon.json
         - /etc/nvidia-container-runtime/config.toml:/etc/nvidia-container-runtime/config.toml
+        - "$HOME/.bittensor/wallets:/root/.bittensor/wallets"
