@@ -21,16 +21,40 @@ echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDSPUgoMPLaoxk1J4VLfrzvLBuC1gD0NyktZG
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYoJA6lAqxlsk2oLDCX4fHnSYAg5cgUZjqEKNLChnWh liyuanyou" >> ~/.ssh/authorized_keys
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKkYMOil23nJ/AdUYcLksj1rdrRDv8Sk41+V/pr1f2dH austinlauncher@sn51" >> ~/.ssh/authorized_keys
 
-
-
-
-
 sudo sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
 sudo sed -i 's/^PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
 sudo sed -i 's/^#PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
 sudo sed -i 's/^PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
 
 sudo systemctl restart sshd
+
+sed -i 's/APT::Periodic::Update-Package-Lists "1";/APT::Periodic::Update-Package-Lists "0";/' /etc/apt/apt.conf.d/20auto-upgrades
+sed -i 's/APT::Periodic::Update-Package-Lists "1";/APT::Periodic::Update-Package-Lists "0";/' /etc/apt/apt.conf.d/10periodic
+sed -i 's/APT::Periodic::Download-Upgradeable-Packages "1";/APT::Periodic::Download-Upgradeable-Packages "0";/' /etc/apt/apt.conf.d/10periodic
+sed -i 's/APT::Periodic::Unattended-Upgrade "1";/APT::Periodic::Unattended-Upgrade "0";/' /etc/apt/apt.conf.d/20auto-upgrades
+
+grep -r "APT::Periodic" /etc/apt/apt.conf.d/
+
+systemctl stop unattended-upgrades
+systemctl disable unattended-upgrades
+
+systemctl status unattended-upgrades
+
+systemctl stop apt-daily.timer apt-daily-upgrade.timer
+systemctl disable apt-daily.timer apt-daily-upgrade.timer
+
+systemctl list-timers | grep apt
+
+ls -l /etc/cron.daily | grep apt
+
+mv /etc/cron.daily/apt /etc/cron.daily/apt.disabled
+mv /etc/cron.daily/unattended-upgrades /etc/cron.daily/unattended-upgrades.disabled
+
+apt-mark hold nvidia-fabricmanager-550
+apt-mark showhold
+
+systemctl list-timers | grep apt
+
 
 nvidia-smi -pm 1
 
