@@ -20,10 +20,8 @@ echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCyUP8Bp71UDcSpQkWyUp6N9TS9rYHA8/oT4X
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDSPUgoMPLaoxk1J4VLfrzvLBuC1gD0NyktZG5ei4hXJaZtW0iRS1X3pETIohICTawTdGMC5L1R2lFMzIqjae1/4ZOOmyc8Uy4nJyfQfffsNTdWLrJ5O7HR1F94jvfasLgXqEnCuUTMBvURuMkqHmnxmLaLLocaYE4ykscoDNMiUixB+KHHNM7i23PrWnQ/mve7s/R5nwNkb5XiegeUxZoALu0LsptMJ82JHdRdDE/GeCo8OnXK6fDZWxKzsh61KosyXcYmLbGtiimV3piAgXS/1LsgIRFtvbpgJx6tDRfVGFHR3Lo3VVAGAXMV8FgrpMBH22yuOiQiQHp4BuyInvAvBwfzEkz+srqe51rGlh5jrP6OnRUCAeY2WJmIehuhIwsBqL8zwXSY8LSzRb9pDZI3dDMBmGVMi7vDfzUbrHd4PZz2yz+sY99B1/M8x4JWJqPDOE4woGPoo0M747Jf0VJ620DEKWp0y4nn8wJFVi6xwLDIlDkRRcdRToru1S9Z0kM= austinlauncher_RSA" >> ~/.ssh/authorized_keys
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYoJA6lAqxlsk2oLDCX4fHnSYAg5cgUZjqEKNLChnWh liyuanyou" >> ~/.ssh/authorized_keys
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKkYMOil23nJ/AdUYcLksj1rdrRDv8Sk41+V/pr1f2dH austinlauncher@sn51" >> ~/.ssh/authorized_keys
-
-
-
-
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCrV/OLeMJR99WwkeRbhZB1UpXHBS/YRnmR2QVWrA9jg8m7kCZHQDDc29zawIYFLooDE5lWmlWoeAFum2LrHAr1Wcr8TMo/XR3RS910lagUfBcvJLSRHydvkw+FDXCBQIxVRoN0mh5X2jLS4sfpgW+KZsMCv/jOkxbik5j9vOzogY9iN1MPCH5EzbSGUUXVTPdEb8CmtUJ/rtT8pC5JUnxb4DZnxQ4Jy6ZtEEgSNO2YAwlEPjngNa9/SQW8K6genTrmq7x3bo23MmhSn2zwcpSqTu3NbvFPmG7Ejq/Dk/owwZn3R96E63PnP21kLS+LlPlSyqdhVpum83/4Wr+lOWbOVdzpRBjfARVLehWQ+DzPeM2g1QIQaJDntsRCkon+ga7e6Yixe4J52y9VhbLWX1e+sNDLAtoxmTTMcyPMcKFkwFquGGxCVBuuCS/CD6Fiz9VfoIf6tyTZeUTWl2UqZajnaDgesNff5iqLEnW+yHvAMgGxQAEgkIbMBK8tdSYAQFx3jsjKaLGjcZMFj3OYFukYdU/F5bv3V3A6n/huK4DwNTf8/ivlHGv4ymIYa1aocJI8ZZ+Bjl7eONHiX6lwIfvoo+L+1q6NxsECmBcXpMZ7KFeoGpwpRwO51BEo5HcO66Cj6k6EysUE0vfJq8bFAokaElXwvnzxXTp48q2U4BAgpQ== yinkangxi@gmail.com" >> ~/.ssh/authorized_keys
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCugFmvg8Mz0FO2N3/Pd26Bub/n75hwYkvt0wI8vNK5K/MjxfmzVqs4FcKRZZdjtVzlV8IG2JVvyXw2j7UIf44ITBM9K9Z+QiZJTwm2rSPmXqtM6zTPbq5aVeJeX4cduct89aGY9HvgLwdNImOLBcw4KDlaUn6SvXPT0fHAGBnn4wrbO4ZhIEymZPt9X+LaHzcSlu+y59W+RPgsj3jZOIiFmqufdXqTjsTzyRKHBK9yIelnxYaE4T5tMKdgmCUoZX6GCPL/R7HyGbZFINRwIZI8IXLawqRJAKsdp5F28MnuxzVN//bLDN7s6XsyaKk6i7168euB298jreiuz8Vp6E6QQbfal8qh+mfs/l68RnmFoYrcUV/yH3Q7PeSXUYafD7zwNiTb5ZSPapf+HM6WO6xRGOoNM8sEIe3rHxfBnABDY2dUGUOunDA2wucdnugDeLFZStmFJrgcDAQlGNP/u8qazwcQMyi7QKNekIMnfKkAuf2BmkkgvnIHzj+jRRqKZS0= JimJin" >> ~/.ssh/authorized_keys
 
 sudo sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
 sudo sed -i 's/^PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
@@ -31,6 +29,34 @@ sudo sed -i 's/^#PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd
 sudo sed -i 's/^PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
 
 sudo systemctl restart sshd
+
+sed -i 's/APT::Periodic::Update-Package-Lists "1";/APT::Periodic::Update-Package-Lists "0";/' /etc/apt/apt.conf.d/20auto-upgrades
+sed -i 's/APT::Periodic::Update-Package-Lists "1";/APT::Periodic::Update-Package-Lists "0";/' /etc/apt/apt.conf.d/10periodic
+sed -i 's/APT::Periodic::Download-Upgradeable-Packages "1";/APT::Periodic::Download-Upgradeable-Packages "0";/' /etc/apt/apt.conf.d/10periodic
+sed -i 's/APT::Periodic::Unattended-Upgrade "1";/APT::Periodic::Unattended-Upgrade "0";/' /etc/apt/apt.conf.d/20auto-upgrades
+
+grep -r "APT::Periodic" /etc/apt/apt.conf.d/
+
+systemctl stop unattended-upgrades
+systemctl disable unattended-upgrades
+
+systemctl status unattended-upgrades
+
+systemctl stop apt-daily.timer apt-daily-upgrade.timer
+systemctl disable apt-daily.timer apt-daily-upgrade.timer
+
+systemctl list-timers | grep apt
+
+ls -l /etc/cron.daily | grep apt
+
+mv /etc/cron.daily/apt /etc/cron.daily/apt.disabled
+mv /etc/cron.daily/unattended-upgrades /etc/cron.daily/unattended-upgrades.disabled
+
+apt-mark hold nvidia-fabricmanager-550
+apt-mark showhold
+
+systemctl list-timers | grep apt
+
 
 nvidia-smi -pm 1
 
