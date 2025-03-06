@@ -6,6 +6,7 @@ BASE_DIR="/opt/monitoring"
 # 确保PM2安装
 if ! command -v pm2 &> /dev/null; then
   echo "安装PM2..."
+  apt install -y npm
   npm install -g pm2
 fi
 

@@ -8,8 +8,8 @@ apt-get update
 apt install ufw url sudo -y
 
 sudo ufw allow 22
-sudo ufw allow 3000:65000/tcp
-sudo ufw allow 3000:65000/udp
+sudo ufw allow 3000:65535/tcp
+sudo ufw allow 3000:65535/udp
 
 echo "y" | sudo ufw enable
 

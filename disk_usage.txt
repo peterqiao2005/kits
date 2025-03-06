@@ -1,0 +1,624 @@
+===== Disk usage on 122.11.227.206 (port=2222, user=root) =====
+tmpfs                                                           64M    0     64M   0%   /dev
+/dev/longhorn/pvc-453628cf-fb7d-4432-bbc3-bec9ea7b3698          49G    39G   11G   79%  /var
+/dev/nvme0n1p1                                                  867G   298G  569G  35%  /custom
+tmpfs                                                           64G    0     64G   0%   /dev/shm
+/dev/mapper/nvme-pvc--264215c0--a68f--4555--b97b--5856b27d1691  16T    46G   16T   1%   /root/dataDisk
+/dev/mapper/nvme-disk0                                          1007G  442G  515G  47%  /etc/hostname
+
+===== Disk usage on 122.11.227.192 (port=2222, user=root) =====
+tmpfs                                                           64M    0     64M   0%   /dev
+/dev/longhorn/pvc-60987eaa-5837-43ee-bd20-460639a77bec          49G    41G   8.1G  84%  /var
+/dev/nvme1n1p1                                                  867G   23G   844G  3%   /custom
+tmpfs                                                           64G    0     64G   0%   /dev/shm
+/dev/mapper/nvme-pvc--8cb74c95--6f74--4181--9d0b--698aeb446f60  16T    55G   16T   1%   /root/dataDisk
+/dev/mapper/nvme-disk0                                          1007G  308G  649G  33%  /etc/hostname
+
+===== Disk usage on 27.54.45.165 (port=2222, user=root) =====
+tmpfs                                                           64M    0     64M   0%   /dev
+/dev/longhorn/pvc-bf8ea353-5721-4c7b-9e5a-bd2468a17e0b          49G    45G   4.9G  91%  /var
+/dev/nvme1n1p1                                                  867G   22G   846G  3%   /app
+/dev/mapper/nvme-pvc--82e1ff23--6a5e--4aeb--8bbf--3d71184133db  16T    46G   16T   1%   /root/dataDisk
+tmpfs                                                           64G    0     64G   0%   /dev/shm
+/dev/mapper/nvme-disk0                                          1007G  133G  824G  14%  /etc/hostname
+
+===== Disk usage on 27.54.45.167 (port=2222, user=root) =====
+tmpfs                                                           64M    0     64M   0%   /dev
+/dev/longhorn/pvc-b630fa8d-fb99-4fd1-8bb4-7e1ba54837fe          49G    48G   1.4G  98%  /var
+/dev/nvme0n1p1                                                  867G   291G  577G  34%  /app
+/dev/mapper/nvme-pvc--3fa7a76e--14d5--4c08--9ea2--c02e148102c3  16T    1.7T  14T   11%  /root/dataDisk
+tmpfs                                                           64G    114M  64G   1%   /dev/shm
+/dev/mapper/nvme-disk0                                          1007G  154G  802G  17%  /etc/hostname
+
+===== Disk usage on 185.175.111.48 (port=2222, user=root) =====
+tmpfs                                                           64M    0      64M   0%   /dev
+/dev/longhorn/pvc-5bbe9de1-447b-4520-a779-2c273194e818          49G    45G    4.6G  91%  /var
+/dev/vda1                                                       992G   24G    969G  3%   /app
+/dev/mapper/nvme-pvc--82b70f56--6393--4122--a4f1--a68c58958223  3.9T   1001G  2.9T  26%  /root/dataDisk
+tmpfs                                                           64G    115M   64G   1%   /dev/shm
+/dev/mapper/nvme-disk0                                          1007G  92G    864G  10%  /etc/hostname
+
+===== Disk usage on 185.175.111.13 (port=2222, user=root) =====
+tmpfs                                                           64M    0     64M   0%   /dev
+/dev/longhorn/pvc-0068b355-c4eb-4636-84da-e5c9e031e703          49G    46G   3.4G  94%  /var
+/dev/vda1                                                       992G   32G   960G  4%   /custom
+tmpfs                                                           64G    115M  64G   1%   /dev/shm
+/dev/mapper/nvme-pvc--bb948a8a--7ad4--4607--a0e1--747f4eefc7f5  3.9T   693G  3.2T  18%  /root/dataDisk
+/dev/mapper/nvme-disk0                                          1007G  59G   897G  7%   /etc/hostname
+
+===== Disk usage on 185.175.111.120 (port=2222, user=root) =====
+tmpfs                                                           64M    0     64M   0%   /dev
+/dev/longhorn/pvc-125b46fc-1ea9-46f4-b91f-63d65f6dba18          49G    41G   8.1G  84%  /var
+/dev/vda1                                                       992G   32G   960G  4%   /custom
+tmpfs                                                           64G    1.2M  64G   1%   /dev/shm
+/dev/mapper/nvme-pvc--954ce1e4--3b46--45b5--b861--e6de15081595  3.9T   692G  3.2T  18%  /root/dataDisk
+/dev/mapper/nvme-disk0                                          1007G  55G   902G  6%   /etc/hostname
+
+===== Disk usage on 185.175.111.96 (port=2222, user=root) =====
+tmpfs                                                           64M    0     64M   0%   /dev
+/dev/longhorn/pvc-1d5ca565-3cba-446e-bf60-767730262ae9          49G    30G   19G   62%  /var
+/dev/vda1                                                       992G   49G   943G  5%   /app
+/dev/mapper/nvme-pvc--1a2b2d7b--32fe--4f4e--8863--35d4e5e04fc9  3.9T   68G   3.8T  2%   /root/dataDisk
+tmpfs                                                           64G    0     64G   0%   /dev/shm
+/dev/mapper/nvme-disk0                                          1007G  104G  852G  11%  /etc/hostname
+
+===== Disk usage on 185.175.111.30 (port=2222, user=root) =====
+tmpfs                                                           64M    0    64M   0%   /dev
+/dev/longhorn/pvc-475cf177-3bc2-4b03-ba61-ecf5a8313cd2          49G    37G  12G   76%  /var
+/dev/vda1                                                       992G   90G  902G  10%  /app
+/dev/mapper/nvme-pvc--8f3d0efb--0186--4723--8bf0--dcec6158199a  3.9T   59G  3.8T  2%   /root/dataDisk
+tmpfs                                                           64G    0    64G   0%   /dev/shm
+/dev/mapper/nvme-disk0                                          1007G  98G  859G  11%  /etc/hostname
+
+===== Disk usage on 185.175.111.51 (port=2222, user=root) =====
+tmpfs                                                           64M    0    64M   0%   /dev
+/dev/longhorn/pvc-e4062cee-2420-421c-ac7c-86a845b134d5          49G    37G  13G   75%  /var
+/dev/vda1                                                       992G   59G  934G  6%   /app
+/dev/mapper/nvme-pvc--bde3964b--63ce--4cb7--badd--8cff3a7a88ca  3.9T   59G  3.8T  2%   /root/dataDisk
+tmpfs                                                           64G    0    64G   0%   /dev/shm
+/dev/mapper/nvme-disk0                                          1007G  66G  891G  7%   /etc/hostname
+
+===== Disk usage on 185.175.110.253 (port=22, user=root) =====
+
+===== Disk usage on 185.175.110.254 (port=22, user=root) =====
+
+===== Disk usage on 185.175.111.191 (port=22, user=root) =====
+/dev/vdb1   541G  118G  423G  22%  /
+tmpfs       788G  113M  788G  1%   /dev/shm
+/dev/vdb15  105M  6.1M  99M   6%   /boot/efi
+
+===== Disk usage on 185.175.110.134 (port=22, user=root) =====
+
+===== Disk usage on 185.175.111.168 (port=22, user=root) =====
+/dev/vdb1   541G  241G  300G  45%  /
+tmpfs       788G  113M  788G  1%   /dev/shm
+/dev/vdb15  105M  6.1M  99M   6%   /boot/efi
+
+===== Disk usage on 185.175.111.117 (port=30721, user=root) =====
+
+===== Disk usage on 147.185.41.181 (port=22, user=root) =====
+/dev/nvme0n1p2               439G  413G  4.0G  100%  /
+tmpfs                        504G  0     504G  0%    /dev/shm
+/dev/nvme0n1p1               511M  6.1M  505M  2%    /boot/efi
+/dev/mapper/vg_data-lv_data  18T   1.3T  16T   8%    /data
+
+===== Disk usage on 147.185.41.183 (port=22, user=root) =====
+/dev/nvme0n1p2               439G  392G  26G   94%  /
+tmpfs                        504G  0     504G  0%   /dev/shm
+/dev/mapper/vg_data-lv_data  18T   631G  16T   4%   /data
+/dev/nvme0n1p1               511M  6.1M  505M  2%   /boot/efi
+
+===== Disk usage on 147.185.41.185 (port=22, user=root) =====
+/dev/nvme0n1p2               439G  391G  26G   94%  /
+tmpfs                        504G  0     504G  0%   /dev/shm
+/dev/mapper/vg_data-lv_data  18T   1.3T  16T   8%   /data
+/dev/nvme0n1p1               511M  6.1M  505M  2%   /boot/efi
+
+===== Disk usage on 147.185.41.187 (port=22, user=root) =====
+/dev/nvme0n1p2               439G  390G  27G   94%  /
+tmpfs                        504G  0     504G  0%   /dev/shm
+/dev/nvme0n1p1               511M  6.1M  505M  2%   /boot/efi
+/dev/mapper/vg_data-lv_data  18T   1.3T  16T   8%   /data
+
+===== Disk usage on 147.185.41.188 (port=22, user=root) =====
+/dev/nvme0n1p2               439G  407G  10G   98%  /
+tmpfs                        504G  0     504G  0%   /dev/shm
+/dev/nvme0n1p1               511M  6.1M  505M  2%   /boot/efi
+/dev/mapper/vg_data-lv_data  18T   1.4T  16T   9%   /data
+
+===== Disk usage on 147.185.41.189 (port=22, user=root) =====
+/dev/nvme0n1p2               439G  419G  0     100%  /
+tmpfs                        504G  0     504G  0%    /dev/shm
+/dev/nvme0n1p1               511M  6.1M  505M  2%    /boot/efi
+/dev/mapper/vg_data-lv_data  18T   1.2T  16T   8%    /data
+
+===== Disk usage on 184.105.3.109 (port=22, user=root) =====
+/dev/md1  824G   474G  308G   61%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    20G   25G    45%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    24K   34T    1%   /data
+tmpfs     1008G  336K  1008G  1%   /dev/shm
+
+===== Disk usage on 184.105.4.184 (port=22, user=root) =====
+/dev/md0  879G   543G  292G   66%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md1  35T    24K   34T    1%   /data
+tmpfs     1008G  266M  1008G  1%   /dev/shm
+
+===== Disk usage on 184.105.5.23 (port=22, user=root) =====
+/dev/md0  879G   529G  306G   64%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md1  35T    24K   34T    1%   /data
+tmpfs     1008G  266M  1008G  1%   /dev/shm
+
+===== Disk usage on 184.105.6.191 (port=22, user=root) =====
+/dev/md1  833G   621G  170G   79%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    17G   27G    38%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    976G  33T    3%   /data
+tmpfs     1008G  4.0K  1008G  1%   /dev/shm
+
+===== Disk usage on 184.105.6.234 (port=22, user=root) =====
+/dev/md0  879G   723G  111G   87%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md1  35T    997G  33T    3%   /data
+tmpfs     1008G  4.0K  1008G  1%   /dev/shm
+
+===== Disk usage on 65.19.181.144 (port=22, user=root) =====
+/dev/md0  879G   753G   81G    91%  /
+none      492K   4.0K   488K   1%   /dev
+/dev/md1  35T    1009G  33T    3%   /data
+tmpfs     1008G  4.0K   1008G  1%   /dev/shm
+
+===== Disk usage on 65.19.181.154 (port=22, user=root) =====
+/dev/md0  879G   807G  28G    97%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md1  35T    1.1T  33T    4%   /data
+tmpfs     1008G  4.0K  1008G  1%   /dev/shm
+
+===== Disk usage on 65.19.181.188 (port=22, user=root) =====
+/dev/md1  824G   394G  388G   51%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    20G   24G    46%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    24K   34T    1%   /data
+tmpfs     1008G  308K  1008G  1%   /dev/shm
+
+===== Disk usage on 65.19.181.197 (port=22, user=root) =====
+/dev/md0  879G   357G  477G   43%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md1  35T    24K   34T    1%   /data
+tmpfs     1008G  452K  1008G  1%   /dev/shm
+
+===== Disk usage on 65.19.181.42 (port=22, user=root) =====
+/dev/md1  824G   664G  118G   85%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    22G   22G    51%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    24K   34T    1%   /data
+tmpfs     1008G  285M  1008G  1%   /dev/shm
+
+===== Disk usage on 184.105.6.213 (port=22, user=root) =====
+/dev/md1  824G   699G  83G    90%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    16G   28G    37%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    1.2T  32T    4%   /data
+tmpfs     1008G  4.0K  1008G  1%   /dev/shm
+
+===== Disk usage on 209.51.170.248 (port=22, user=root) =====
+/dev/md1  824G   742G  40G    95%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    22G   22G    50%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    24K   34T    1%   /data
+tmpfs     1008G  227M  1008G  1%   /dev/shm
+
+===== Disk usage on 209.51.170.21 (port=22, user=root) =====
+/dev/md1  824G   618G  165G   79%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    16G   28G    36%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    863G  33T    3%   /data
+tmpfs     1008G  4.0K  1008G  1%   /dev/shm
+
+===== Disk usage on 209.51.170.186 (port=22, user=root) =====
+/dev/md1  1.7T   579G  987G   37%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  92G    22G   65G    25%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    24K   34T    1%   /data
+tmpfs     1008G  227M  1008G  1%   /dev/shm
+
+===== Disk usage on 184.105.5.238 (port=22, user=root) =====
+/dev/md1  1.7T   996G  570G   64%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  92G    16G   71G    18%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    1.3T  32T    4%   /data
+tmpfs     1008G  4.0K  1008G  1%   /dev/shm
+
+===== Disk usage on 209.51.170.110 (port=22, user=root) =====
+/dev/md1  6.9T   894G  5.7T   14%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    20G   24G    47%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    894G  33T    3%   /data
+tmpfs     1008G  113M  1008G  1%   /dev/shm
+
+===== Disk usage on 65.19.181.116 (port=22, user=root) =====
+/dev/md1  6.9T   41G   6.5T   1%   /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    20G   24G    47%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    28K   34T    1%   /data
+tmpfs     1008G  113M  1008G  1%   /dev/shm
+
+===== Disk usage on 74.82.31.89 (port=22, user=root) =====
+/dev/md1  6.9T   1.3T  5.3T   20%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    21G   24G    47%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    836G  33T    3%   /data
+tmpfs     1008G  113M  1008G  1%   /dev/shm
+
+===== Disk usage on 184.105.6.168 (port=22, user=root) =====
+/dev/md1  833G   195G  596G   25%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    20G   24G    45%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    24K   34T    1%   /data
+tmpfs     1008G  270M  1008G  1%   /dev/shm
+
+===== Disk usage on 74.82.31.146 (port=22, user=root) =====
+/dev/md1  833G   160G  631G   21%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    20G   24G    45%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    24K   34T    1%   /data
+tmpfs     1008G  269M  1008G  1%   /dev/shm
+
+===== Disk usage on 74.82.31.174 (port=22, user=root) =====
+/dev/md1  6.8T   158G  6.3T   3%   /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    20G   24G    45%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  21T    24K   20T    1%   /data
+tmpfs     1008G  263M  1008G  1%   /dev/shm
+
+===== Disk usage on 74.82.31.226 (port=22, user=root) =====
+/dev/md1  833G   187G  604G   24%  /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    19G   25G    44%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    24K   34T    1%   /data
+tmpfs     1008G  264M  1008G  1%   /dev/shm
+
+===== Disk usage on 65.19.181.111 (port=22, user=root) =====
+/dev/md1  6.9T   227G  6.4T   4%   /
+none      492K   4.0K  488K   1%   /dev
+/dev/md0  46G    20G   24G    46%  /usr/lib/modules/6.5.0-28-generic
+/dev/md2  35T    24K   34T    1%   /data
+tmpfs     1008G  275M  1008G  1%   /dev/shm
+
+===== Disk usage on 124.158.103.40 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   73G   768G   9%   /
+tmpfs                              1008G  118M  1008G  1%   /dev/shm
+/dev/nvme4n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/md127                         49T    1.1T  48T    3%   /data
+/dev/nvme4n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+
+===== Disk usage on 124.158.103.41 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   71G   770G   9%   /
+tmpfs                              1008G  73M   1008G  1%   /dev/shm
+/dev/nvme4n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/md127                         49T    1.1T  48T    3%   /data
+/dev/nvme4n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+
+===== Disk usage on 124.158.103.43 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   71G   770G   9%   /
+tmpfs                              1008G  117M  1008G  1%   /dev/shm
+/dev/nvme4n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme4n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md127                         49T    1.1T  48T    3%   /data
+
+===== Disk usage on 124.158.103.44 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   80G   761G   10%  /
+tmpfs                              1008G  199M  1008G  1%   /dev/shm
+/dev/nvme4n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme4n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md127                         49T    1.7T  48T    4%   /data
+
+===== Disk usage on 124.158.103.45 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   74G   767G   9%   /
+tmpfs                              1008G  72M   1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md127                         49T    2.1T  47T    5%   /data
+
+===== Disk usage on 124.158.103.39 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   45G   796G   6%   /
+tmpfs                              1008G  117M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   448M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    991G  48T    2%   /data
+
+===== Disk usage on 124.158.103.75 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   57G   784G   7%   /
+tmpfs                              1008G  114M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    991G  48T    2%   /data
+
+===== Disk usage on 124.158.103.76 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   58G   783G   7%   /
+tmpfs                              1008G  117M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   448M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    991G  48T    2%   /data
+
+===== Disk usage on 124.158.103.77 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   51G   789G   7%   /
+tmpfs                              1008G  115M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   448M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    1.6T  48T    4%   /data
+
+===== Disk usage on 124.158.103.78 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   77G   764G   10%  /
+tmpfs                              1008G  94M   1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md127                         49T    1.1T  48T    3%   /data
+
+===== Disk usage on 124.158.103.79 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   74G   767G   9%   /
+tmpfs                              1008G  144M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md127                         49T    1.1T  48T    3%   /data
+
+===== Disk usage on 124.158.103.82 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   74G   767G   9%   /
+tmpfs                              1008G  33M   1008G  1%   /dev/shm
+/dev/nvme4n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme4n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    1.1T  48T    3%   /data
+
+===== Disk usage on 124.158.103.83 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   68G    773G   9%   /
+tmpfs                              1008G  114M   1008G  1%   /dev/shm
+/dev/nvme4n1p2                     2.0G   442M   1.4G   25%  /boot
+/dev/nvme4n1p1                     1.1G   6.1M   1.1G   1%   /boot/efi
+/dev/md0                           49T    1006G  48T    3%   /data
+
+===== Disk usage on 124.158.103.54 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   92G   749G   11%  /
+tmpfs                              1008G  119M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md127                         49T    991G  48T    2%   /data
+
+===== Disk usage on 124.158.103.55 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   58G   783G   7%   /
+tmpfs                              1008G  114M  1008G  1%   /dev/shm
+/dev/nvme4n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/md127                         49T    991G  48T    2%   /data
+/dev/nvme4n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+
+===== Disk usage on 124.158.103.71 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   65G   776G   8%   /
+tmpfs                              1008G  114M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    1.1T  48T    3%   /data
+
+===== Disk usage on 124.158.103.72 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   87G   754G   11%  /
+tmpfs                              1008G  117M  1008G  1%   /dev/shm
+/dev/nvme4n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme4n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    1.1T  48T    3%   /data
+
+===== Disk usage on 124.158.103.73 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   64G    777G   8%   /
+tmpfs                              1008G  114M   1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   443M   1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M   1.1G   1%   /boot/efi
+/dev/md0                           49T    1006G  48T    3%   /data
+
+===== Disk usage on 124.158.103.110 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   66G   775G   8%   /
+tmpfs                              1008G  114M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    1.7T  48T    4%   /data
+
+===== Disk usage on 124.158.103.111 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   78G   763G   10%  /
+tmpfs                              1008G  4.9M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    1.1T  48T    3%   /data
+
+===== Disk usage on 124.158.103.112 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   95G   746G   12%  /
+tmpfs                              1008G  118M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   444M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    1.3T  48T    3%   /data
+
+===== Disk usage on 124.158.103.64 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  98G    58G   36G    62%  /
+tmpfs                              1008G  114M  1008G  1%   /dev/shm
+/dev/nvme4n1p2                     2.0G   448M  1.4G   25%  /boot
+/dev/nvme4n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    991G  48T    2%   /data
+
+===== Disk usage on 124.158.103.74 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  98G    57G   37G    61%  /
+tmpfs                              1008G  113M  1008G  1%   /dev/shm
+/dev/nvme4n1p2                     2.0G   448M  1.4G   25%  /boot
+/dev/nvme4n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    991G  48T    2%   /data
+
+===== Disk usage on 124.158.103.92 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  877G   57G   784G   7%   /
+tmpfs                              1008G  114M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   442M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md127                         49T    991G  48T    2%   /data
+
+===== Disk usage on 124.158.103.96 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  98G    58G   36G    62%  /
+tmpfs                              1008G  114M  1008G  1%   /dev/shm
+/dev/nvme4n1p2                     2.0G   448M  1.4G   25%  /boot
+/dev/nvme4n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    991G  48T    2%   /data
+
+===== Disk usage on 124.158.103.103 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  98G    58G   36G    62%  /
+tmpfs                              1008G  114M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   448M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    1.6T  48T    4%   /data
+
+===== Disk usage on 124.158.103.116 (port=22, user=root) =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  98G    58G   36G    62%  /
+tmpfs                              1008G  114M  1008G  1%   /dev/shm
+/dev/nvme3n1p2                     2.0G   448M  1.4G   25%  /boot
+/dev/nvme3n1p1                     1.1G   6.1M  1.1G   1%   /boot/efi
+/dev/md0                           49T    1.6T  48T    4%   /data
+
+===== Disk usage on 157.10.162.85 (port=22, user=root) =====
+/dev/md0        1.8T   175G  1.5T   11%  /
+tmpfs           1008G  113M  1008G  1%   /dev/shm
+/dev/nvme1n1p1  511M   6.1M  505M   2%   /boot/efi
+
+===== Disk usage on 157.10.162.9 (port=22, user=root) =====
+/dev/md0        1.8T   175G  1.5T   11%  /
+tmpfs           1008G  113M  1008G  1%   /dev/shm
+/dev/nvme0n1p1  511M   6.1M  505M   2%   /boot/efi
+
+===== Disk usage on 157.10.162.11 (port=22, user=root) =====
+/dev/md0        1.8T   43G   1.6T   3%  /
+tmpfs           1008G  113M  1008G  1%  /dev/shm
+/dev/nvme0n1p1  511M   6.1M  505M   2%  /boot/efi
+
+===== Disk usage on 157.10.162.80 (port=22, user=root) =====
+/dev/md0        1.8T   70G   1.6T   5%  /
+tmpfs           1008G  113M  1008G  1%  /dev/shm
+/dev/nvme1n1p1  511M   6.1M  505M   2%  /boot/efi
+
+===== Disk usage on 157.10.162.89 (port=22, user=root) =====
+/dev/md0        1.8T   43G   1.6T   3%  /
+tmpfs           1008G  113M  1008G  1%  /dev/shm
+/dev/nvme0n1p1  511M   6.1M  505M   2%  /boot/efi
+
+===== Disk usage on 185.175.111.55 (port=22, user=root) =====
+/dev/vdb1   992G  252G  740G  26%  /
+tmpfs       788G  2.2M  788G  1%   /dev/shm
+/dev/vdb15  105M  6.1M  99M   6%   /boot/efi
+
+===== Disk usage on 185.175.111.125 (port=22, user=root) =====
+/dev/vdb1   992G  104G  889G  11%  /
+tmpfs       788G  2.4M  788G  1%   /dev/shm
+/dev/vdb15  105M  6.1M  99M   6%   /boot/efi
+
+===== Disk usage on 185.175.111.57 (port=22, user=root) =====
+/dev/vdb1   992G  80G   912G  9%  /
+tmpfs       788G  756K  788G  1%  /dev/shm
+/dev/vdb15  105M  6.1M  99M   6%  /boot/efi
+
+===== Disk usage on 185.175.110.192 (port=22, user=root) =====
+/dev/vdb1   992G  122G  870G  13%  /
+tmpfs       788G  1.2M  788G  1%   /dev/shm
+/dev/vdb15  105M  6.1M  99M   6%   /boot/efi
+
+===== Disk usage on 185.175.111.180 (port=22, user=root) =====
+/dev/vdb1   992G  159G  833G  16%  /
+tmpfs       788G  1.1M  788G  1%   /dev/shm
+/dev/vdb15  105M  6.1M  99M   6%   /boot/efi
+
+===== Disk usage on 65.19.181.142 (port=22, user=root) =====
+
+===== Disk usage on 65.19.181.248 (port=22, user=root) =====
+
+===== Disk usage on 65.49.81.30 (port=22, user=root) =====
+
+===== Disk usage on 65.49.81.35 (port=22, user=root) =====
+
+===== Disk usage on 65.49.81.39 (port=22, user=root) =====
+
+===== Disk usage on 185.175.111.146 (port=22222, user=root) =====
+
+===== Disk usage on 27.54.45.163 (port=22222, user=root) =====
+
+===== Disk usage on 27.54.45.168 (port=22222, user=root) =====
+
+===== Disk usage on 162.244.81.152 (port=22, user=root) =====
+/dev/nvme0n1p2  233G  133G  89G   60%  /
+tmpfs           16G   584K  16G   1%   /dev/shm
+/dev/nvme0n1p1  1.1G  6.1M  1.1G  1%   /boot/efi
+
+===== Disk usage on 162.244.81.170 (port=22, user=root) =====
+/dev/nvme0n1p2  233G  233G  0     100%  /
+tmpfs           63G   16K   63G   1%    /dev/shm
+/dev/nvme0n1p1  1.1G  6.1M  1.1G  1%    /boot/efi
+
+===== Disk usage on 162.244.81.79 (port=22, user=root) =====
+/dev/sda2  438G  26G   391G  7%  /
+tmpfs      32G   40K   32G   1%  /dev/shm
+/dev/sda1  1.1G  6.1M  1.1G  1%  /boot/efi
+
+===== Disk usage on 162.244.82.55 (port=22, user=root) =====
+/dev/sda2  219G  186G  23G   90%  /
+tmpfs      126G  1.2M  126G  1%   /dev/shm
+
+===== Disk usage on 162.244.82.223 (port=22, user=root) =====
+/dev/sda2  1.9T  1.5T  252G  86%  /
+tmpfs      63G   288K  63G   1%   /dev/shm
+
+===== Disk usage on 198.145.121.219 (port=22, user=root) =====
+/dev/sda2  218G  33G   175G  16%  /
+tmpfs      32G   168K  32G   1%   /dev/shm
+/dev/sda1  1.1G  6.1M  1.1G  1%   /boot/efi
+
+===== Disk usage on 38.126.208.155 (port=22, user=root) =====
+/dev/sda2  879G  35G   800G  5%  /
+tmpfs      32G   180K  32G   1%  /dev/shm
+/dev/sda1  1.1G  6.2M  1.1G  1%  /boot/efi
+
+===== Disk usage on 31.14.41.21 (port=22, user=root) =====
+/dev/sda2  916G  32G   838G  4%  /
+tmpfs      16G   204K  16G   1%  /dev/shm
+
+===== Disk usage on 162.244.82.175 (port=22, user=root) =====
+/dev/sda2  879G  112G  722G  14%  /
+tmpfs      126G  108K  126G  1%   /dev/shm
+/dev/sda1  1.1G  6.1M  1.1G  1%   /boot/efi
+
+===== Disk usage on 162.244.81.61 (port=22, user=root) =====
+/dev/sda2  440G  29G  389G  7%  /
+tmpfs      63G   0    63G   0%  /dev/shm
+
+===== Disk usage on 198.145.121.215 (port=22, user=root) =====
+/dev/sda2  879G  14G   820G  2%  /
+tmpfs      32G   28K   32G   1%  /dev/shm
+/dev/sda1  1.1G  6.1M  1.1G  1%  /boot/efi
+
+===== Disk usage on 38.126.208.231 (port=22, user=root) =====
+/dev/sda2  1.8T  14G   1.7T  1%  /
+tmpfs      32G   28K   32G   1%  /dev/shm
+/dev/sda1  1.1G  6.1M  1.1G  1%  /boot/efi
+
+===== Disk usage on 31.14.41.134 (port=22, user=root) =====
+/dev/sdb2  879G  42G   792G  5%  /
+tmpfs      16G   0     16G   0%  /dev/shm
+/dev/sdb1  1.1G  6.1M  1.1G  1%  /boot/efi
+
+===== Disk usage on 162.244.80.223 (port=22, user=root) =====
+/dev/sda2  880G  14G  821G  2%  /
+tmpfs      16G   0    16G   0%  /dev/shm
+
+===== Disk usage on 162.244.82.166 (port=22, user=root) =====
+/dev/sda2  1.8T  19G  1.7T  2%  /
+tmpfs      63G   0    63G   0%  /dev/shm
+
+===== Disk usage on 52.54.133.35 (port=22, user=root) =====
+
+===== Disk usage on 3.73.48.209 (port=22, user=root) =====
+
+===== Disk usage on 152.32.182.49 (port=22, user=root) =====
+
+===== Disk usage on 54.224.232.85 (port=22, user=root) =====
+/dev/root        969G  37G   933G  4%  /
+tmpfs            16G   16K   16G   1%  /dev/shm
+/dev/nvme0n1p15  105M  6.1M  99M   6%  /boot/efi
+
