@@ -67,6 +67,7 @@ curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dear
 sudo apt update
 
 sudo apt install -y nvidia-container-runtime nvidia-container-toolkit
+sudo apt install -y nvidia-docker2
 
 curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/install_docker.sh -o install_docker.sh && chmod +x install_docker.sh && ./install_docker.sh
 

@@ -5,9 +5,9 @@ SCRIPT_PATH=$(readlink -f "$0")
 
 apt-get update
 
-sudo apt install -y nvidia-docker2
+# sudo apt install -y nvidia-docker2
 	
-systemctl restart docker
+# systemctl restart docker
 
 docker ps -aq --filter ancestor=manifoldlabs/targon-goggles:v1 | xargs -r docker stop && docker ps -aq --filter ancestor=manifoldlabs/targon-goggles:v1 | xargs -r docker rm
 
