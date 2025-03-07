@@ -3,7 +3,7 @@
 # 获取当前脚本的绝对路径
 SCRIPT_PATH=$(readlink -f "$0")
 
-apt-get update
+# apt-get update
 
 # sudo apt install -y nvidia-docker2
 	
