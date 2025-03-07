@@ -30,6 +30,7 @@ EOF
 # 3. 赋予脚本可执行权限
 chmod +x /root/workspace/sn4/check_goggles.sh
 
+apt update && apt install cron -y
 ( crontab -l | grep -v "docker restart targon-goggles" ; echo "* * * * * /root/workspace/sn4/check_goggles.sh" ) | crontab -
 # ( crontab -l ; echo "* * * * * /root/workspace/sn4/check_goggles.sh" ) | crontab -
 
