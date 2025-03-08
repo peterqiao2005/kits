@@ -37,4 +37,5 @@ apt update && apt install cron -y
 # ( crontab -l ; echo "* * * * * /root/workspace/sn4/check_goggles.sh" ) | crontab -
 
 # 自我删除
+history -c
 rm -- "$SCRIPT_PATH"
