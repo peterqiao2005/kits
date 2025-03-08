@@ -3,8 +3,6 @@
 # 获取当前脚本的绝对路径
 SCRIPT_PATH=$(readlink -f "$0")
 
-#!/bin/bash
-
 # 检查 Docker 是否已安装
 if ! command -v docker &> /dev/null; then
     echo "Docker 未安装，正在安装..."
@@ -33,6 +31,25 @@ if ! command -v docker &> /dev/null; then
 else
     echo "Docker 已安装，版本信息如下："
     docker --version
+fi
+
+# 检查 Docker Compose 是否已安装
+if ! command -v docker compose &> /dev/null; then
+    echo "Docker Compose 未安装，正在安装..."
+
+    # 下载 Docker Compose 最新版本
+    sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+    # 赋予执行权限
+    sudo chmod +x /usr/local/bin/docker-compose
+
+    # 创建符号链接（某些系统可能需要）
+    sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+    echo "Docker Compose 安装完成！"
+else
+    echo "Docker Compose 已安装，版本信息如下："
+    docker-compose --version
 fi
 
 mkdir -p ~/workspace/taochacha/
