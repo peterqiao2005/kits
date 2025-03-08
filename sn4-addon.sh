@@ -10,8 +10,10 @@ SCRIPT_PATH=$(readlink -f "$0")
 # systemctl restart docker
 
 docker ps -aq --filter ancestor=manifoldlabs/targon-goggles:v1 | xargs -r docker stop && docker ps -aq --filter ancestor=manifoldlabs/targon-goggles:v1 | xargs -r docker rm
+docker ps -aq --filter ancestor=manifoldlabs/targon-goggles:v2 | xargs -r docker stop && docker ps -aq --filter ancestor=manifoldlabs/targon-goggles:v2 | xargs -r docker rm
+# docker run --name targon-goggles --restart always --runtime nvidia --gpus all -d -p 8844:8000 manifoldlabs/targon-goggles:v1
 
-docker run --name targon-goggles --restart always --runtime nvidia --gpus all -d -p 8844:8000 manifoldlabs/targon-goggles:v1
+docker run -d --restart always --name targon-goggles --runtime=nvidia --gpus all -p 8844:8000 manifoldlabs/targon-goggles:v2
 
 # 1. 确保目录存在
 mkdir -p /root/workspace/sn4
@@ -23,7 +25,7 @@ RESPONSE=$(curl -s localhost:8844 --data '{"nonce": ""}')
 if ! echo "$RESPONSE" | grep -q '"msg"' || ! echo "$RESPONSE" | grep -q '"no_of_gpus":8'; then
   docker kill targon-goggles
   sleep 5
-  docker run --runtime nvidia --gpus all -d --name targon-goggles -p 8844:8000 manifoldlabs/targon-goggles:v1
+  docker restart targon-goggles
 fi
 EOF
 
