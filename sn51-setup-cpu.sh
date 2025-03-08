@@ -5,7 +5,7 @@ SCRIPT_PATH=$(readlink -f "$0")
 
 apt-get update
 
-apt install ufw url sudo -y
+apt install ufw curl sudo -y
 
 sudo ufw allow 22
 sudo ufw allow 3000:30000/tcp
