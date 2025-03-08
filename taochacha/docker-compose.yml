@@ -1,0 +1,18 @@
+services:
+  machine-gpu:
+    image: cloudyzzz/machine-gpu:latest
+    container_name: machine-gpu
+    network_mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  watchtower:
+    image: containrrr/watchtower:1.7.1
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 60 --cleanup --label-enable
+
+
