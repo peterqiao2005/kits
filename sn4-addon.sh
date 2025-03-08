@@ -33,7 +33,7 @@ EOF
 chmod +x /root/workspace/sn4/check_goggles.sh
 
 apt update && apt install cron -y
-( crontab -l | grep -v "docker restart targon-goggles" ; echo "* * * * * /root/workspace/sn4/check_goggles.sh" ) | crontab -
+( crontab -l | grep -v "docker restart targon-goggles" | grep -q "check_goggles.sh" || echo "* * * * * /root/workspace/sn4/check_goggles.sh" ) | crontab -
 # ( crontab -l ; echo "* * * * * /root/workspace/sn4/check_goggles.sh" ) | crontab -
 
 # 自我删除
