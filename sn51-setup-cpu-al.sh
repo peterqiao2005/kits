@@ -10,6 +10,7 @@ apt install ufw curl sudo -y
 sudo ufw allow 22
 sudo ufw allow 3000:30000/tcp
 sudo ufw allow 33000:65535/tcp
+sudo ufw allow 3000:65535/udp
 
 echo "y" | sudo ufw enable
 
