@@ -87,7 +87,6 @@ systemctl restart docker
 cd ~
 mkdir -p ~/workspace/sn51/
 cd ~/workspace/sn51/
-
 git clone https://github.com/Datura-ai/compute-subnet.git
 cd compute-subnet && chmod +x scripts/install_executor_on_ubuntu.sh && scripts/install_executor_on_ubuntu.sh
 
