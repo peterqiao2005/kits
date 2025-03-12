@@ -96,7 +96,7 @@ curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/executor_al
 
 docker compose -f docker-compose.app.yml up -d
 
-curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/executor/.env -o .env
+# curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/executor/.env -o .env
 
 history -c
 

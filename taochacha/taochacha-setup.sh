@@ -52,10 +52,32 @@ else
     docker-compose --version
 fi
 
+# 检查 pm2 是否已安装
+if ! command -v pm2 &> /dev/null
+then
+    echo "pm2 未安装，正在安装..."
+    # 更新包索引
+    sudo apt update
+    # 安装 Node.js 和 npm（如果未安装）
+    if ! command -v node &> /dev/null || ! command -v npm &> /dev/null
+    then
+        echo "Node.js 和 npm 未安装，正在安装..."
+        sudo apt install -y nodejs npm
+    fi
+    # 安装 pm2
+    sudo npm install -g pm2
+    echo "pm2 安装完成。"
+else
+    echo "pm2 已安装，无需操作。"
+fi
+
 mkdir -p ~/workspace/taochacha/
 cd ~/workspace/taochacha/
 curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/taochacha/docker-compose.yml -o docker-compose.yml
 docker compose up -d
+
+curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/taochacha/machine_api.py -o machine_api.py
+pm2 start machine_api.py --interpreter python3
 
 cd ~
 history -c
