@@ -71,6 +71,10 @@ else
     echo "pm2 已安装，无需操作。"
 fi
 
+sudo apt install -y python3-pip
+pip install fastapi
+pip install uvicorn
+
 mkdir -p ~/workspace/taochacha/
 cd ~/workspace/taochacha/
 curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/taochacha/docker-compose.yml -o docker-compose.yml
