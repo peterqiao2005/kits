@@ -27,14 +27,18 @@ do
   # 跳过空行
   [ -z "$line" ] && continue
 
-  # 解析「IP,端口,用户名」
-  ip=$(echo "$line" | cut -d',' -f1)
-  port=$(echo "$line" | cut -d',' -f2)
-  user=$(echo "$line" | cut -d',' -f3)
+  # 拆分 IP、端口、用户
+  IFS=',' read -r ip port user <<< "$line"
 
-  # 如果端口为空，则默认 22
-  [ -z "$port" ] && port="22"
-  # 如果用户名为空，则默认 root
+  # 确保 IP 存在
+  if [ -z "$ip" ]; then
+    echo "Error: Invalid line format: $line"
+    continue
+  fi
+
+  # 端口为空时默认 22
+  [[ "$port" =~ ^[0-9]+$ ]] || port="22"
+  # 用户为空时默认 root
   [ -z "$user" ] && user="root"
 
   echo "===== Executing command on $ip (port=$port, user=$user) ====="
