@@ -28,7 +28,7 @@ stake_hotkey = dict(taocd4=taocd1, taocd19=taocd2, taocd41=tao5, taocd51=tao5, t
 
 
 def send_wechat_message(content):
-    url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=7ce8365c-2e9b-4af4-bc58-098c7795bf63"
+    # url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=7ce8365c-4af4-bc58-098c7795bf63"
     headers = {"Content-Type": "application/json"}
     data = {
         "msgtype": "text",
@@ -81,7 +81,7 @@ if __name__ == "__main__":
                 subnet = sub.subnet(netuid)
                 sqlObject.insert_stake_log(wallet_name, wallet_total_amount, target_hotkey, total_stake.tao)
                 message = f"[质押成功] 钱包:{wallet_name}, 数量:{wallet_total_amount:.2f}, 总质押:{total_stake.tao:.2f}, 预估TAO:{subnet.price.tao * total_stake.tao:.2f}"
-                send_wechat_message(message)
+                # send_wechat_message(message)
 
         print("10000秒后 等待下一轮")
         time.sleep(10000)
