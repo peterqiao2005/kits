@@ -1,42 +1,65 @@
 from typing import Any, List, Tuple
 from psycopg2 import pool
-from psycopg2.extras import DictCursor
 from contextlib import contextmanager
 from datetime import datetime
 import traceback
-import bittensor
-
-from pydantic import BaseModel
 
 RowType = Tuple[Any, Any] | None
 RowsType = List[RowType]
 
 class PgsqlStorage:
-    def __init__(self, database = "metagraph"):
+    WALLET_TRANSFER_LOG_CREATE = """CREATE TABLE IF NOT EXISTS wallet_transfer_log (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        amount NUMERIC NOT NULL,
+        dest TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )"""
+
+    WALLET_STAKE_LOG_CREATE = """CREATE TABLE IF NOT EXISTS wallet_stake_log (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        amount NUMERIC NOT NULL,
+        dest TEXT NOT NULL,
+        total_stake NUMERIC NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )"""
+
+    VALIDATOR_STAKE_CREATE = """CREATE TABLE IF NOT EXISTS validator_stake (
+        id SERIAL PRIMARY KEY,
+        hotkey TEXT NOT NULL,
+        subnet INTEGER NOT NULL,
+        stake NUMERIC NOT NULL,
+        stake_weight NUMERIC NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )"""
+
+    def __init__(self, database="metagraph"):
         self.database = database
         self.tabledata = []
         try:
             self.connection_pool = pool.ThreadedConnectionPool(
                 minconn=1,
                 maxconn=10,
-                user='metagraph',
-                password='hJ1}vO0)tI',
-                # host='127.0.0.1',
-                host='162.244.82.223',
+                user='tao',
+                password='umobile$prabayar',
+                host='127.0.0.1',
                 port='5432',
-                database='metagraph'
+                database=database
             )
-            
+
             with self.get_connection_from_pool() as connection:
                 with connection.cursor() as cursor:
-                    # Set the session to use UTC timezone
                     cursor.execute("SET TIME ZONE 'UTC';")
+                    cursor.execute(PgsqlStorage.WALLET_TRANSFER_LOG_CREATE)
+                    cursor.execute(PgsqlStorage.WALLET_STAKE_LOG_CREATE)
+                    cursor.execute(PgsqlStorage.VALIDATOR_STAKE_CREATE)
                     connection.commit()
 
         except Exception:
             errors = f"write row failed: {traceback.print_exc()}"
             print(errors)
-    
+
     def __exit__(self):
         self.close_connection_pool()
 
@@ -50,8 +73,8 @@ class PgsqlStorage:
             yield connection
         finally:
             self.connection_pool.putconn(connection)
-    
-    def insert_transfer_log(self, name:str, balance:float,dest:str) -> bool:
+
+    def insert_transfer_log(self, name: str, balance: float, dest: str) -> bool:
         insert_sql = """INSERT INTO wallet_transfer_log (
                         name, amount, dest
                     ) VALUES (
@@ -62,7 +85,7 @@ class PgsqlStorage:
                 with connection.cursor() as cursor:
                     cursor.execute(insert_sql, [name, balance, dest])
                 connection.commit()
-        except Exception as e:
+        except Exception:
             errors = f"write_register failed: {traceback.print_exc()}"
             print(errors)
             return False
@@ -80,7 +103,7 @@ class PgsqlStorage:
                 with connection.cursor() as cursor:
                     cursor.execute(insert_sql, [name, amount, dest, total_stake])
                 connection.commit()
-        except Exception as e:
+        except Exception:
             errors = f"write_register failed: {traceback.print_exc()}"
             print(errors)
             return False
@@ -98,10 +121,9 @@ class PgsqlStorage:
                 with connection.cursor() as cursor:
                     cursor.execute(insert_sql, [hotkey, subnet, stake, stake])
                 connection.commit()
-        except Exception as e:
+        except Exception:
             errors = f"write_register failed: {traceback.print_exc()}"
             print(errors)
             return False
 
         return True
-        

@@ -19,7 +19,7 @@ stake_hotkey = "5CsvRJXuR955WojnGMdok1hbhffZyB4N5ocrv82f3p5A2zVp"
 
 
 def send_wechat_message(content):
-    url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=7ce8365c-2e9b-4af4-bc58-098c7795bf63"
+    #url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=7ce8365c-4af4-bc58-098c7795bf63"
     headers = {"Content-Type": "application/json"}
     data = {
         "msgtype": "text",
