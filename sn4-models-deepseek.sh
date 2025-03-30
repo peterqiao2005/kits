@@ -24,7 +24,7 @@ pip install vllm==0.7.3
 
 nohup huggingface-cli download deepseek-ai/DeepSeek-V3 2>&1 &
 nohup huggingface-cli download deepseek-ai/DeepSeek-R1 2>&1 &
-
+nohup huggingface-cli download deepseek-ai/DeepSeek-V3-0324 2>&1 &
 
 # 自我删除
 history -c
