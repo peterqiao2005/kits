@@ -17,6 +17,9 @@ bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
 rm ~/miniconda3/miniconda.sh
 source ~/miniconda3/bin/activate
 
+ mkdir /data/conda_envs
+conda config --add env_dirs /data/conda_envs/
+
 conda create -n vllm python=3.12 -y
 conda activate vllm
 

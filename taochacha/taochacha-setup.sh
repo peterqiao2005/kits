@@ -71,7 +71,12 @@ else
     echo "pm2 已安装，无需操作。"
 fi
 
+cd ~
+sudo apt update
+sudo apt install -y python3.10 python3.10-venv python3.10-dev
 sudo apt install -y python3-pip
+python3.10 -m venv machine_api
+source machine_api/bin/activate
 pip install fastapi
 pip install uvicorn
 
