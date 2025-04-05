@@ -71,7 +71,11 @@ else
     echo "pm2 已安装，无需操作。"
 fi
 
-cd ~
+mkdir -p ~/workspace/taochacha/
+cd ~/workspace/taochacha/
+
+yes "" | sudo add-apt-repository ppa:deadsnakes/ppa
+# sudo add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt update
 sudo apt install -y python3.10 python3.10-venv python3.10-dev
 sudo apt install -y python3-pip
@@ -80,13 +84,12 @@ source machine_api/bin/activate
 pip install fastapi
 pip install uvicorn
 
-mkdir -p ~/workspace/taochacha/
-cd ~/workspace/taochacha/
 curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/taochacha/docker-compose.yml -o docker-compose.yml
 docker compose up -d
 
 curl -fsSL https://raw.githubusercontent.com/peterqiao2005/kits/main/taochacha/machine_api.py -o machine_api.py
 pm2 start machine_api.py --interpreter python3
+deactivate
 
 cd ~
 history -c
