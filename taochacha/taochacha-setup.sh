@@ -65,7 +65,7 @@ then
         sudo apt install -y nodejs npm
     fi
     # 安装 pm2
-    sudo npm install -g pm2
+    sudo npm install -g pm2@5.4.3
     echo "pm2 安装完成。"
 else
     echo "pm2 已安装，无需操作。"
