@@ -9,7 +9,8 @@ echo "安装必要的包..."
 sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
 
 echo "添加 Docker 的官方 GPG 密钥..."
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
+
 
 echo "设置 Docker 稳定版的存储库..."
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
