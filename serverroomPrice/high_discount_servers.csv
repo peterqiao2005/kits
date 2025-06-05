@@ -923,3 +923,325 @@ OS
 
 1 Gbps Unmetered
 Bandwidth","San Francisco, US",280.88,-43.25%,2025-05-21 12:57:39
+"Intel Atom C2750 Processor, 8 core 2.4 GHz","8 GB
+Memory
+
+
+SATA 500 GB
+Storage
+
+
+AlmaLinux 9
+OS
+
+
+100 Mbps Unmetered
+Bandwidth","Bucharest, EU",31.20,-42.95%,2025-05-26 20:39:18
+X-Gene Octa-Core ARM v8 64-bit,"64 GB
+Memory
+
+
+SATA-SSD 256 GB
+Storage
+
+
+Ubuntu 18.04
+OS
+
+
+300 Mbps Unmetered
+Bandwidth","New York, US",49.48,-50.95%,2025-05-26 20:39:18
+Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,"16 GB
+Memory
+
+
+SATA-SSD 240 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+300 Mbps Unmetered
+Bandwidth","Bucharest, EU",75.84,-48.79%,2025-05-26 20:39:18
+Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,"16 GB
+Memory
+
+
+SAS 1 TB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+300 Mbps Unmetered
+Bandwidth","Bucharest, EU",75.84,-48.79%,2025-05-26 20:39:18
+X-Gene Octa-Core ARM v8 64-bit,"64 GB
+Memory
+
+
+SATA-SSD 960 GB
+Storage
+
+
+Ubuntu 18.04
+OS
+
+
+300 Mbps Unmetered
+Bandwidth","New York, US",61.47,-31.57%,2025-05-26 20:39:18
+Intel Xeon E5-2650L Octo Core 1.80 GHz,"32 GB
+Memory
+
+
+SAS 1 TB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+300 Mbps Unmetered
+Bandwidth","Bucharest, EU",76.43,-42.84%,2025-05-26 20:39:18
+Intel Xeon D-1548 Octa Core 2.00 GHz,"32 GB
+Memory
+
+
+NVMe-SSD 240 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","Bucharest, EU",90.67,-32.2%,2025-05-26 20:39:18
+2 x Intel Xeon E5-2630L v2 Hex Core 2.40 GHz,"32 GB
+Memory
+
+
+2 x SATA 1 TB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+300 Mbps Unmetered
+Bandwidth","Bucharest, EU",88.49,-32.97%,2025-05-26 20:39:18
+Intel Xeon E5-2630L v3 Octo Core 1.80 GHz,"32 GB
+Memory
+
+
+SATA-SSD 3.84 TB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","Bucharest, EU",133.80,-45.58%,2025-05-26 20:39:18
+Intel Xeon E5-2650L v3 Dodeca Core 1.80 GHz,"64 GB
+Memory
+
+
+2 x SATA-SSD 240 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","Amsterdam, EU",120.31,-34.6%,2025-05-26 20:39:18
+Intel Xeon E5-2650L v3 Dodeca Core 1.80 GHz,"32 GB
+Memory
+
+
+2 x SATA-SSD 960 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","Miami, US",125.71,-37.11%,2025-05-26 20:39:18
+Intel Xeon E5-2650L v4 Tetradeca Core 1.70 GHz,"16 GB
+Memory
+
+
+2 x SATA-SSD 240 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","Amsterdam, EU",132.18,-34.32%,2025-05-26 20:39:18
+2 x Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,"128 GB
+Memory
+
+
+SAS 2 TB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+300 Mbps Unmetered
+Bandwidth","New York, US",139.12,-32.54%,2025-05-26 20:39:18
+Intel Xeon E5-2650L v3 Dodeca Core 1.80 GHz,"64 GB
+Memory
+
+
+2 x SATA-SSD 480 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","Bucharest, EU",132.15,-29.09%,2025-05-26 20:39:18
+2 x Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,"96 GB
+Memory
+
+
+2 x SATA-SSD 480 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+300 Mbps Unmetered
+Bandwidth","New York, US",135.26,-28.56%,2025-05-26 20:39:18
+2 x Intel Xeon Gold 6130 16 Core 2.10 GHz,"64 GB
+Memory
+
+
+2 x SAS 300 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","Bucharest, EU",175.49,-43.44%,2025-05-26 20:39:18
+2 x Intel Xeon Gold 6130 16 Core 2.10 GHz,"64 GB
+Memory
+
+
+SATA-SSD 480 GB
+Storage
+
+
+AlmaLinux 9
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","Bucharest, EU",185.17,-42.33%,2025-05-26 20:39:18
+2 x Intel Xeon Gold 6130 16 Core 2.10 GHz,"64 GB
+Memory
+
+
+2 x SATA-SSD 960 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","Miami, US",201.86,-48.19%,2025-05-26 20:39:18
+2 x Intel Xeon Gold 5118 12 Core 2.30 GHz,"128 GB
+Memory
+
+
+2 x SATA-SSD 960 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","New York, US",220.73,-47.93%,2025-05-26 20:39:18
+4 x Intel Xeon E5-4657L v2 Dodeca Core 2.40 GHz,"64 GB
+Memory
+
+
+2 x SAS 1.8 TB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+300 Mbps Unmetered
+Bandwidth","Bucharest, EU",206.60,-34.38%,2025-05-26 20:39:18
+2 x Intel Xeon Gold 6130 16 Core 2.10 GHz,"64 GB
+Memory
+
+
+2 x SATA-SSD 960 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","Bucharest, EU",204.93,-34.13%,2025-05-26 20:39:18
+2 x Intel Xeon Gold 5120 14 Core 2.20 GHz,"128 GB
+Memory
+
+
+SATA-SSD 960 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","Miami, US",285.36,-47.27%,2025-05-26 20:39:18
+Intel Xeon Gold 5120 14 Core 2.20 GHz,"64 GB
+Memory
+
+
+2 x SATA-SSD 960 GB
+Storage
+
+
+Ubuntu 24.04
+OS
+
+
+1 Gbps Unmetered
+Bandwidth","Bucharest, EU",258.59,-41.16%,2025-05-26 20:39:18
