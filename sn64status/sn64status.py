@@ -6,7 +6,7 @@ import time
 
 # 配置无头浏览器（可省略无头）
 chrome_options = Options()
-chrome_options.add_argument("--headless")
+#chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 
 # 启动浏览器
