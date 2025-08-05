@@ -6,19 +6,19 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# 配置无头浏览器（可省略无头）
-chrome_options = Options()
 # 启用新版 headless 模式（推荐）
-chrome_options.add_argument("--headless=new")
-
-# 其他稳定运行参数
+chrome_options = Options()
+chrome_options.add_argument("--headless=new")  # ✅ 启用新版 Headless 模式
 chrome_options.add_argument("--no-sandbox")
+'''
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+'''
 
 # 启动浏览器
 original_url = "https://chutes.ai/app/research/leaderboard"
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(options=chrome_options)
 driver.get(original_url)
 
 # 等待表格加载完成（根据实际情况调整等待时间或条件）
@@ -32,6 +32,7 @@ rows = driver.find_elements(By.XPATH, table_xpath + "/tbody/tr")
 
 data = []
 hotkey_urls = []
+iii=0
 for row in rows:
     cols = row.find_elements(By.TAG_NAME, "td")
     if len(cols) >= 7:
@@ -44,6 +45,9 @@ for row in rows:
         })
 
 for i, url in enumerate(hotkey_urls):
+    iii = iii + 1
+    if iii >= 3:
+        continue
     driver.get(url)
     # 等待详情页面加载
     sub_table_xpath = "/html/body/div/main/main/section[2]/div[1]/main/div/div[14]/div/table"
@@ -97,7 +101,7 @@ for i, url in enumerate(hotkey_urls):
     data[i]["GPU_list"] = GPU_list
     data[i]["GPU_Info"] = sub_data
 
-driver.quit()
+# driver.quit()
 
 def export_to_excel(data, filename=None):
     """
