@@ -6,24 +6,19 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# 启用新版 headless 模式（推荐）
+# 配置无头浏览器（可省略无头）
 chrome_options = Options()
-chrome_options.add_argument("--headless=new")  # ✅ 启用新版 Headless 模式
+chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
-'''
-chrome_options.add_argument("--disable-gpu")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-'''
 
 # 启动浏览器
 original_url = "https://chutes.ai/app/research/leaderboard"
-driver = webdriver.Chrome(options=chrome_options)
+driver = webdriver.Chrome()
 driver.get(original_url)
 
 # 等待表格加载完成（根据实际情况调整等待时间或条件）
 table_xpath = "/html/body/div/main/main/section[2]/div[1]/main/div/div[2]/div/div/table"
-WebDriverWait(driver, 20).until(
+WebDriverWait(driver, 30).until(
     EC.presence_of_element_located((By.XPATH, table_xpath))
 )
 
@@ -32,7 +27,6 @@ rows = driver.find_elements(By.XPATH, table_xpath + "/tbody/tr")
 
 data = []
 hotkey_urls = []
-iii=0
 for row in rows:
     cols = row.find_elements(By.TAG_NAME, "td")
     if len(cols) >= 7:
@@ -45,30 +39,45 @@ for row in rows:
         })
 
 for i, url in enumerate(hotkey_urls):
-    iii = iii + 1
-    if iii >= 3:
-        continue
     driver.get(url)
     # 等待详情页面加载
     sub_table_xpath = "/html/body/div/main/main/section[2]/div[1]/main/div/div[14]/div/table"
-    WebDriverWait(driver, 20).until(
+    WebDriverWait(driver, 30).until(
         EC.presence_of_element_located((By.XPATH, sub_table_xpath))
     )
 
     # 提取详情信息（根据实际页面调整）
     hotkey = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/h5[1]").text.strip()
 
-    RAW_Bounty_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[1]/h6").text
-    RAW_Compute_Units = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[2]/h6").text
-    RAW_Invocation_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[3]/h6").text
-    RAW_Unique_Chute_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[4]/h6").text
+    RAW_Bounty_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[1]/h6").text.strip()
+    RAW_Compute_Units = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[2]/h6").text.strip()
+    RAW_Invocation_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[3]/h6").text.strip()
+    RAW_Unique_Chute_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[4]/h6").text.strip()
 
-    NORMALIZED_Bounty_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[5]/h6").text
-    NORMALIZED_Compute_Units = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[6]/h6").text
-    NORMALIZED_Invocation_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[7]/h6").text
-    NORMALIZED_Unique_Chute_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[8]/h6").text
+    NORMALIZED_Bounty_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[5]/h6").text.strip()
+    NORMALIZED_Compute_Units = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[6]/h6").text.strip()
+    NORMALIZED_Invocation_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[7]/h6").text.strip()
+    NORMALIZED_Unique_Chute_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[8]/h6").text.strip()
 
-    GPU_list = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[9]/div[1]/div/div[1]/div/div/p").text
+    #/html/body/div/main/main/section[2]/div[1]/main/div/div[9]/div[1]/div/div[1]/div/div/p
+    #/html/body/div/main/main/section[2]/div[1]/main/div/div[9]/div[1]/div/div[1]/div/div[1]/p
+    #/html/body/div/main/main/section[2]/div[1]/main/div/div[9]/div[1]/div/div[1]/div/div[2]/p
+    GPU_xpath = "/html/body/div/main/main/section[2]/div[1]/main/div/div[9]/div[1]/div/div[1]"
+    WebDriverWait(driver, 30).until(
+        EC.presence_of_element_located((By.XPATH, GPU_xpath))
+    )
+
+    GPU_elements = driver.find_elements("xpath",
+    "/html/body/div/main/main/section[2]/div[1]/main/div/div[9]/div[1]/div/div[1]/div/div[./p]/p"
+    )
+
+    if len(GPU_elements) == 1:
+        # 只有一个子元素，获取其文本
+        GPU_list = GPU_elements[0].text.strip()
+    else:
+        # 多个子元素，组合所有文本
+        texts = [elem.text.strip() for elem in GPU_elements]
+        GPU_list = " ".join(texts)
 
     sub_data = []
     rows = driver.find_elements(By.XPATH, sub_table_xpath + "/tbody/tr")
@@ -101,7 +110,7 @@ for i, url in enumerate(hotkey_urls):
     data[i]["GPU_list"] = GPU_list
     data[i]["GPU_Info"] = sub_data
 
-# driver.quit()
+driver.quit()
 
 def export_to_excel(data, filename=None):
     """

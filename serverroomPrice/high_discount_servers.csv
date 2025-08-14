@@ -92,3 +92,123 @@ Intel Xeon D-1587 Hexadeca Core 1.70 GHz,128 GB,2 x NVMe-SSD 1.92 TB,1 Gbps Unme
 2 x Intel Xeon Gold 6126 12 Core 2.60 GHz,256 GB,2 x SATA-SSD 480 GB,1 Gbps Unmetered,AlmaLinux 9,"New York, US",274.83,142.40,-49.68%,2025-06-24 13:05:30
 2 x Intel Xeon Gold 6130 16 Core 2.10 GHz,64 GB,2 x SATA-SSD 960 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",205.36,144.02,-32.19%,2025-06-24 13:05:30
 2 x Intel Xeon Gold 5122 4 Core 3.60GHz,64 GB,2 x SATA-SSD 480 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",261.69,171.53,-35.9%,2025-06-24 13:05:30
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",8 GB,SATA 500 GB,100 Mbps Unmetered,AlmaLinux 9,"Bucharest, EU",31.20,17.81,-42.94%,2025-08-05 17:43:38
+X-Gene Octa-Core ARM v8 64-bit,32 GB,SATA-SSD 120 GB,300 Mbps Unmetered,Ubuntu 18.04,"San Francisco, US",28.58,17.82,-37.7%,2025-08-05 17:43:38
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",8 GB,SATA 500 GB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",31.19,22.67,-27.38%,2025-08-05 17:43:38
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",8 GB,SATA 2 TB,100 Mbps Unmetered,AlmaLinux 9,"Bucharest, EU",45.39,22.67,-50.09%,2025-08-05 17:43:38
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",8 GB,SATA 1 TB,100 Mbps Unmetered,AlmaLinux 9,"Bucharest, EU",40.97,27.52,-32.86%,2025-08-05 17:43:38
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",32 GB,SATA 1 TB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",50.56,35.60,-29.63%,2025-08-05 17:43:38
+Intel Xeon L5640 Hex Core 2.27 GHz,16 GB,2 x SATA 500 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",48.25,35.62,-29.49%,2025-08-05 17:43:38
+Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,16 GB,2 x SAS 146 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",71.04,37.23,-48.77%,2025-08-05 17:43:38
+Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,16 GB,2 x SAS 300 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",72.52,37.53,-49.75%,2025-08-05 17:43:38
+Intel Xeon E5-2630L Hex Core 2.00 GHz,16 GB,2 x SAS 600 GB,300 Mbps Unmetered,Ubuntu 24.04,"New York, US",62.59,40.48,-38.38%,2025-08-05 17:43:38
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",16 GB,SATA-SSD 3.84 TB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",88.89,43.71,-50.85%,2025-08-05 17:43:38
+Intel Xeon E5-2630L v3 Octo Core 1.80 GHz,32 GB,2 x SAS 300 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",85.95,45.95,-47.82%,2025-08-05 17:43:38
+Intel Xeon E5-2630L v3 Octo Core 1.80 GHz,32 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",94.00,49.77,-49.67%,2025-08-05 17:43:38
+Intel Xeon E5-2650L Octo Core 1.80 GHz,16 GB,SATA-SSD 500 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",76.85,51.78,-32.63%,2025-08-05 17:43:38
+Intel Xeon D-1548 Octa Core 2.00 GHz,32 GB,NVMe-SSD 1 TB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",88.69,61.50,-30.68%,2025-08-05 17:43:38
+Intel Xeon E-2286M 8 CORE 2.40 GHz,32 GB,2 x NVMe-SSD 960 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",116.40,69.58,-44.86%,2025-08-05 17:43:38
+Intel Xeon E5-2650L v3 Dodeca Core 1.80 GHz,32 GB,2 x SAS 300 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",97.67,69.59,-29.7%,2025-08-05 17:43:38
+Intel Xeon E5-2630L v3 Octo Core 1.80 GHz,64 GB,2 x SATA-SSD 960 GB,1 Gbps Unmetered,AlmaLinux 9,"Amsterdam, EU",127.02,75.39,-44.91%,2025-08-05 17:43:38
+Intel Xeon Silver 4110 8 Core 2.10 GHz,32 GB,2 x SATA-SSD 256 GB,1 Gbps Unmetered,AlmaLinux 9,"Bucharest, EU",130.68,89.01,-33.57%,2025-08-05 17:43:38
+Intel Xeon E5-2650L Octo Core 1.80 GHz,128 GB,2 x SAS 2 TB,300 Mbps Unmetered,AlmaLinux 9,"Bucharest, EU",135.42,92.25,-35.19%,2025-08-05 17:43:38
+Intel Xeon E5-2650L v4 Tetradeca Core 1.70 GHz,16 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",132.87,99.02,-26.93%,2025-08-05 17:43:38
+Intel Xeon E5-2630L v3 Octo Core 1.80 GHz,32 GB,2 x SAS-SSD 3.84 TB,1 Gbps Unmetered,Ubuntu 24.04,"Miami, US",162.84,100.34,-46.72%,2025-08-05 17:43:38
+4 x Intel Xeon E5-4620 v2 Octo Core @ 2.60GHz,128 GB,2 x SATA-SSD 240 GB,300 Mbps Unmetered,Ubuntu 24.04,"New York, US",205.52,104.55,-50.46%,2025-08-05 17:43:38
+2 x Intel Xeon Silver 4114 10 Core 2.20 GHz,64 GB,2 x SAS 1 TB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",160.60,117.08,-28.35%,2025-08-05 17:43:38
+2 x Intel Xeon Gold 5118 12 Core 2.30 GHz,64 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",175.43,125.06,-29.89%,2025-08-05 17:43:38
+2 x Intel Xeon E5-2650L v4 Tetradeca Core 1.70 GHz,128 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",191.77,126.22,-35.35%,2025-08-05 17:43:38
+2 x Intel Xeon E5-2699C v4 22 Core 2.20 GHz,64 GB,2 x SATA-SSD 960 GB,1 Gbps Unmetered,Ubuntu 24.04,"New York, US",231.58,132.68,-45.04%,2025-08-05 17:43:38
+2 x Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,256 GB,2 x SATA-SSD 240 GB,300 Mbps Unmetered,Ubuntu 24.04,"New York, US",184.97,134.32,-28.47%,2025-08-05 17:43:38
+2 x Intel Xeon Silver 4110 8 Core 2.10 GHz,64 GB,SATA-SSD 7.68 TB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",280.46,177.98,-36.54%,2025-08-05 17:43:38
+Intel Atom C2730 Octa Core 1.70 GHz,16 GB,SATA-SSD 64 GB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",21.67,12.97,-40.28%,2025-08-08 16:12:17
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",8 GB,SATA 500 GB,100 Mbps Unmetered,AlmaLinux 9,"Bucharest, EU",31.20,17.81,-42.94%,2025-08-08 16:12:17
+X-Gene Octa-Core ARM v8 64-bit,32 GB,SATA-SSD 120 GB,300 Mbps Unmetered,Ubuntu 18.04,"San Francisco, US",28.58,17.82,-37.7%,2025-08-08 16:12:17
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",8 GB,SATA 500 GB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",31.19,22.67,-27.38%,2025-08-08 16:12:17
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",8 GB,SATA 1 TB,100 Mbps Unmetered,AlmaLinux 9,"Bucharest, EU",40.97,27.52,-32.86%,2025-08-08 16:12:17
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",32 GB,SATA 1 TB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",50.56,35.60,-29.63%,2025-08-08 16:12:17
+Intel Xeon L5640 Hex Core 2.27 GHz,16 GB,2 x SATA 500 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",48.25,35.62,-29.49%,2025-08-08 16:12:17
+Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,16 GB,2 x SAS 146 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",71.04,37.23,-48.77%,2025-08-08 16:12:17
+Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,16 GB,2 x SAS 300 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",72.52,37.53,-49.75%,2025-08-08 16:12:17
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",16 GB,SATA-SSD 3.84 TB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",88.89,43.71,-50.85%,2025-08-08 16:12:17
+Intel Xeon D-1587 Hexadeca Core 1.70 GHz,32 GB,NVMe-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",97.68,48.54,-50.31%,2025-08-08 16:12:17
+Intel Xeon E5-2630L v3 Octo Core 1.80 GHz,32 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",94.00,49.77,-49.67%,2025-08-08 16:12:17
+Intel Xeon D-1587 Hexadeca Core 1.70 GHz,32 GB,NVMe-SSD 480 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",104.28,51.78,-50.35%,2025-08-08 16:12:17
+Intel Xeon E5-2650L Octo Core 1.80 GHz,16 GB,SATA-SSD 500 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",76.85,51.78,-32.63%,2025-08-08 16:12:17
+Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,16 GB,2 x SATA 2 TB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",89.26,59.89,-36.61%,2025-08-08 16:12:17
+Intel Xeon D-1548 Octa Core 2.00 GHz,32 GB,NVMe-SSD 1 TB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",88.69,61.50,-30.68%,2025-08-08 16:12:17
+Intel Xeon E-2286M 8 CORE 2.40 GHz,64 GB,NVMe-SSD 480 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",112.59,61.51,-45.39%,2025-08-08 16:12:17
+Intel Xeon E-2286M 8 CORE 2.40 GHz,32 GB,2 x NVMe-SSD 960 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",116.40,69.58,-44.86%,2025-08-08 16:12:17
+Intel Xeon E5-2650L v3 Dodeca Core 1.80 GHz,32 GB,2 x SAS 300 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",97.67,69.59,-29.7%,2025-08-08 16:12:17
+Intel Xeon Silver 4110 8 Core 2.10 GHz,32 GB,2 x SATA-SSD 256 GB,1 Gbps Unmetered,AlmaLinux 9,"Bucharest, EU",130.68,89.01,-33.57%,2025-08-08 16:12:17
+Intel Xeon E5-2650L v4 Tetradeca Core 1.70 GHz,16 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",132.45,93.36,-31.12%,2025-08-08 16:12:17
+Intel Xeon E5-2650L v4 Tetradeca Core 1.70 GHz,16 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",132.87,99.02,-26.93%,2025-08-08 16:12:17
+4 x Intel Xeon E5-4620 v2 Octo Core @ 2.60GHz,128 GB,2 x SATA-SSD 240 GB,300 Mbps Unmetered,Ubuntu 24.04,"New York, US",205.52,104.55,-50.46%,2025-08-08 16:12:17
+2 x Intel Xeon E5-2630L v4 Deca Core 1.80 GHz,128 GB,2 x SATA-SSD 480 GB,1 Gbps Unmetered,AlmaLinux 9,"New York, US",179.30,105.18,-43.59%,2025-08-08 16:12:17
+2 x Intel Xeon Silver 4114 10 Core 2.20 GHz,64 GB,2 x SAS 1 TB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",160.60,117.08,-28.35%,2025-08-08 16:12:17
+2 x Intel Xeon Gold 5118 12 Core 2.30 GHz,64 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",175.43,125.06,-29.89%,2025-08-08 16:12:17
+2 x Intel Xeon E5-2650L v4 Tetradeca Core 1.70 GHz,128 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",191.77,126.22,-35.35%,2025-08-08 16:12:17
+Intel Xeon E5-2630L v3 Octo Core 1.80 GHz,32 GB,2 x SAS-SSD 3.84 TB,1 Gbps Unmetered,Ubuntu 24.04,"Miami, US",170.62,127.24,-32.43%,2025-08-08 16:12:17
+2 x Intel Xeon E5-2699C v4 22 Core 2.20 GHz,64 GB,2 x SATA-SSD 960 GB,1 Gbps Unmetered,Ubuntu 24.04,"New York, US",231.58,132.68,-45.04%,2025-08-08 16:12:17
+2 x Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,256 GB,2 x SATA-SSD 240 GB,300 Mbps Unmetered,Ubuntu 24.04,"New York, US",184.97,134.32,-28.47%,2025-08-08 16:12:17
+4 x Intel Xeon E5-4650 v2 Deca Core 2.40 GHz,128 GB,2 x SAS 1 TB,300 Mbps Unmetered,Ubuntu 24.04,"New York, US",245.04,153.69,-38.22%,2025-08-08 16:12:17
+2 x Intel Xeon Silver 4110 8 Core 2.10 GHz,64 GB,SATA-SSD 7.68 TB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",280.46,177.98,-36.54%,2025-08-08 16:12:17
+Intel Atom C2730 Octa Core 1.70 GHz,16 GB,SATA-SSD 64 GB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",21.67,12.97,-40.28%,2025-08-08 16:54:40
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",8 GB,SATA 500 GB,100 Mbps Unmetered,AlmaLinux 9,"Bucharest, EU",31.20,17.81,-42.94%,2025-08-08 16:54:40
+X-Gene Octa-Core ARM v8 64-bit,32 GB,SATA-SSD 120 GB,300 Mbps Unmetered,Ubuntu 18.04,"San Francisco, US",28.58,17.82,-37.7%,2025-08-08 16:54:40
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",8 GB,SATA 500 GB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",31.19,22.67,-27.38%,2025-08-08 16:54:40
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",8 GB,SATA 1 TB,100 Mbps Unmetered,AlmaLinux 9,"Bucharest, EU",40.97,27.52,-32.86%,2025-08-08 16:54:40
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",32 GB,SATA 1 TB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",50.56,35.60,-29.63%,2025-08-08 16:54:40
+Intel Xeon L5640 Hex Core 2.27 GHz,16 GB,2 x SATA 500 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",48.25,35.62,-29.49%,2025-08-08 16:54:40
+Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,16 GB,2 x SAS 146 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",71.04,37.23,-48.77%,2025-08-08 16:54:40
+Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,16 GB,2 x SAS 300 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",72.52,37.53,-49.75%,2025-08-08 16:54:40
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",16 GB,SATA-SSD 3.84 TB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",88.89,43.71,-50.85%,2025-08-08 16:54:40
+Intel Xeon D-1587 Hexadeca Core 1.70 GHz,32 GB,NVMe-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",97.68,48.54,-50.31%,2025-08-08 16:54:40
+Intel Xeon E5-2630L v3 Octo Core 1.80 GHz,32 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",94.00,49.77,-49.67%,2025-08-08 16:54:40
+Intel Xeon D-1587 Hexadeca Core 1.70 GHz,32 GB,NVMe-SSD 480 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",104.28,51.78,-50.35%,2025-08-08 16:54:40
+Intel Xeon E5-2650L Octo Core 1.80 GHz,16 GB,SATA-SSD 500 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",76.85,51.78,-32.63%,2025-08-08 16:54:40
+Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,16 GB,2 x SATA 2 TB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",89.26,59.89,-36.61%,2025-08-08 16:54:40
+Intel Xeon D-1548 Octa Core 2.00 GHz,32 GB,NVMe-SSD 1 TB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",88.69,61.50,-30.68%,2025-08-08 16:54:40
+Intel Xeon E-2286M 8 CORE 2.40 GHz,64 GB,NVMe-SSD 480 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",112.59,61.51,-45.39%,2025-08-08 16:54:40
+Intel Xeon E-2286M 8 CORE 2.40 GHz,32 GB,2 x NVMe-SSD 960 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",116.40,69.58,-44.86%,2025-08-08 16:54:40
+Intel Xeon E5-2650L v3 Dodeca Core 1.80 GHz,32 GB,2 x SAS 300 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",97.67,69.59,-29.7%,2025-08-08 16:54:40
+Intel Xeon Silver 4110 8 Core 2.10 GHz,32 GB,2 x SATA-SSD 256 GB,1 Gbps Unmetered,AlmaLinux 9,"Bucharest, EU",130.68,89.01,-33.57%,2025-08-08 16:54:40
+Intel Xeon E5-2650L v4 Tetradeca Core 1.70 GHz,16 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",132.45,93.36,-31.12%,2025-08-08 16:54:40
+Intel Xeon E5-2650L v4 Tetradeca Core 1.70 GHz,16 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",132.87,99.02,-26.93%,2025-08-08 16:54:40
+4 x Intel Xeon E5-4620 v2 Octo Core @ 2.60GHz,128 GB,2 x SATA-SSD 240 GB,300 Mbps Unmetered,Ubuntu 24.04,"New York, US",205.52,104.55,-50.46%,2025-08-08 16:54:40
+2 x Intel Xeon E5-2630L v4 Deca Core 1.80 GHz,128 GB,2 x SATA-SSD 480 GB,1 Gbps Unmetered,AlmaLinux 9,"New York, US",179.30,105.18,-43.59%,2025-08-08 16:54:40
+2 x Intel Xeon Silver 4114 10 Core 2.20 GHz,64 GB,2 x SAS 1 TB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",160.60,117.08,-28.35%,2025-08-08 16:54:40
+2 x Intel Xeon Gold 5118 12 Core 2.30 GHz,64 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",175.43,125.06,-29.89%,2025-08-08 16:54:40
+2 x Intel Xeon E5-2650L v4 Tetradeca Core 1.70 GHz,128 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",191.77,126.22,-35.35%,2025-08-08 16:54:40
+Intel Xeon E5-2630L v3 Octo Core 1.80 GHz,32 GB,2 x SAS-SSD 3.84 TB,1 Gbps Unmetered,Ubuntu 24.04,"Miami, US",170.62,127.24,-32.43%,2025-08-08 16:54:40
+2 x Intel Xeon E5-2699C v4 22 Core 2.20 GHz,64 GB,2 x SATA-SSD 960 GB,1 Gbps Unmetered,Ubuntu 24.04,"New York, US",231.58,132.68,-45.04%,2025-08-08 16:54:40
+2 x Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,256 GB,2 x SATA-SSD 240 GB,300 Mbps Unmetered,Ubuntu 24.04,"New York, US",184.97,134.32,-28.47%,2025-08-08 16:54:40
+4 x Intel Xeon E5-4650 v2 Deca Core 2.40 GHz,128 GB,2 x SAS 1 TB,300 Mbps Unmetered,Ubuntu 24.04,"New York, US",245.04,153.69,-38.22%,2025-08-08 16:54:40
+2 x Intel Xeon Silver 4110 8 Core 2.10 GHz,64 GB,SATA-SSD 7.68 TB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",280.46,177.98,-36.54%,2025-08-08 16:54:40
+X-Gene Octa-Core ARM v8 64-bit,32 GB,SATA-SSD 120 GB,300 Mbps Unmetered,Ubuntu 18.04,"San Francisco, US",28.59,14.58,-49.06%,2025-08-14 13:12:43
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",8 GB,SATA 500 GB,100 Mbps Unmetered,AlmaLinux 9,"Bucharest, EU",31.20,17.81,-42.94%,2025-08-14 13:12:43
+X-Gene Octa-Core ARM v8 64-bit,32 GB,SATA-SSD 120 GB,300 Mbps Unmetered,Ubuntu 18.04,"San Francisco, US",28.58,17.82,-37.7%,2025-08-14 13:12:43
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",32 GB,SATA 1 TB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",50.57,32.39,-35.99%,2025-08-14 13:12:43
+AMD Opteron 6376 Hexadeca Core 2.30 GHz,32 GB,SAS 500 GB,300 Mbps Unmetered,Ubuntu 24.04,"Miami, US",58.92,35.61,-39.59%,2025-08-14 13:12:43
+Intel Xeon L5640 Hex Core 2.27 GHz,16 GB,2 x SATA 500 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",48.25,35.62,-29.49%,2025-08-14 13:12:43
+Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,16 GB,2 x SAS 300 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",72.52,37.53,-49.75%,2025-08-14 13:12:43
+"Intel Atom C2750 Processor, 8 core 2.4 GHz",16 GB,SATA-SSD 3.84 TB,100 Mbps Unmetered,AlmaLinux 9,"New York, US",88.89,43.71,-50.85%,2025-08-14 13:12:43
+Intel Xeon D-1587 Hexadeca Core 1.70 GHz,32 GB,NVMe-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",97.68,48.54,-50.31%,2025-08-14 13:12:43
+Intel Xeon E5-2648L v2 Deca Core 1.90 GHz,32 GB,2 x SATA-SSD 480 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",82.78,58.27,-34.05%,2025-08-14 13:12:43
+Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,16 GB,2 x SATA 2 TB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",89.26,59.89,-36.61%,2025-08-14 13:12:43
+Intel Xeon E-2286M 8 CORE 2.40 GHz,64 GB,NVMe-SSD 480 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",112.59,61.51,-45.39%,2025-08-14 13:12:43
+Intel Xeon E5-2630L v3 Octo Core 1.80 GHz,64 GB,2 x SATA-SSD 480 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",117.83,63.12,-49.92%,2025-08-14 13:12:43
+Intel Xeon D-1587 Hexadeca Core 1.70 GHz,32 GB,NVMe-SSD 480 GB,1 Gbps Unmetered,Ubuntu 24.04,"Amsterdam, EU",104.28,66.37,-36.38%,2025-08-14 13:12:43
+Intel Xeon E-2286M 8 CORE 2.40 GHz,32 GB,2 x NVMe-SSD 960 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",116.40,69.58,-44.86%,2025-08-14 13:12:43
+Intel Xeon E5-2650L v4 Tetradeca Core 1.70 GHz,32 GB,2 x SATA-SSD 240 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",138.23,80.89,-43.22%,2025-08-14 13:12:43
+Intel Xeon Gold 6130 16 Core 2.10 GHz,32 GB,SATA-SSD 480 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",160.77,93.85,-41.63%,2025-08-14 13:12:43
+Intel Xeon Gold 6130 16 Core 2.10 GHz,64 GB,SATA-SSD 500 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",175.17,97.11,-44.58%,2025-08-14 13:12:43
+Intel Xeon Gold 6130 16 Core 2.10 GHz,32 GB,2 x SATA-SSD 960 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",177.80,100.33,-46.63%,2025-08-14 13:12:43
+2 x Intel Xeon E5-2630L v4 Deca Core 1.80 GHz,128 GB,2 x SATA-SSD 480 GB,1 Gbps Unmetered,AlmaLinux 9,"New York, US",179.30,105.18,-43.59%,2025-08-14 13:12:43
+2 x Intel Xeon Gold 6130 16 Core 2.10 GHz,64 GB,2 x SATA-SSD 960 GB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",201.84,109.83,-48.29%,2025-08-14 13:12:43
+Intel Xeon E5-2630L v3 Octo Core 1.80 GHz,32 GB,2 x SAS-SSD 3.84 TB,1 Gbps Unmetered,Ubuntu 24.04,"Miami, US",170.62,127.24,-32.43%,2025-08-14 13:12:43
+4 x Intel Xeon E5-4657L v2 Dodeca Core 2.40 GHz,64 GB,2 x SATA-SSD 240 GB,300 Mbps Unmetered,Ubuntu 24.04,"Bucharest, EU",194.09,134.04,-32.17%,2025-08-14 13:12:43
+2 x Intel Xeon E5-2650L v2 Deca Core 1.70 GHz,256 GB,2 x SATA-SSD 240 GB,300 Mbps Unmetered,Ubuntu 24.04,"New York, US",184.97,134.32,-28.47%,2025-08-14 13:12:43
+4 x Intel Xeon E5-4650 v2 Deca Core 2.40 GHz,128 GB,2 x SAS 1 TB,300 Mbps Unmetered,Ubuntu 24.04,"New York, US",244.94,151.13,-39.25%,2025-08-14 13:12:43
+2 x Intel Xeon Silver 4110 8 Core 2.10 GHz,64 GB,SATA-SSD 7.68 TB,1 Gbps Unmetered,Ubuntu 24.04,"Bucharest, EU",280.46,177.98,-36.54%,2025-08-14 13:12:43
+2 x Intel Xeon Gold 6230 20 Core 2.10 GHz,256 GB,2 x SATA-SSD 960 GB,1 Gbps Unmetered,Ubuntu 24.04,"New York, US",315.16,195.80,-39.53%,2025-08-14 13:12:43
