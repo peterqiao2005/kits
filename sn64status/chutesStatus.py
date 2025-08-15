@@ -11,9 +11,9 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 
-# 启动浏览器
+# 启动浏览器 - 修复1：正确传递options参数
 original_url = "https://chutes.ai/app/research/leaderboard"
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(options=chrome_options)
 driver.get(original_url)
 
 # 等待表格加载完成（根据实际情况调整等待时间或条件）
@@ -30,8 +30,9 @@ hotkey_urls = []
 for row in rows:
     cols = row.find_elements(By.TAG_NAME, "td")
     if len(cols) >= 7:
-        Rank = cols[0].text.strip()
-        Final_Score = cols[2].text.strip()
+        # 修复2：使用get_attribute('textContent')替代.text
+        Rank = cols[0].get_attribute('textContent').strip()
+        Final_Score = cols[2].get_attribute('textContent').strip()
         hotkey_urls.append((cols[1].find_element(By.TAG_NAME, "a").get_attribute("href")))
         data.append({
             "Rank": Rank,
@@ -46,22 +47,19 @@ for i, url in enumerate(hotkey_urls):
         EC.presence_of_element_located((By.XPATH, sub_table_xpath))
     )
 
-    # 提取详情信息（根据实际页面调整）
-    hotkey = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/h5[1]").text.strip()
+    # 提取详情信息（根据实际页面调整）- 修复2：使用get_attribute('textContent')
+    hotkey = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/h5[1]").get_attribute('textContent').strip()
 
-    RAW_Bounty_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[1]/h6").text.strip()
-    RAW_Compute_Units = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[2]/h6").text.strip()
-    RAW_Invocation_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[3]/h6").text.strip()
-    RAW_Unique_Chute_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[4]/h6").text.strip()
+    RAW_Bounty_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[1]/h6").get_attribute('textContent').strip()
+    RAW_Compute_Units = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[2]/h6").get_attribute('textContent').strip()
+    RAW_Invocation_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[3]/h6").get_attribute('textContent').strip()
+    RAW_Unique_Chute_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[4]/h6").get_attribute('textContent').strip()
 
-    NORMALIZED_Bounty_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[5]/h6").text.strip()
-    NORMALIZED_Compute_Units = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[6]/h6").text.strip()
-    NORMALIZED_Invocation_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[7]/h6").text.strip()
-    NORMALIZED_Unique_Chute_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[8]/h6").text.strip()
+    NORMALIZED_Bounty_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[5]/h6").get_attribute('textContent').strip()
+    NORMALIZED_Compute_Units = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[6]/h6").get_attribute('textContent').strip()
+    NORMALIZED_Invocation_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[7]/h6").get_attribute('textContent').strip()
+    NORMALIZED_Unique_Chute_Count = driver.find_element(By.XPATH, "/html/body/div/main/main/section[2]/div[1]/main/div/div[5]/div[8]/h6").get_attribute('textContent').strip()
 
-    #/html/body/div/main/main/section[2]/div[1]/main/div/div[9]/div[1]/div/div[1]/div/div/p
-    #/html/body/div/main/main/section[2]/div[1]/main/div/div[9]/div[1]/div/div[1]/div/div[1]/p
-    #/html/body/div/main/main/section[2]/div[1]/main/div/div[9]/div[1]/div/div[1]/div/div[2]/p
     GPU_xpath = "/html/body/div/main/main/section[2]/div[1]/main/div/div[9]/div[1]/div/div[1]"
     WebDriverWait(driver, 30).until(
         EC.presence_of_element_located((By.XPATH, GPU_xpath))
@@ -72,11 +70,11 @@ for i, url in enumerate(hotkey_urls):
     )
 
     if len(GPU_elements) == 1:
-        # 只有一个子元素，获取其文本
-        GPU_list = GPU_elements[0].text.strip()
+        # 只有一个子元素，获取其文本 - 修复2：使用get_attribute('textContent')
+        GPU_list = GPU_elements[0].get_attribute('textContent').strip()
     else:
-        # 多个子元素，组合所有文本
-        texts = [elem.text.strip() for elem in GPU_elements]
+        # 多个子元素，组合所有文本 - 修复2：使用get_attribute('textContent')
+        texts = [elem.get_attribute('textContent').strip() for elem in GPU_elements]
         GPU_list = " ".join(texts)
 
     sub_data = []
@@ -84,10 +82,12 @@ for i, url in enumerate(hotkey_urls):
     for row in rows:
         cols = row.find_elements(By.TAG_NAME, "td")
         if len(cols) >= 4:
-            gpu = cols[0].text.strip()
-            chute = cols[1].text.strip().replace('\n', ' ')
-            instance_id = cols[2].text.strip()
-            verified = "✔" in cols[3].text or "✓" in cols[3].text
+            # 修复2：使用get_attribute('textContent')替代.text
+            gpu = cols[0].get_attribute('textContent').strip()
+            chute = cols[1].get_attribute('textContent').strip().replace('\n', ' ')
+            instance_id = cols[2].get_attribute('textContent').strip()
+            verified_text = cols[3].get_attribute('textContent')
+            verified = "✔" in verified_text or "✓" in verified_text
             sub_data.append({
                 "GPU": gpu,
                 "Chute": chute,
@@ -197,7 +197,6 @@ def export_to_excel(data, filename=None):
         )
 
         # 获取工作表对象进行格式设置
-        workbook = writer.book
         main_sheet = writer.sheets["矿工数据"]
         gpu_sheet = writer.sheets["GPU信息"]
         meta_sheet = writer.sheets["元数据"]
@@ -229,9 +228,4 @@ def export_to_excel(data, filename=None):
 # 使用函数
 export_to_excel(data)
 
-'''
-import json
-with open("chutes_data.json", "w") as f:
-    json.dump(data, f, indent=4)
-    print(f"成功收集并保存了 {len(data)} 条记录")
-'''
+print(f"成功收集了 {len(data)} 条记录")
