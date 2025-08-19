@@ -33,6 +33,8 @@ timestamp = datetime.now(ZoneInfo("Asia/Shanghai")).strftime("%Y-%m-%d %H:%M:%S"
 options = Options()
 options.add_argument("--headless")
 options.add_argument("--disable-gpu")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
 driver = webdriver.Chrome(options=options)
 driver.get(URL)
 time.sleep(WAIT_SEC)           # 等待页面完全渲染
