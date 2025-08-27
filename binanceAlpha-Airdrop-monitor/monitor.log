@@ -1,0 +1,1586 @@
+[2025-08-12 04:00:02] No change detected (source=api, rows=9)
+[2025-08-12 04:30:02] Detected update (source=api, rows=10)
+--- previous
++++ current
+@@ -1,4 +1,5 @@
+ today_or_upcoming | BSU | Baby Shark Universe | 200 | 510 | 2025-08-09 | 17:00 | 1 | announced | - | -
++today_or_upcoming | BTR | BitlayerLabs | - | - | 2025-08-13 | 16:00 | - | announced | - | -
+ today_or_upcoming | GAME | GameBuild | 185 | 10200 | 2025-08-10 | 15:00 | 2 | ongoing | - | -
+ today_or_upcoming | GAME | GameBuild | 237 | 10200 | 2025-08-10 | 15:00 | 1 | ongoing | - | -
+ today_or_upcoming | K | Sidekick | 200 | 250 | 2025-08-08 | 15:00 | 2 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-12 05:00:02] No change detected (source=api, rows=10)
+[2025-08-12 05:30:02] No change detected (source=api, rows=10)
+[2025-08-12 06:00:01] No change detected (source=api, rows=10)
+[2025-08-12 06:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-12 07:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-12 07:30:02] Detected update (source=api, rows=10, html=0, api=10)
+--- previous
++++ current
+@@ -7 +7 @@
+-today_or_upcoming | SLAY | SatLayer | 200 | 525 | 2025-08-11 | 18:00 | 2 | announced | - | -
++today_or_upcoming | SLAY | SatLayer | 155 | 525 | 2025-08-11 | 18:00 | 2 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-12 08:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-12 08:30:01] Detected update (source=api, rows=10, html=0, api=10)
+--- previous
++++ current
+@@ -7 +7 @@
+-today_or_upcoming | SLAY | SatLayer | 155 | 525 | 2025-08-11 | 18:00 | 2 | announced | - | -
++today_or_upcoming | SLAY | SatLayer | 140 | 525 | 2025-08-11 | 18:00 | 2 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-12 09:00:02] Detected update (source=api, rows=5, html=0, api=5)
+--- previous
++++ current
+@@ -1,6 +1 @@
+-today_or_upcoming | BSU | Baby Shark Universe | 200 | 510 | 2025-08-09 | 17:00 | 1 | announced | - | -
+-today_or_upcoming | BTR | BitlayerLabs | - | - | 2025-08-13 | 16:00 | - | announced | - | -
+-today_or_upcoming | GAME | GameBuild | 185 | 10200 | 2025-08-10 | 15:00 | 2 | ongoing | - | -
+-today_or_upcoming | GAME | GameBuild | 237 | 10200 | 2025-08-10 | 15:00 | 1 | ongoing | - | -
+-today_or_upcoming | K | Sidekick | 200 | 250 | 2025-08-08 | 15:00 | 2 | announced | - | -
+-today_or_upcoming | K | Sidekick | 233 | 250 | 2025-08-08 | 15:00 | 1 | announced | - | -
++today_or_upcoming | BTR | BitlayerLabs | - | - | 2025-08-13 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-12 09:30:02] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -2 +2,2 @@
+-today_or_upcoming | SLAY | SatLayer | 140 | 525 | 2025-08-11 | 18:00 | 2 | announced | - | -
++today_or_upcoming | OVL | Overlay Protocol | - | - | 2025-08-14 | - | 1 | announced | - | -
++today_or_upcoming | SLAY | SatLayer | 125 | 525 | 2025-08-11 | 18:00 | 2 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-12 10:00:01] Detected update (source=api, rows=7, html=0, api=7)
+--- previous
++++ current
+@@ -0,0 +1 @@
++today_or_upcoming | AIBOT | cherrytgbot | - | - | 2025-08-14 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-12 10:30:02] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -1 +0,0 @@
+-today_or_upcoming | AIBOT | cherrytgbot | - | - | 2025-08-14 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-12 11:00:01] No change detected (source=api, rows=6, html=0, api=6)
+[2025-08-12 11:30:01] Detected update (source=api, rows=7, html=0, api=7)
+--- previous
++++ current
+@@ -0,0 +1 @@
++today_or_upcoming | AIBOT | Cherrytgbot | - | - | 2025-08-14 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-12 12:00:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 12:30:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 13:00:01] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 13:30:01] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 14:00:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 14:30:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 15:00:01] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 15:30:03] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 16:00:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 16:30:01] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 17:00:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 17:30:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 18:00:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 18:30:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 19:00:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 19:30:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 20:00:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 20:30:01] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 21:00:01] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 21:30:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 22:00:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 22:30:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 23:00:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-12 23:30:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-13 00:00:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-13 00:30:01] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-13 01:00:01] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-13 01:30:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-13 02:00:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-13 02:30:02] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-13 03:00:01] No change detected (source=api, rows=7, html=0, api=7)
+[2025-08-13 03:30:02] Detected update (source=api, rows=8, html=0, api=8)
+--- previous
++++ current
+@@ -3,0 +4 @@
++today_or_upcoming | PUBLIC | PublicAI | - | - | 2025-08-15 | - | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-13 04:00:02] No change detected (source=api, rows=8, html=0, api=8)
+[2025-08-13 04:30:02] No change detected (source=api, rows=8, html=0, api=8)
+[2025-08-13 05:00:02] No change detected (source=api, rows=8, html=0, api=8)
+[2025-08-13 05:30:01] Detected update (source=api, rows=9, html=0, api=9)
+--- previous
++++ current
+@@ -6,0 +7 @@
++today_or_upcoming | TCOM | TCOM Global | - | - | 2025-08-15 | - | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-13 06:00:02] No change detected (source=api, rows=9, html=0, api=9)
+[2025-08-13 06:30:02] No change detected (source=api, rows=9, html=0, api=9)
+[2025-08-13 07:00:02] Detected update (source=api, rows=9, html=0, api=9)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | BTR | BitlayerLabs | - | - | 2025-08-13 | 16:00 | 1 | announced | - | -
++today_or_upcoming | BTR | BitlayerLabs | 222 | - | 2025-08-13 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-13 07:30:01] Detected update (source=api, rows=9, html=0, api=9)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | BTR | BitlayerLabs | 222 | - | 2025-08-13 | 16:00 | 1 | announced | - | -
++today_or_upcoming | BTR | BitlayerLabs | 222 | 20000000 | 2025-08-13 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-13 08:00:02] No change detected (source=api, rows=9, html=0, api=9)
+[2025-08-13 08:30:01] Detected update (source=api, rows=9, html=0, api=9)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | BTR | BitlayerLabs | 222 | 20000000 | 2025-08-13 | 16:00 | 1 | announced | - | -
++today_or_upcoming | BTR | BitlayerLabs | 222 | 4599.9 | 2025-08-13 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-13 09:00:02] Detected update (source=api, rows=9, html=0, api=9)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | BTR | BitlayerLabs | 222 | 4599.9 | 2025-08-13 | 16:00 | 1 | announced | - | -
++today_or_upcoming | BTR | BitlayerLabs | 222 | 2853.1 | 2025-08-13 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-13 09:30:01] Detected update (source=api, rows=9, html=0, api=9)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | BTR | BitlayerLabs | 222 | 2853.1 | 2025-08-13 | 16:00 | 1 | announced | - | -
++today_or_upcoming | BTR | BitlayerLabs | 222 | 1945.31 | 2025-08-13 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-13 10:00:02] Detected update (source=api, rows=9, html=0, api=9)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | BTR | BitlayerLabs | 222 | 1945.31 | 2025-08-13 | 16:00 | 1 | announced | - | -
++today_or_upcoming | BTR | BitlayerLabs | 222 | 1323.1 | 2025-08-13 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-13 10:30:01] Detected update (source=api, rows=9, html=0, api=9)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | BTR | BitlayerLabs | 222 | 1323.1 | 2025-08-13 | 16:00 | 1 | announced | - | -
++today_or_upcoming | BTR | BitlayerLabs | 222 | 1322.51 | 2025-08-13 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-13 11:00:02] No change detected (source=api, rows=9, html=0, api=9)
+[2025-08-13 11:30:01] Detected update (source=api, rows=10, html=0, api=10)
+--- previous
++++ current
+@@ -1 +1 @@
+-today_or_upcoming | AIBOT | Cherrytgbot | - | - | 2025-08-14 | 16:00 | 1 | announced | - | -
++today_or_upcoming | AIBOT | Cherrytgbot | - | 30000000 | 2025-08-14 | 16:00 | 1 | announced | - | -
+@@ -4,0 +5 @@
++today_or_upcoming | REVA | REVA | - | 40000000 | 2025-08-14 | 19:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-13 12:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 12:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 13:00:01] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 13:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 14:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 14:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 15:00:02] Detected update (source=api, rows=10, html=0, api=10)
+--- previous
++++ current
+@@ -1 +1 @@
+-today_or_upcoming | AIBOT | Cherrytgbot | - | 30000000 | 2025-08-14 | 16:00 | 1 | announced | - | -
++today_or_upcoming | AIBOT | Cherrytgbot | - | - | 2025-08-14 | 16:00 | 1 | announced | - | -
+@@ -5 +5 @@
+-today_or_upcoming | REVA | REVA | - | 40000000 | 2025-08-14 | 19:00 | 1 | announced | - | -
++today_or_upcoming | REVA | REVA | - | - | 2025-08-14 | 19:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-13 15:30:01] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 16:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 16:30:03] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 17:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 17:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 18:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 18:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 19:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 19:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 20:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 20:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 21:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 21:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 22:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 22:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 23:00:01] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-13 23:30:01] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 00:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 00:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 01:00:03] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 01:30:01] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 02:00:01] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 02:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 03:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 03:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 04:00:01] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 04:30:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 05:00:02] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 05:30:01] No change detected (source=api, rows=10, html=0, api=10)
+[2025-08-14 06:00:01] Detected update (source=api, rows=10, html=0, api=10)
+--- previous
++++ current
+@@ -1 +1 @@
+-today_or_upcoming | AIBOT | Cherrytgbot | - | - | 2025-08-14 | 16:00 | 1 | announced | - | -
++today_or_upcoming | AIBOT | Cherrytgbot | 224 | 30000000 | 2025-08-14 | 13:30 | 1 | ongoing | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-14 06:30:02] Detected update (source=api, rows=10, html=0, api=10)
+--- previous
++++ current
+@@ -3 +3 @@
+-today_or_upcoming | OVL | Overlay Protocol | - | - | 2025-08-14 | - | 1 | announced | - | -
++today_or_upcoming | OVL | Overlay Protocol | 200 | 111 | 2025-08-14 | 15:30 | 1 | ongoing | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 07:00:02] No change detected (source=api, rows=10, html=0, api=10)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 07:30:01] Detected update (source=api, rows=10, html=0, api=10)
+--- previous
++++ current
+@@ -1 +1 @@
+-today_or_upcoming | AIBOT | Cherrytgbot | 224 | 30000000 | 2025-08-14 | 13:30 | 1 | ongoing | - | -
++today_or_upcoming | AIBOT | Cherrytgbot | 224 | 30000000 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
+@@ -3 +3 @@
+-today_or_upcoming | OVL | Overlay Protocol | 200 | 111 | 2025-08-14 | 15:30 | 1 | ongoing | - | -
++today_or_upcoming | OVL | Overlay Protocol | 200 | 111 | 2025-08-14 | - | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 08:00:01] No change detected (source=api, rows=10, html=0, api=10)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 08:30:02] Detected update (source=api, rows=10, html=0, api=10)
+--- previous
++++ current
+@@ -1 +1 @@
+-today_or_upcoming | AIBOT | Cherrytgbot | 224 | 30000000 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
++today_or_upcoming | AIBOT | Cherrytgbot | 224 | 4509.77 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
+@@ -3 +3 @@
+-today_or_upcoming | OVL | Overlay Protocol | 200 | 111 | 2025-08-14 | - | 1 | announced | - | -
++today_or_upcoming | OVL | Overlay Protocol | 200 | 111 | 2025-08-14 | 16:45 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 09:00:02] Detected update (source=api, rows=10, html=0, api=10)
+--- previous
++++ current
+@@ -1 +1 @@
+-today_or_upcoming | AIBOT | Cherrytgbot | 224 | 4509.77 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
++today_or_upcoming | AIBOT | Cherrytgbot | 224 | 3092.31 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 09:30:02] Detected update (source=api, rows=10, html=0, api=10)
+--- previous
++++ current
+@@ -1 +1 @@
+-today_or_upcoming | AIBOT | Cherrytgbot | 224 | 3092.31 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
++today_or_upcoming | AIBOT | Cherrytgbot | 224 | 2285.59 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 10:00:02] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -1 +1 @@
+-today_or_upcoming | AIBOT | Cherrytgbot | 224 | 2285.59 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
++today_or_upcoming | AIBOT | Cherrytgbot | 224 | 1666.49 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
+@@ -6,2 +5,0 @@
+-today_or_upcoming | SLAY | SatLayer | 125 | 525 | 2025-08-11 | 18:00 | 2 | announced | - | -
+-today_or_upcoming | SLAY | SatLayer | 227 | 525 | 2025-08-11 | 18:00 | 1 | announced | - | -
+@@ -9,2 +6,0 @@
+-today_or_upcoming | WAI | World3 | 200 | 800 | 2025-08-12 | 16:00 | 1 | announced | - | -
+-today_or_upcoming | XCX | Xeleb Protocol | 200 | 800 | 2025-08-11 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 10:30:01] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -1 +1 @@
+-today_or_upcoming | AIBOT | Cherrytgbot | 224 | 1666.49 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
++today_or_upcoming | AIBOT | Cherrytgbot | 224 | 1666 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
+@@ -5 +5 @@
+-today_or_upcoming | REVA | REVA | - | - | 2025-08-14 | 19:00 | 1 | announced | - | -
++today_or_upcoming | REVA | REVA | 224 | 2000000 | 2025-08-14 | 19:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 11:00:02] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -1 +1 @@
+-today_or_upcoming | AIBOT | Cherrytgbot | 224 | 1666 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
++today_or_upcoming | AIBOT | CherryAI | 224 | 1666 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
+@@ -5 +5 @@
+-today_or_upcoming | REVA | REVA | 224 | 2000000 | 2025-08-14 | 19:00 | 1 | announced | - | -
++today_or_upcoming | REVA | REVA | 224 | 20000000 | 2025-08-14 | 19:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 11:30:01] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -5 +5 @@
+-today_or_upcoming | REVA | REVA | 224 | 20000000 | 2025-08-14 | 19:00 | 1 | announced | - | -
++today_or_upcoming | REVA | REVA | 224 | 3205.65 | 2025-08-14 | 19:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 12:00:01] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -5 +5 @@
+-today_or_upcoming | REVA | REVA | 224 | 3205.65 | 2025-08-14 | 19:00 | 1 | announced | - | -
++today_or_upcoming | REVA | REVA | 224 | 2559.17 | 2025-08-14 | 19:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 12:30:02] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -5 +5 @@
+-today_or_upcoming | REVA | REVA | 224 | 2559.17 | 2025-08-14 | 19:00 | 1 | announced | - | -
++today_or_upcoming | REVA | REVA | 224 | 2182.92 | 2025-08-14 | 19:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 13:00:02] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -5 +5 @@
+-today_or_upcoming | REVA | REVA | 224 | 2182.92 | 2025-08-14 | 19:00 | 1 | announced | - | -
++today_or_upcoming | REVA | REVA | 224 | 1857.69 | 2025-08-14 | 19:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 13:30:02] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -5 +5 @@
+-today_or_upcoming | REVA | REVA | 224 | 1857.69 | 2025-08-14 | 19:00 | 1 | announced | - | -
++today_or_upcoming | REVA | REVA | 224 | 1857.52 | 2025-08-14 | 19:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 14:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 14:30:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 15:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 15:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 16:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 16:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 17:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 17:30:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 18:00:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 18:30:03] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 19:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 19:30:04] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 20:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 20:30:35] ERROR: snapshot failed: HTTPSConnectionPool(host='alpha123.uk', port=443): Read timed out. (read timeout=10)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 21:00:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 21:30:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 22:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 22:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 23:00:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-14 23:30:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 00:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 00:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 01:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 01:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 02:00:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 02:30:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 03:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 03:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 04:00:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 04:30:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 05:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 05:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 06:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 06:30:01] Detected update (source=api, rows=7, html=0, api=7)
+--- previous
++++ current
+@@ -4 +4,2 @@
+-today_or_upcoming | PUBLIC | PublicAI | - | - | 2025-08-15 | - | 1 | announced | - | -
++today_or_upcoming | PUBLIC | PublicAI | 200 | 430 | 2025-08-15 | 15:00 | 2 | announced | - | -
++today_or_upcoming | PUBLIC | PublicAI | 240 | 430 | 2025-08-15 | 15:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 07:00:01] No change detected (source=api, rows=7, html=0, api=7)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 07:30:02] Detected update (source=api, rows=7, html=0, api=7)
+--- previous
++++ current
+@@ -5 +5 @@
+-today_or_upcoming | PUBLIC | PublicAI | 240 | 430 | 2025-08-15 | 15:00 | 1 | announced | - | -
++today_or_upcoming | PUBLIC | PublicAI | 240 | 430 | 2025-08-15 | 15:30 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 08:00:02] Detected update (source=api, rows=7, html=0, api=7)
+--- previous
++++ current
+@@ -4 +4 @@
+-today_or_upcoming | PUBLIC | PublicAI | 200 | 430 | 2025-08-15 | 15:00 | 2 | announced | - | -
++today_or_upcoming | PUBLIC | PublicAI | 200 | 430 | 2025-08-15 | 15:30 | 2 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 08:30:02] Detected update (source=api, rows=7, html=0, api=7)
+--- previous
++++ current
+@@ -7 +7 @@
+-today_or_upcoming | TCOM | TCOM Global | - | - | 2025-08-15 | - | 1 | announced | - | -
++today_or_upcoming | TCOM | TCOM Global | 200 | 600 | 2025-08-15 | 20:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 09:00:02] No change detected (source=api, rows=7, html=0, api=7)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 09:30:02] No change detected (source=api, rows=7, html=0, api=7)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 10:00:01] No change detected (source=api, rows=7, html=0, api=7)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 10:30:02] No change detected (source=api, rows=7, html=0, api=7)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 11:00:02] Detected update (source=api, rows=8, html=0, api=8)
+--- previous
++++ current
+@@ -6,0 +7 @@
++today_or_upcoming | RICE | RiceAI | - | - | 2025-08-18 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 11:30:01] No change detected (source=api, rows=8, html=0, api=8)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 12:00:02] No change detected (source=api, rows=8, html=0, api=8)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 12:30:02] Detected update (source=api, rows=9, html=0, api=9)
+--- previous
++++ current
+@@ -2,0 +3 @@
++today_or_upcoming | DAM | Reservoir | - | - | 2025-08-18 | 19:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 13:00:02] No change detected (source=api, rows=9, html=0, api=9)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 13:30:02] No change detected (source=api, rows=9, html=0, api=9)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 14:00:01] Detected update (source=api, rows=5, html=0, api=5)
+--- previous
++++ current
+@@ -1,2 +0,0 @@
+-today_or_upcoming | AIBOT | CherryAI | 224 | 1666 | 2025-08-14 | 16:00 | 1 | ongoing | - | -
+-today_or_upcoming | BTR | BitlayerLabs | 222 | 1322.51 | 2025-08-13 | 16:00 | 1 | announced | - | -
+@@ -4 +1,0 @@
+-today_or_upcoming | OVL | Overlay Protocol | 200 | 111 | 2025-08-14 | 16:45 | 1 | announced | - | -
+@@ -7 +3,0 @@
+-today_or_upcoming | REVA | REVA | 224 | 1857.52 | 2025-08-14 | 19:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 14:30:01] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 15:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 15:30:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 16:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 16:30:01] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 17:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 17:30:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 18:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 18:30:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 19:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 19:30:01] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 20:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 20:30:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 21:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 21:30:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 22:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 22:30:01] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 23:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-15 23:30:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 00:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 00:30:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 01:00:01] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 01:30:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 02:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 02:30:02] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -5,0 +6 @@
++today_or_upcoming | xxx2 | xxx2 | - | - | 2025-08-16 | 11:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 03:00:02] Detected update (source=api, rows=5, html=0, api=5)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | PUBLIC | PublicAI | 200 | 430 | 2025-08-15 | 15:30 | 2 | announced | - | -
++today_or_upcoming | PUBLIC | PublicAI | 185 | 430 | 2025-08-15 | 15:30 | 2 | announced | - | -
+@@ -6 +5,0 @@
+-today_or_upcoming | xxx2 | xxx2 | - | - | 2025-08-16 | 11:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 03:30:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 04:00:01] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 04:30:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 05:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 05:30:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 06:00:01] Detected update (source=api, rows=5, html=0, api=5)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | PUBLIC | PublicAI | 185 | 430 | 2025-08-15 | 15:30 | 2 | announced | - | -
++today_or_upcoming | PUBLIC | PublicAI | 140 | 430 | 2025-08-15 | 15:30 | 2 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 06:30:01] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 07:00:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 07:30:02] No change detected (source=api, rows=5, html=0, api=5)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 08:00:02] Detected update (source=api, rows=7, html=0, api=7)
+--- previous
++++ current
+@@ -0,0 +1 @@
++today_or_upcoming | - | - | 200 | - | 2025-08-16 | 16:00 | 1 | announced | - | -
+@@ -1,0 +3 @@
++today_or_upcoming | MLK | - | 200 | 245 | 2025-08-16 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 08:30:02] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -1 +0,0 @@
+-today_or_upcoming | - | - | 200 | - | 2025-08-16 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 09:00:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 09:30:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 10:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 10:30:02] Detected update (source=api, rows=6, html=0, api=6)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | MLK | - | 200 | 245 | 2025-08-16 | 16:00 | 1 | announced | - | -
++today_or_upcoming | MLK | MiL.k | 200 | 245 | 2025-08-16 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 11:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 11:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 12:00:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 12:30:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 13:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 13:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 14:00:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 14:30:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 15:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 15:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 16:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 16:30:31] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 17:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 17:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 18:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 18:30:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 19:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 19:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 20:00:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 20:30:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 21:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 21:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 22:00:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 22:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 23:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-16 23:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 00:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 00:30:01] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 01:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 01:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 02:00:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 02:30:02] No change detected (source=api, rows=6, html=0, api=6)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 03:00:01] Detected update (source=api, rows=3, html=0, api=3)
+--- previous
++++ current
+@@ -3,2 +2,0 @@
+-today_or_upcoming | PUBLIC | PublicAI | 140 | 430 | 2025-08-15 | 15:30 | 2 | announced | - | -
+-today_or_upcoming | PUBLIC | PublicAI | 240 | 430 | 2025-08-15 | 15:30 | 1 | announced | - | -
+@@ -6 +3,0 @@
+-today_or_upcoming | TCOM | TCOM Global | 200 | 600 | 2025-08-15 | 20:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 03:30:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 04:00:01] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 04:30:02] Detected update (source=api, rows=3, html=0, api=3)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | MLK | MiL.k | 200 | 245 | 2025-08-16 | 16:00 | 1 | announced | - | -
++today_or_upcoming | MLK | MiL . k | 200 | 245 | - | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 05:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 05:30:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 06:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 06:30:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 07:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 07:30:02] Detected update (source=api, rows=3, html=0, api=3)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | MLK | MiL . k | 200 | 245 | - | 16:00 | 1 | announced | - | -
++today_or_upcoming | MLK | MiL . k | 200 | 245 | 2025-08-16 | 16:00 | 1 | ongoing | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 08:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 08:30:02] Detected update (source=api, rows=4, html=0, api=4)
+--- previous
++++ current
+@@ -0,0 +1 @@
++today_or_upcoming | - | - | 200 | - | 2025-08-17 | 20:00 | 1 | announced | - | -
+@@ -2 +3 @@
+-today_or_upcoming | MLK | MiL . k | 200 | 245 | 2025-08-16 | 16:00 | 1 | ongoing | - | -
++today_or_upcoming | MLK | MiL.k | 200 | 245 | 2025-08-16 | 16:00 | 1 | ongoing | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 09:00:01] No change detected (source=api, rows=4, html=0, api=4)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 09:30:02] No change detected (source=api, rows=4, html=0, api=4)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 10:00:02] No change detected (source=api, rows=4, html=0, api=4)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 10:30:02] No change detected (source=api, rows=4, html=0, api=4)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 11:00:02] No change detected (source=api, rows=4, html=0, api=4)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 11:30:01] Detected update (source=api, rows=3, html=0, api=3)
+--- previous
++++ current
+@@ -3 +2,0 @@
+-today_or_upcoming | MLK | MiL.k | 200 | 245 | 2025-08-16 | 16:00 | 1 | ongoing | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 12:00:01] Detected update (source=api, rows=4, html=0, api=4)
+--- previous
++++ current
+@@ -3,0 +4 @@
++today_or_upcoming | WILD | WILD | 200 | 125 | 2025-08-17 | 20:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 12:30:02] Detected update (source=api, rows=3, html=0, api=3)
+--- previous
++++ current
+@@ -1 +0,0 @@
+-today_or_upcoming | - | - | 200 | - | 2025-08-17 | 20:00 | 1 | announced | - | -
+@@ -4 +3 @@
+-today_or_upcoming | WILD | WILD | 200 | 125 | 2025-08-17 | 20:00 | 1 | announced | - | -
++today_or_upcoming | WILD | Wilder World | 200 | 100 | 2025-08-17 | 20:00 | 1 | ongoing | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 13:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 13:30:01] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 14:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 14:30:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 15:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 15:30:01] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 16:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 16:30:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 17:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 17:30:01] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 18:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 18:30:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 19:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 19:30:01] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 20:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 20:30:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 21:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 21:30:01] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 22:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 22:30:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 23:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-17 23:30:01] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 00:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 00:30:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 01:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 01:30:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 02:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 02:30:01] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 03:00:01] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 03:30:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 04:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 04:30:01] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 05:00:01] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 05:30:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 06:00:02] No change detected (source=api, rows=3, html=0, api=3)
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 06:30:01] Detected update (source=api, rows=3, html=0, api=3)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | RICE | RiceAI | - | - | 2025-08-18 | 16:00 | 1 | announced | - | -
++today_or_upcoming | RICE | RiceAI | - | 20000000 | 2025-08-18 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 07:00:01] Detected update (source=api, rows=3, html=0, api=3)
+--- previous
++++ current
+@@ -2 +2 @@
+-today_or_upcoming | RICE | RiceAI | - | 20000000 | 2025-08-18 | 16:00 | 1 | announced | - | -
++today_or_upcoming | RICE | RiceAI | 230 | 20000000 | 2025-08-18 | 16:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 07:30:01] Detected update (source=api, rows=3, html=0, api=3)
+--- previous
++++ current
+@@ -1 +1 @@
+-today_or_upcoming | DAM | Reservoir | - | - | 2025-08-18 | 19:00 | 1 | announced | - | -
++today_or_upcoming | DAM | Reservoir | 200 | 320 | 2025-08-18 | 19:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+[2025-08-18 08:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 08:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 09:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 09:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 10:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 10:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 11:00:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 11:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 12:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 12:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 13:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 13:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 14:00:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 14:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 15:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 15:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 16:00:03] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 16:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 17:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 17:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 18:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 18:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 19:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 19:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 20:00:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 20:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 21:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 21:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 22:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 22:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 23:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-18 23:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 00:00:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 00:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 01:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 01:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 02:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 02:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 03:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 03:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 04:00:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 04:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 05:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 05:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 06:00:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 06:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 07:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 07:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 08:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 08:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 09:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 09:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 10:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 10:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 11:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 11:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 12:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 12:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 13:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 13:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 14:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 14:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 15:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 15:30:03] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 16:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 16:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 17:00:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 17:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 18:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 18:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 19:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 19:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 20:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 20:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 21:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 21:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 22:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 22:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 23:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-19 23:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 00:00:03] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 00:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 01:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 01:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 02:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 02:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 03:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 03:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 04:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 04:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 05:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 05:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 06:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 06:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 07:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 07:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 08:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 08:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 09:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 09:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 10:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 10:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 11:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 11:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 12:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 12:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 13:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 13:30:03] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 14:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 14:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 15:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 15:30:03] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 16:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 16:30:03] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 17:00:03] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 17:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 18:00:03] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 18:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 19:00:03] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 19:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 20:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 20:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 21:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 21:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 22:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 22:30:03] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 23:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-20 23:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 00:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 00:30:03] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 01:00:03] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 01:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 02:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 02:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 03:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 03:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 04:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 04:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 05:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 05:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 06:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 06:30:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 07:00:02] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-21 07:30:01] ERROR: snapshot failed: 403 Client Error: Forbidden for url: https://alpha123.uk/api/data?fresh=1
+[2025-08-23 15:02:16] Detected update (source=api, rows=5, html=0, api=5)
+--- previous
++++ current
+@@ -1,5 +1,5 @@
+-today_or_upcoming | AKE | akedofun | 238 | - | 2025-08-21 | 16:00 | 1 | announced | - | -
+-today_or_upcoming | ARIA | AriaAI | - | - | 2025-08-21 | - | 1 | announced | - | -
+-today_or_upcoming | DGC | DecentralGPT | 200 | 500000 | 2025-08-20 | 20:00 | 1 | announced | - | -
+-today_or_upcoming | SAPIEN | Sapien | 200 | 200 | 2025-08-21 | 01:00 | 1 | announced | - | -
+-today_or_upcoming | XPIN | XPIN Network | - | - | 2025-08-22 | - | 1 | announced | - | -
++today_or_upcoming | DORA | DORA | 200 | 140 | 2025-08-23 | 22:00 | 1 | ongoing | - | -
++today_or_upcoming | FST | FreeStyle Classic | - | - | 2025-08-24 | - | 1 | announced | - | -
++today_or_upcoming | HEMI | Hemi | 240 | 4704 | 2025-08-22 | 20:00 | 1 | announced | - | -
++today_or_upcoming | MTP | Multiple Network | - | - | 2025-08-25 | - | 1 | announced | - | -
++today_or_upcoming | XPIN | XPIN Network | 200 | 80000 | 2025-08-22 | 17:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-23 15:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 16:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 16:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 17:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 17:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 18:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 18:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 19:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 19:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 20:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 20:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 21:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 21:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 22:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 22:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 23:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-23 23:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 00:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 00:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 01:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 01:30:02] Detected update (source=api, rows=3, html=0, api=3)
+--- previous
++++ current
+@@ -1,5 +1,3 @@
+ today_or_upcoming | DORA | DORA | 200 | 140 | 2025-08-23 | 22:00 | 1 | ongoing | - | -
+ today_or_upcoming | FST | FreeStyle Classic | - | - | 2025-08-24 | - | 1 | announced | - | -
+-today_or_upcoming | HEMI | Hemi | 240 | 4704 | 2025-08-22 | 20:00 | 1 | announced | - | -
+ today_or_upcoming | MTP | Multiple Network | - | - | 2025-08-25 | - | 1 | announced | - | -
+-today_or_upcoming | XPIN | XPIN Network | 200 | 80000 | 2025-08-22 | 17:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-24 02:00:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-24 02:30:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-24 03:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-24 03:30:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-24 04:00:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-24 04:30:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-24 05:00:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-24 05:30:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-24 06:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-24 06:30:02] Detected update (source=api, rows=3, html=0, api=3)
+--- previous
++++ current
+@@ -1,3 +1,3 @@
+ today_or_upcoming | DORA | DORA | 200 | 140 | 2025-08-23 | 22:00 | 1 | ongoing | - | -
+-today_or_upcoming | FST | FreeStyle Classic | - | - | 2025-08-24 | - | 1 | announced | - | -
++today_or_upcoming | FST | FreeStyle Classic | 200 | 800 | 2025-08-24 | 17:00 | 1 | ongoing | - | -
+ today_or_upcoming | MTP | Multiple Network | - | - | 2025-08-25 | - | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-24 07:00:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-24 07:30:02] Detected update (source=api, rows=4, html=0, api=4)
+--- previous
++++ current
+@@ -1,3 +1,4 @@
+ today_or_upcoming | DORA | DORA | 200 | 140 | 2025-08-23 | 22:00 | 1 | ongoing | - | -
+ today_or_upcoming | FST | FreeStyle Classic | 200 | 800 | 2025-08-24 | 17:00 | 1 | ongoing | - | -
+ today_or_upcoming | MTP | Multiple Network | - | - | 2025-08-25 | - | 1 | announced | - | -
++today_or_upcoming | TOWN | Alttown | - | - | 2025-08-26 | - | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-24 08:00:01] No change detected (source=api, rows=4, html=0, api=4)
+[2025-08-24 08:30:02] No change detected (source=api, rows=4, html=0, api=4)
+[2025-08-24 09:00:02] No change detected (source=api, rows=4, html=0, api=4)
+[2025-08-24 09:30:01] No change detected (source=api, rows=4, html=0, api=4)
+[2025-08-24 10:00:02] Detected update (source=api, rows=5, html=0, api=5)
+--- previous
++++ current
+@@ -1,4 +1,5 @@
+ today_or_upcoming | DORA | DORA | 200 | 140 | 2025-08-23 | 22:00 | 1 | ongoing | - | -
+ today_or_upcoming | FST | FreeStyle Classic | 200 | 800 | 2025-08-24 | 17:00 | 1 | ongoing | - | -
+ today_or_upcoming | MTP | Multiple Network | - | - | 2025-08-25 | - | 1 | announced | - | -
++today_or_upcoming | TAKE | overtake_world | - | - | 2025-08-25 | 16:00 | 1 | announced | - | -
+ today_or_upcoming | TOWN | Alttown | - | - | 2025-08-26 | - | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-24 10:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 11:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 11:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 12:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 12:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 13:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 13:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 14:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 14:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 15:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 15:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 16:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 16:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 17:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 17:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 18:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 18:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 19:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 19:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 20:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 20:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 21:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 21:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 22:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 22:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 23:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-24 23:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 00:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 00:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 01:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 01:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 02:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 02:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 03:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 03:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 04:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 04:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 05:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 05:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 06:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 06:30:02] Detected update (source=api, rows=5, html=0, api=5)
+--- previous
++++ current
+@@ -1,5 +1,5 @@
+ today_or_upcoming | DORA | DORA | 200 | 140 | 2025-08-23 | 22:00 | 1 | ongoing | - | -
+ today_or_upcoming | FST | FreeStyle Classic | 200 | 800 | 2025-08-24 | 17:00 | 1 | ongoing | - | -
+ today_or_upcoming | MTP | Multiple Network | - | - | 2025-08-25 | - | 1 | announced | - | -
+-today_or_upcoming | TAKE | overtake_world | - | - | 2025-08-25 | 16:00 | 1 | announced | - | -
++today_or_upcoming | TAKE | overtake_world | 241 | - | 2025-08-25 | 16:00 | 1 | announced | - | -
+ today_or_upcoming | TOWN | Alttown | - | - | 2025-08-26 | - | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-25 07:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 07:30:02] Detected update (source=api, rows=5, html=0, api=5)
+--- previous
++++ current
+@@ -1,5 +1,5 @@
+ today_or_upcoming | DORA | DORA | 200 | 140 | 2025-08-23 | 22:00 | 1 | ongoing | - | -
+ today_or_upcoming | FST | FreeStyle Classic | 200 | 800 | 2025-08-24 | 17:00 | 1 | ongoing | - | -
+-today_or_upcoming | MTP | Multiple Network | - | - | 2025-08-25 | - | 1 | announced | - | -
++today_or_upcoming | MTP | Multiple Network | 200 | 750 | 2025-08-25 | 22:00 | 1 | announced | - | -
+ today_or_upcoming | TAKE | overtake_world | 241 | - | 2025-08-25 | 16:00 | 1 | announced | - | -
+ today_or_upcoming | TOWN | Alttown | - | - | 2025-08-26 | - | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-25 08:00:02] Detected update (source=api, rows=5, html=0, api=5)
+--- previous
++++ current
+@@ -1,5 +1,5 @@
+ today_or_upcoming | DORA | DORA | 200 | 140 | 2025-08-23 | 22:00 | 1 | ongoing | - | -
+ today_or_upcoming | FST | FreeStyle Classic | 200 | 800 | 2025-08-24 | 17:00 | 1 | ongoing | - | -
+ today_or_upcoming | MTP | Multiple Network | 200 | 750 | 2025-08-25 | 22:00 | 1 | announced | - | -
+-today_or_upcoming | TAKE | overtake_world | 241 | - | 2025-08-25 | 16:00 | 1 | announced | - | -
++today_or_upcoming | TAKE | overtake_world | 241 | 2000 | 2025-08-25 | 16:00 | 1 | announced | - | -
+ today_or_upcoming | TOWN | Alttown | - | - | 2025-08-26 | - | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-25 08:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 09:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 09:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 10:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 10:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 11:00:02] Detected update (source=api, rows=5, html=0, api=5)
+--- previous
++++ current
+@@ -1,5 +1,5 @@
+ today_or_upcoming | DORA | DORA | 200 | 140 | 2025-08-23 | 22:00 | 1 | ongoing | - | -
+ today_or_upcoming | FST | FreeStyle Classic | 200 | 800 | 2025-08-24 | 17:00 | 1 | ongoing | - | -
+ today_or_upcoming | MTP | Multiple Network | 200 | 750 | 2025-08-25 | 22:00 | 1 | announced | - | -
+-today_or_upcoming | TAKE | overtake_world | 241 | 2000 | 2025-08-25 | 16:00 | 1 | announced | - | -
++today_or_upcoming | TAKE | TAKE | 241 | 2000 | 2025-08-25 | 16:00 | 1 | announced | - | -
+ today_or_upcoming | TOWN | Alttown | - | - | 2025-08-26 | - | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-25 11:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 12:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 12:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 13:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 13:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 14:00:03] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 14:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 15:00:03] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 15:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 16:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 16:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 17:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 17:30:07] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 18:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 18:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 19:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 19:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 20:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 20:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 21:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 21:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 22:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 22:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 23:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-25 23:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 00:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 00:30:03] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 01:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 01:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 02:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 02:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 03:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 03:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 04:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 04:30:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 05:00:01] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 05:30:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 06:00:01] Detected update (source=api, rows=5, html=0, api=5)
+--- previous
++++ current
+@@ -2,4 +2,4 @@
+ today_or_upcoming | FST | FreeStyle Classic | 200 | 800 | 2025-08-24 | 17:00 | 1 | ongoing | - | -
+ today_or_upcoming | MTP | Multiple Network | 200 | 750 | 2025-08-25 | 22:00 | 1 | announced | - | -
+ today_or_upcoming | TAKE | TAKE | 241 | 2000 | 2025-08-25 | 16:00 | 1 | announced | - | -
+-today_or_upcoming | TOWN | Alttown | - | - | 2025-08-26 | - | 1 | announced | - | -
++today_or_upcoming | TOWN | Alttown | 200 | 1600 | 2025-08-26 | 15:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-26 06:30:46] ERROR: snapshot failed: HTTPSConnectionPool(host='alpha123.uk', port=443): Read timed out. (read timeout=25)
+[2025-08-26 07:00:02] No change detected (source=api, rows=5, html=0, api=5)
+[2025-08-26 07:30:02] Detected update (source=api, rows=3, html=0, api=3)
+--- previous
++++ current
+@@ -1,5 +1,3 @@
+-today_or_upcoming | DORA | DORA | 200 | 140 | 2025-08-23 | 22:00 | 1 | ongoing | - | -
+-today_or_upcoming | FST | FreeStyle Classic | 200 | 800 | 2025-08-24 | 17:00 | 1 | ongoing | - | -
+ today_or_upcoming | MTP | Multiple Network | 200 | 750 | 2025-08-25 | 22:00 | 1 | announced | - | -
+ today_or_upcoming | TAKE | TAKE | 241 | 2000 | 2025-08-25 | 16:00 | 1 | announced | - | -
+ today_or_upcoming | TOWN | Alttown | 200 | 1600 | 2025-08-26 | 15:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-26 08:00:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 08:30:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 09:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 09:30:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 10:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 10:30:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 11:00:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 11:30:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 12:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 12:30:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 13:00:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 13:30:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 14:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 14:30:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 15:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 15:30:03] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 16:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 16:30:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 17:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 17:30:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 18:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 18:30:03] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 19:00:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 19:30:03] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 20:00:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 20:30:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 21:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 21:30:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 22:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 22:30:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 23:00:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-26 23:30:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-27 00:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-27 00:30:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-27 01:00:01] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-27 01:30:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-27 02:00:02] No change detected (source=api, rows=3, html=0, api=3)
+[2025-08-27 02:30:02] Detected update (source=api, rows=4, html=0, api=4)
+--- previous
++++ current
+@@ -1,3 +1,4 @@
++today_or_upcoming | CELB | CeluvPlay | - | - | 2025-08-29 | - | 1 | announced | - | -
+ today_or_upcoming | MTP | Multiple Network | 200 | 750 | 2025-08-25 | 22:00 | 1 | announced | - | -
+ today_or_upcoming | TAKE | TAKE | 241 | 2000 | 2025-08-25 | 16:00 | 1 | announced | - | -
+ today_or_upcoming | TOWN | Alttown | 200 | 1600 | 2025-08-26 | 15:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-27 03:00:02] Detected update (source=api, rows=2, html=0, api=2)
+--- previous
++++ current
+@@ -1,4 +1,2 @@
+ today_or_upcoming | CELB | CeluvPlay | - | - | 2025-08-29 | - | 1 | announced | - | -
+-today_or_upcoming | MTP | Multiple Network | 200 | 750 | 2025-08-25 | 22:00 | 1 | announced | - | -
+-today_or_upcoming | TAKE | TAKE | 241 | 2000 | 2025-08-25 | 16:00 | 1 | announced | - | -
+ today_or_upcoming | TOWN | Alttown | 200 | 1600 | 2025-08-26 | 15:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-27 03:30:02] No change detected (source=api, rows=2, html=0, api=2)
+[2025-08-27 04:00:02] No change detected (source=api, rows=2, html=0, api=2)
+[2025-08-27 04:30:01] No change detected (source=api, rows=2, html=0, api=2)
+[2025-08-27 05:00:02] No change detected (source=api, rows=2, html=0, api=2)
+[2025-08-27 05:30:02] No change detected (source=api, rows=2, html=0, api=2)
+[2025-08-27 06:00:01] No change detected (source=api, rows=2, html=0, api=2)
+[2025-08-27 06:30:01] Detected update (source=api, rows=3, html=0, api=3)
+--- previous
++++ current
+@@ -1,2 +1,3 @@
+ today_or_upcoming | CELB | CeluvPlay | - | - | 2025-08-29 | - | 1 | announced | - | -
++today_or_upcoming | MITO | MitosisOrg | - | - | 2025-08-28 | 20:00 | 1 | announced | - | -
+ today_or_upcoming | TOWN | Alttown | 200 | 1600 | 2025-08-26 | 15:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
+[2025-08-27 07:00:01] Detected update (source=api, rows=4, html=0, api=4)
+--- previous
++++ current
+@@ -1,3 +1,4 @@
+ today_or_upcoming | CELB | CeluvPlay | - | - | 2025-08-29 | - | 1 | announced | - | -
+ today_or_upcoming | MITO | MitosisOrg | - | - | 2025-08-28 | 20:00 | 1 | announced | - | -
++today_or_upcoming | SHELL | MyShell | - | 25000000 | 2025-02-17 | 14:30 | 1 | ongoing | - | -
+ today_or_upcoming | TOWN | Alttown | 200 | 1600 | 2025-08-26 | 15:00 | 1 | announced | - | -
+状态码: 200
+返回内容: {"StatusCode":0,"StatusMessage":"success","code":0,"data":{},"msg":"success"}
