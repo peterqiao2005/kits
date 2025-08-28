@@ -282,67 +282,136 @@ def combined_snapshot() -> Tuple[List[str], dict]:
 # -------- 新增：仅在“有变化”时，取 Today 表格并转成人读友好的文本 --------
 def build_today_overview_text() -> str:
     """
-    抓取首页 HTML 的 Today 表格，格式化为人类可读的列表文本。
-    对 "No data available"（单元格 colspan=4）做容错处理。
+    抓取 Today 概览：
+    1) 先尝试解析首页 HTML；
+    2) 若 HTML 为空，则回退到 API：按北京时间(UTC+8)的 `date`==今天 过滤；
+    3) 统一格式化为人类可读文本。
+    仅在本函数内做逻辑，不影响其它监控/告警部分。
     """
+    from datetime import datetime, timezone, timedelta
+
+    # -------- 优先：HTML 解析 --------
     sess = _make_browser_session(prefer_cloud=False)
     try:
         r, _ = _get_with_fallback(sess, URL_PAGE, BASE_HEADERS_HTML)
         doc = lxml_html.fromstring(r.content)
         rows = doc.xpath('//table[@id="today-airdrops"]/tbody/tr')
 
-        # 表头
         out_lines = []
         out_lines.append("TOKEN  | PROJECT         | POINTS | AMOUNT | TIME")
         out_lines.append("-------+-----------------+--------+--------+-------------------------")
 
         data_found = False
-
         for tr in rows:
             tds = tr.xpath("./td")
             if not tds:
                 continue
-
-            # 只有一个 <td colspan="4"> 的“无数据”行：跳过并继续判断下一行
+            # “No data available” 行（单元格合并）直接跳过，不计为数据
             if len(tds) == 1:
-                text_all = " ".join("".join(tds[0].xpath(".//text()")).split())
-                if text_all.lower().find("no data available") >= 0:
-                    # 不设置 data_found，循环结束后给出友好文案
+                text_all = " ".join("".join(tds[0].xpath(".//text()")).split()).lower()
+                if "no data available" in text_all:
                     continue
-
-            # 正常数据行至少应有 4 个 td；否则跳过
+                # 其他异常结构也忽略
+                continue
             if len(tds) < 4:
                 continue
 
-            # 安全抽取各列
-            token_symbol = ("".join(tds[0].xpath('.//div[@class="token-symbol"]/text()')).strip() or "-")
-            token_fullname = ("".join(tds[0].xpath('.//div[@class="token-fullname"]/text()')).strip() or "-")
-            points = "".join(tds[1].xpath('.//span[contains(@class,"points-badge")]/text()')).strip() or "-"
-            amount_span = tds[2].xpath('.//span[contains(@class,"points-badge")]/text()')
-            amount = amount_span[0].strip() if amount_span else "-"
-            dex = "".join(tds[2].xpath('.//div[contains(@class,"dex-price-value")]/text()')).strip()
-            exch = "".join(tds[2].xpath('.//div[contains(@class,"exchange-price-value")]/text()')).strip()
+            sym  = ("".join(tds[0].xpath('.//div[@class="token-symbol"]/text()')).strip() or "-")
+            name = ("".join(tds[0].xpath('.//div[@class="token-fullname"]/text()')).strip() or "-")
+            pts  = "".join(tds[1].xpath('.//span[contains(@class,"points-badge")]/text()')).strip() or "-"
+            amtN = tds[2].xpath('.//span[contains(@class,"points-badge")]/text()')
+            amt  = (amtN[0].strip() if amtN else "-")
             time_text = "".join(tds[3].xpath('.//div[contains(@class,"time-cell")]/text()')).strip() or "-"
 
-            out_lines.append(f"{token_symbol:<6} | {token_fullname:<15} | {points:>6} | {amount:>6} | {time_text}")
-            price_bits = []
-            if dex:
-                price_bits.append(dex)
-            if exch:
-                price_bits.append(exch)
+            out_lines.append(f"{sym:<6} | {name:<15} | {pts:>6} | {amt:>6} | {time_text}")
+
+            dex = "".join(tds[2].xpath('.//div[contains(@class,"dex-price-value")]/text()')).strip()
+            exc = "".join(tds[2].xpath('.//div[contains(@class,"exchange-price-value")]/text()')).strip()
+            price_bits = [p for p in (dex, exc) if p]
             if price_bits:
                 out_lines.append("       |                 |        |        | " + " / ".join(price_bits))
 
             data_found = True
 
-        if not data_found:
-            return "No data available"
+        if data_found:
+            return "\n".join(out_lines)
 
-        return "\n".join(out_lines)
+    except Exception as _e:
+        # HTML 失败就走 API 回退；不在这里抛
+        pass
 
+    # -------- 回退：通过 API 组装 Today （UTC+8）--------
+    try:
+        r2, _ = _get_with_fallback(sess, URL_API, BASE_HEADERS_JSON)
+        data = r2.json()
+        airdrops = data.get("airdrops", [])
     except Exception as e:
-        # 任何异常都以友好文本返回，不抛出
         return f"(Today overview failed: {e.__class__.__name__})"
+
+    # 以北京时间判定“今天”
+    tz8 = timezone(timedelta(hours=8))
+    today_str = datetime.now(tz8).strftime("%Y-%m-%d")
+
+    rows = []
+    for ad in airdrops:
+        date = (ad.get("date") or "").strip()
+        if date != today_str:
+            continue
+        token = (ad.get("token") or "-").strip()
+        name  = (ad.get("name") or "-").strip()
+        points = str(ad.get("points") or "-").strip()
+        amount = str(ad.get("amount") or "-").strip()
+        tm     = (ad.get("time") or "-").strip()
+        phase  = str(ad.get("phase") or "-").strip()
+        typ    = (ad.get("type") or "").strip().lower()
+        price  = ad.get("price")
+        dex_price = ad.get("dex_price")
+
+        # 展示用时间字符串
+        time_display = tm if tm else "TBA"
+        if phase == "2":
+            time_display += " (Phase 2)"
+        if typ == "tge":
+            time_display += " (TGE)"
+
+        # 估值（若有）
+        price_line = ""
+        try:
+            amt_float = float(amount)
+        except Exception:
+            amt_float = None
+
+        price_bits = []
+        if amt_float is not None and isinstance(dex_price, (int, float)) and dex_price > 0:
+            price_bits.append(f"DEX ${round(dex_price * amt_float, 1)}")
+        if amt_float is not None and isinstance(price, (int, float)) and price > 0:
+            price_bits.append(f"EX  ${round(price * amt_float, 1)}")
+
+        rows.append({
+            "token": token,
+            "name": name,
+            "points": points,
+            "amount": amount,
+            "time_display": time_display,
+            "price_line": " / ".join(price_bits) if price_bits else "",
+            # 排序键：无时间的放后面
+            "sort_key": (tm if tm else "99:99")
+        })
+
+    if not rows:
+        return "No data available"
+
+    rows.sort(key=lambda x: x["sort_key"])
+
+    out_lines = []
+    out_lines.append("TOKEN  | PROJECT         | POINTS | AMOUNT | TIME")
+    out_lines.append("-------+-----------------+--------+--------+-------------------------")
+    for r in rows:
+        out_lines.append(f"{r['token']:<6} | {r['name']:<15} | {r['points']:>6} | {r['amount']:>6} | {r['time_display']}")
+        if r["price_line"]:
+            out_lines.append("       |                 |        |        | " + r["price_line"])
+
+    return "\n".join(out_lines)
 
 def load_state() -> dict:
     if not os.path.exists(STATE_PATH):
@@ -423,3 +492,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
+root@ln1:~/workspace/kits# 
