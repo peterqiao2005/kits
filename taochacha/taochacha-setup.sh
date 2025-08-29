@@ -67,8 +67,18 @@ then
     # 安装 pm2
     sudo npm install -g pm2@5.4.3
     echo "pm2 安装完成。"
+    pm2 install pm2-logrotate
+    pm2 set pm2-logrotate:max_size 100M
+    pm2 set pm2-logrotate:retain 5
+    pm2 set pm2-logrotate:compress true
+    echo "已安装pm2-logrotate，并配置单个log最大为100M。"
 else
     echo "pm2 已安装，无需操作。"
+    pm2 install pm2-logrotate
+    pm2 set pm2-logrotate:max_size 100M
+    pm2 set pm2-logrotate:retain 5
+    pm2 set pm2-logrotate:compress true
+    echo "已安装pm2-logrotate，并配置单个log最大为100M。"
 fi
 
 mkdir -p ~/workspace/taochacha/
