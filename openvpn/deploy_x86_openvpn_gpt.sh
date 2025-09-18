@@ -1,33 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# -------- 基本变量 --------
 BASE_DIR="${HOME}/workspace/openvpn"
 DATA_DIR="${BASE_DIR}/data"
 COMPOSE_FILE="${BASE_DIR}/docker-compose.yml"
 CLIENT_NAME="vpn-johor"
-VPN_PORT="12294"          # 宿主机端口
-VPN_PROTO="udp"           # 协议
-IMAGE="kylemanna/openvpn"
 
-# -------- 1) 目录与 docker compose 检查 --------
+# 1) 基本检查
+if ! command -v docker >/dev/null 2>&1; then echo "docker 未安装"; exit 1; fi
+if command -v docker compose >/dev/null 2>&1; then DC="docker compose"; \
+elif command -v docker-compose >/dev/null 2>&1; then DC="docker-compose"; \
+else echo "未检测到 docker compose"; exit 1; fi
 mkdir -p "${DATA_DIR}"
-if command -v docker >/dev/null 2>&1; then
-  :
-else
-  echo "ERROR: 未检测到 docker，请先安装 docker。"
-  exit 1
+
+# 2) 备份当前配置
+ts="$(date +%Y%m%d-%H%M%S)"
+if [[ -f "${DATA_DIR}/openvpn.conf" ]]; then
+  cp -a "${DATA_DIR}/openvpn.conf" "${DATA_DIR}/openvpn.conf.bak.${ts}"
 fi
-if command -v docker compose >/dev/null 2>&1; then
-  DC="docker compose"
-elif command -v docker-compose >/dev/null 2>&1; then
-  DC="docker-compose"
-else
-  echo "ERROR: 未检测到 docker compose，请先安装（Docker v2: docker compose / Docker v1: docker-compose）。"
-  exit 1
+if [[ -f "${COMPOSE_FILE}" ]]; then
+  cp -a "${COMPOSE_FILE}" "${COMPOSE_FILE}.bak.${ts}"
 fi
 
-# -------- 2) 写入 docker-compose.yml --------
+# 3) 生成/覆盖 docker-compose.yml（保留数据卷）
 cat > "${COMPOSE_FILE}" <<'YAML'
 services:
   openvpn:
@@ -36,67 +31,87 @@ services:
     restart: always
     cap_add:
       - NET_ADMIN
+    sysctls:
+      - net.ipv6.conf.default.forwarding=1
+      - net.ipv6.conf.all.forwarding=1
     volumes:
       - ./data:/etc/openvpn
     ports:
       - "12294:1194/udp"
-    # 如果宿主机或网络策略限制 icmp，可取消注释以下环境变量以避免 healthcheck 问题
-    # environment:
-    #   - OVPN_NATDEVICE=eth0
 YAML
 
-echo "[OK] 已生成 ${COMPOSE_FILE}"
+echo "[OK] compose 已写入：${COMPOSE_FILE}"
+# 检查端口映射
+cat "${COMPOSE_FILE}" | grep "12294:1194/udp"
 
-# -------- 3) 询问公网地址或域名（用于生成配置）--------
-read -rp "请输入服务器公网 IP 或域名（给客户端连接用，例如 1.2.3.4 或 vpn.example.com）: " PUBLIC_HOST
-if [[ -z "${PUBLIC_HOST}" ]]; then
-  echo "ERROR: 不能为空。"
-  exit 1
+# 4) 修补服务端 openvpn.conf（禁压缩、subnet 拓扑、mssfix、udp4）
+# 若文件不存在，容器启动后会生成；我们先停容器，确保文件写入后再改
+${DC} -f "${COMPOSE_FILE}" up -d || true
+sleep 2
+${DC} -f "${COMPOSE_FILE}" stop || true
+
+# 确保配置文件存在（若不存在先创建一个最小骨架，随后由镜像入口脚本补齐）
+if [[ ! -f "${DATA_DIR}/openvpn.conf" ]]; then
+  touch "${DATA_DIR}/openvpn.conf"
 fi
 
-# -------- 4) 生成 OpenVPN 基本配置 --------
-# 将服务端地址与端口写入配置（例如 udp://vpn.example.com:12294）
-docker run --rm -v "${DATA_DIR}:/etc/openvpn" "${IMAGE}" \
-  ovpn_genconfig -u "${VPN_PROTO}://${PUBLIC_HOST}:${VPN_PORT}"
+# 删除/注释 comp-lzo / compress 相关行
+sed -i -E 's/^\s*comp-lzo.*$/# comp-lzo disabled/g' "${DATA_DIR}/openvpn.conf" || true
+sed -i -E 's/^\s*compress.*$/# compress disabled/g' "${DATA_DIR}/openvpn.conf" || true
 
-# -------- 5) 初始化 PKI（非交互 & 无密码）--------
-# EASYRSA_BATCH=1 关闭交互，'nopass' 使 CA/服务端证书无密码，适合自动化部署
-docker run --rm -v "${DATA_DIR}:/etc/openvpn" -e EASYRSA_BATCH=1 "${IMAGE}" \
-  ovpn_initpki nopass
+# 强制使用 udp4，减少 IPv6 干扰
+if grep -qE '^\s*proto\s+udp\s*$' "${DATA_DIR}/openvpn.conf"; then
+  sed -i -E 's/^\s*proto\s+udp\s*$/proto udp4/g' "${DATA_DIR}/openvpn.conf"
+elif ! grep -qE '^\s*proto\s+udp4' "${DATA_DIR}/openvpn.conf"; then
+  echo "proto udp4" >> "${DATA_DIR}/openvpn.conf"
+fi
 
-# -------- 6) 开启 IP 转发（永久 & 即时生效）--------
+# 设置 topology subnet
+if grep -qE '^\s*topology\s+' "${DATA_DIR}/openvpn.conf"; then
+  sed -i -E 's/^\s*topology\s+.*/topology subnet/g' "${DATA_DIR}/openvpn.conf"
+else
+  echo "topology subnet" >> "${DATA_DIR}/openvpn.conf"
+fi
+
+# 限制 MSS，减少分片
+grep -qE '^\s*mssfix\s+' "${DATA_DIR}/openvpn.conf" || echo "mssfix 1400" >> "${DATA_DIR}/openvpn.conf"
+
+# UDP 下建议显式退出通知
+grep -qE '^\s*explicit-exit-notify' "${DATA_DIR}/openvpn.conf" || echo "explicit-exit-notify 1" >> "${DATA_DIR}/openvpn.conf"
+
+echo "[OK] 已修补 ${DATA_DIR}/openvpn.conf"
+# 检查关键项
+cat "${DATA_DIR}/openvpn.conf" | grep -E 'proto|topology|mssfix|comp|compress|explicit-exit-notify' || true
+
+# 5) 启动并重建容器
+${DC} -f "${COMPOSE_FILE}" up -d --force-recreate
+sleep 2
+${DC} -f "${COMPOSE_FILE}" ps
+docker logs --since=2m openvpn | tail -n +1
+
+# 6) 重新导出客户端配置（确保客户端无压缩指令）
+if docker ps --format '{{.Names}}' | grep -q '^openvpn$'; then
+  docker run --rm -v "${DATA_DIR}:/etc/openvpn" kylemanna/openvpn ovpn_getclient "${CLIENT_NAME}" > "${BASE_DIR}/${CLIENT_NAME}.ovpn"
+  # 二次确认客户端文件不存在压缩配置
+  sed -i -E '/^\s*comp-lzo/d;/^\s*compress/d' "${BASE_DIR}/${CLIENT_NAME}.ovpn"
+  echo "[OK] 客户端文件已导出：${BASE_DIR}/${CLIENT_NAME}.ovpn"
+  cat "${BASE_DIR}/${CLIENT_NAME}.ovpn" | grep -E 'comp|compress' || echo "[OK] 客户端无压缩参数"
+else
+  echo "容器未在运行，跳过导出客户端。"
+fi
+
+# 7) 内核转发（之前已做过仍再次确保）
 echo "net.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/99-openvpn.conf >/dev/null
 sudo sysctl -p /etc/sysctl.d/99-openvpn.conf
-# 按你的偏好：直接用命令检查而不是口头描述
 cat /etc/sysctl.d/99-openvpn.conf | grep net.ipv4.ip_forward
 
-# -------- 7) UFW（若启用则放行 12294/udp）--------
-if command -v ufw >/dev/null 2>&1; then
-  if sudo ufw status | grep -q "Status: active"; then
-    sudo ufw allow "${VPN_PORT}"/udp
-    sudo ufw reload
-    # 检查规则
-    sudo ufw status | grep "${VPN_PORT}/udp" || true
-  fi
+# 8) UFW 放行（如启用）
+if command -v ufw >/dev/null 2>&1 && sudo ufw status | grep -q "Status: active"; then
+  sudo ufw allow 12294/udp
+  sudo ufw reload
+  sudo ufw status | grep "12294/udp" || true
 fi
 
-# -------- 8) 启动容器 --------
-cd "${BASE_DIR}"
-${DC} up -d
-${DC} ps
-
-# -------- 9) 生成客户端证书与配置（无密码）--------
-docker run --rm -v "${DATA_DIR}:/etc/openvpn" -e EASYRSA_BATCH=1 "${IMAGE}" \
-  easyrsa build-client-full "${CLIENT_NAME}" nopass
-
-# 导出 client ovpn 到工作区
-docker run --rm -v "${DATA_DIR}:/etc/openvpn" "${IMAGE}" \
-  ovpn_getclient "${CLIENT_NAME}" > "${BASE_DIR}/${CLIENT_NAME}.ovpn"
-
-# -------- 10) 结果输出 --------
 echo
-echo "[DONE] OpenVPN 已部署并启动。"
-echo "客户端配置文件：${BASE_DIR}/${CLIENT_NAME}.ovpn"
-echo "服务端监听：${PUBLIC_HOST}:${VPN_PORT}/${VPN_PROTO}"
-echo
-echo "日志查看：${DC} -f ${COMPOSE_FILE} logs -f openvpn"
+echo "[DONE] 修复完成，请用新的客户端文件重连：${BASE_DIR}/${CLIENT_NAME}.ovpn"
+echo "追日志：docker logs -f openvpn | grep -E 'Initialization|AUTH|comp|topology|MSS|MTU|ERROR'"
