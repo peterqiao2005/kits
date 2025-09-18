@@ -1,46 +1,40 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# ========== 变量 ==========
-IMAGE="kylemanna/openvpn"
-CONTAINER="openvpn"
-TARGET_USER="${SUDO_USER:-$USER}"
-TARGET_HOME="/home/${TARGET_USER}"
-[[ -d "${TARGET_HOME}" ]] || TARGET_HOME="$HOME"
-TARGET_BASE="${TARGET_HOME}/workspace/openvpn"
-TARGET_DATA="${TARGET_BASE}/data"
-TARGET_COMPOSE="${TARGET_BASE}/docker-compose.yml"
-CLIENT_NAME="vpn-johor"
+# ===== 变量 =====
+USER_NAME="${USER}"
+HOME_DIR="/home/${USER_NAME}"
+[[ -d "${HOME_DIR}" ]] || HOME_DIR="$HOME"
+BASE="${HOME_DIR}/workspace/openvpn"
+DATA="${BASE}/data"
+COMPOSE="${BASE}/docker-compose.yml"
+KIT_DIR="${HOME_DIR}/workspace/kits/openvpn"     # 你的部署脚本所在目录
+DEPLOY_SH="${KIT_DIR}/deploy_x86_openvpn_gpt.sh" # 你的部署脚本文件名（如不同请改）
+ROOT_BASE="/root/workspace/openvpn"
 
-# ========== 0) 查容器实际数据目录/端口 ==========
-echo "[i] 检查容器挂载与端口 ..."
-SRC_DATA="$(docker inspect ${CONTAINER} --format '{{range .Mounts}}{{if eq .Destination "/etc/openvpn"}}{{.Source}}{{end}}{{end}}' || true)"
-PORTS="$(docker inspect ${CONTAINER} --format '{{json .HostConfig.PortBindings}}' || true)"
-echo "  当前容器数据目录: ${SRC_DATA:-<未发现>}"
-echo "  端口映射: ${PORTS}"
+echo "[1/6] 停掉并删除旧容器（仅容器，不删数据）"
+docker rm -f openvpn >/dev/null 2>&1 || true
 
-# ========== 1) 打印最近200行原始日志（不要grep）==========
-echo "[i] 容器最近200行日志（用于定位Restarting原因）:"
-docker logs --tail 200 ${CONTAINER} || true
-echo "---------------------------------------------"
-
-# ========== 2) 统一到 ~/workspace/openvpn 路径 ==========
-echo "[i] 停止并移除旧容器（仅容器，数据不删）..."
-docker rm -f ${CONTAINER} >/dev/null 2>&1 || true
-
-echo "[i] 创建目标目录: ${TARGET_DATA}"
-mkdir -p "${TARGET_DATA}"
-
-if [[ -n "${SRC_DATA}" && "${SRC_DATA}" != "${TARGET_DATA}" && -d "${SRC_DATA}" ]]; then
-  echo "[i] 迁移数据: ${SRC_DATA} -> ${TARGET_DATA}"
-  sudo rsync -a --delete "${SRC_DATA}/" "${TARGET_DATA}/"
+echo "[2/6] 迁移 root 路径下的数据到当前用户目录（若存在）"
+if [[ -d "${ROOT_BASE}/data" ]]; then
+  sudo rsync -a "${ROOT_BASE}/" "${BASE}/"
 fi
 
-echo "[i] 目录所有权修复为 ${TARGET_USER}:${TARGET_USER}"
-sudo chown -R "${TARGET_USER}:${TARGET_USER}" "${TARGET_HOME}/workspace" || true
+echo "[3/6] 修复目录所有权 + 设置 ACL，保证以后即便容器(root)写入你也能改"
+sudo mkdir -p "${DATA}"
+sudo chown -R "${USER_NAME}:${USER_NAME}" "${HOME_DIR}/workspace"
+# 安装 ACL 工具
+sudo apt-get update -y && sudo apt-get install -y acl
+# 赋予你对 data 目录的读写执行权限，并设为默认 ACL（新文件也继承）
+sudo setfacl -R -m u:${USER_NAME}:rwx "${DATA}"
+sudo setfacl -R -d -m u:${USER_NAME}:rwx "${DATA}"
+# 验证（按你要求用 cat|grep 风格）
+getfacl "${DATA}" | grep -E "user:${USER_NAME}|default:user:${USER_NAME}"
 
-# ========== 3) 写入统一的 docker-compose.yml （12294/udp + IPv6 sysctl）==========
-cat > "${TARGET_COMPOSE}" <<'YAML'
+echo "[4/6] 校验 compose 文件是否存在；不存在就创建一个（12294/udp + IPv6 sysctl）"
+if [[ ! -f "${COMPOSE}" ]]; then
+  mkdir -p "${BASE}"
+  cat > "${COMPOSE}" <<'YAML'
 services:
   openvpn:
     image: kylemanna/openvpn
@@ -56,63 +50,23 @@ services:
     ports:
       - "12294:1194/udp"
 YAML
-
-# ========== 4) 强制修正 openvpn.conf 仅必要项 ==========
-touch "${TARGET_DATA}/openvpn.conf"
-
-# 删除压缩
-sed -i -E '/^\s*comp-lzo\b/d;/^\s*compress\b/d' "${TARGET_DATA}/openvpn.conf"
-
-# proto -> udp4
-if grep -qE '^\s*proto\s+' "${TARGET_DATA}/openvpn.conf"; then
-  sed -i -E 's/^\s*proto\s+.*/proto udp4/g' "${TARGET_DATA}/openvpn.conf"
-else
-  echo "proto udp4" >> "${TARGET_DATA}/openvpn.conf"
 fi
+cat "${COMPOSE}" | grep -E '12294:1194/udp|sysctls|volumes'
 
-# topology -> subnet
-if grep -qE '^\s*topology\s+' "${TARGET_DATA}/openvpn.conf"; then
-  sed -i -E 's/^\s*topology\s+.*/topology subnet/g' "${TARGET_DATA}/openvpn.conf"
-else
-  echo "topology subnet" >> "${TARGET_DATA}/openvpn.conf"
-fi
+echo "[5/6] 重新执行你的部署脚本（非 sudo；会提示输入公网域名/IP）"
+# 注意：这里不再用 sudo bash；如果你必须提权，请用：sudo -E env HOME="$HOME" USER="$USER" bash "$DEPLOY_SH"
+bash "${DEPLOY_SH}"
 
-# MTU 收紧且无 mssfix 警告
-sed -i -E '/^\s*mssfix\b/d' "${TARGET_DATA}/openvpn.conf"
-grep -qE '^\s*tun-mtu\s+' "${TARGET_DATA}/openvpn.conf" || echo "tun-mtu 1400" >> "${TARGET_DATA}/openvpn.conf"
-grep -qE '^\s*explicit-exit-notify' "${TARGET_DATA}/openvpn.conf" || echo "explicit-exit-notify 1" >> "${TARGET_DATA}/openvpn.conf"
-
-echo "[i] 服务端关键配置："
-cat "${TARGET_DATA}/openvpn.conf" | grep -E '^(proto|topology|tun-mtu|mssfix|comp|compress|explicit-exit-notify)'
-
-# ========== 5) 启动容器（在目标目录）==========
-cd "${TARGET_BASE}"
-if command -v docker compose >/dev/null 2>&1; then DC="docker compose"; else DC="docker-compose"; fi
-${DC} -f "${TARGET_COMPOSE}" up -d --force-recreate
-
-# ========== 6) 系统转发 & UFW ==========
-echo "net.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/99-openvpn.conf >/dev/null
-sudo sysctl -p /etc/sysctl.d/99-openvpn.conf >/dev/null
-cat /etc/sysctl.d/99-openvpn.conf | grep net.ipv4.ip_forward
-
-if command -v ufw >/dev/null 2>&1 && sudo ufw status | grep -q "Status: active"; then
-  sudo ufw allow 12294/udp
-  sudo ufw reload >/dev/null
-  sudo ufw status | grep 12294 || true
-fi
-
-# ========== 7) 导出客户端文件（统一放在 ~/workspace/openvpn/）==========
-docker run --rm -v "${TARGET_DATA}:/etc/openvpn" ${IMAGE} ovpn_getclient "${CLIENT_NAME}" > "${TARGET_BASE}/${CLIENT_NAME}.ovpn"
-sed -i -E '/^\s*comp-lzo\b/d;/^\s*compress\b/d' "${TARGET_BASE}/${CLIENT_NAME}.ovpn"
-
-echo "[i] 客户端 remote 行："
-cat "${TARGET_BASE}/${CLIENT_NAME}.ovpn" | grep -E '^remote '
-
-# ========== 8) 打印完整启动日志，确认是否仍有错误 ==========
-echo "===== 最近200行原始日志（不做grep，直接看错误）====="
-docker logs --tail 200 ${CONTAINER} || true
-echo "===== 监听端口（应看到 :12294）====="
+echo "[6/6] 部署后自检（不再用 grep 屏蔽真实错误）"
+cd "${BASE}"
+docker compose ps
 ss -lun | grep ':12294' || true
+echo "===== 最近200行原始日志 ====="
+docker logs --tail 200 openvpn || true
+echo "===== 关键配置检查 ====="
+cat "${DATA}/openvpn.conf" | grep -E '^(proto|topology|tun-mtu|mssfix|comp|compress|explicit-exit-notify)'
+echo "===== 客户端 remote 行 ====="
+cat "${BASE}/vpn-johor.ovpn" | grep '^remote ' || true
 
 echo
-echo "[DONE] 统一到 ${TARGET_BASE} 并重启完成。客户端文件：${TARGET_BASE}/${CLIENT_NAME}.ovpn"
+echo "[DONE] 如果上面日志里看到 'Initialization Sequence Completed'，就可以在客户端用 ${BASE}/vpn-johor.ovpn 连接了。"
