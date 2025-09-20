@@ -35,7 +35,7 @@ services:
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=1
 YML
-sed -i -E "s/\${PORT}/${PORT}/g" "${BASE}/docker-compose.yml"
+sed -i "s|\${PORT}|${PORT}|g" "${BASE}/docker-compose.yml"
 
 # === 生成基础配置（如已存在则跳过）===
 if [[ ! -f "${DATA}/ovpn_env.sh" ]]; then
