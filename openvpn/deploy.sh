@@ -9,4 +9,4 @@ sudo systemctl enable openvpn-client@vpn-johor
 sudo systemctl start  openvpn-client@vpn-johor
 
 systemctl status openvpn-client@vpn-johor
-tail -f /var/log/syslog | grep openvpn
+# tail -f /var/log/syslog | grep openvpn
