@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # === 可调参数 ===
-PORT=${PORT:-18443}             # 对外端口（TCP）
+PORT=${PORT:-12295}             # 对外端口（TCP）
 CLIENT=${CLIENT:-vpn-johor}     # 客户端名
 LAN_NET=${LAN_NET:-192.168.100.0/24}  # 需要通过 VPN 访问的内网网段
 BASE="${HOME}/workspace/openvpn"
