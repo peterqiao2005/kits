@@ -1,0 +1,6 @@
+ trojan-go配置文件:  /etc/trojan-go/config.json
+ trojan-go配置信息：
+   IP：89.39.149.113
+   伪装域名/主机名(host)/SNI/peer名称：sn5501.3518.pro
+   端口(port)：10444
+   密码(password)：oj0nCEO0Vy0fPg3Q
