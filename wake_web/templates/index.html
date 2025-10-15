@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Wake-on-LAN 管理</title>
+  <script src="/static/axios.min.js"></script>
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+</head>
+<body class="p-4">
+<div class="container">
+  <h3>设备列表</h3>
+  <table class="table" id="deviceTable">
+    <thead><tr><th>名称</th><th>MAC</th><th>IP</th><th>端口</th><th>操作</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <h4>添加/编辑设备</h4>
+  <div class="row g-2">
+    <div class="col"><input id="name" class="form-control" placeholder="名称"></div>
+    <div class="col"><input id="mac" class="form-control" placeholder="MAC 地址"></div>
+    <div class="col"><input id="ip" class="form-control" placeholder="广播 IP"></div>
+    <div class="col"><input id="port" class="form-control" placeholder="端口" value="9"></div>
+    <div class="col">
+      <button class="btn btn-primary" onclick="saveDevice()">保存</button>
+      <button class="btn btn-secondary" onclick="clearForm()">清空</button>
+    </div>
+  </div>
+</div>
+<script src="/static/main.js"></script>
+</body>
+</html>

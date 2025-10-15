@@ -1,0 +1,49 @@
+all:
+  vars:
+    # This is your SSH public key, e.g. cat ~/.ssh/id_rsa.pub
+    wg_public_key:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKkYMOil23nJ/AdUYcLksj1rdrRDv8Sk41+V/pr1f2dH austinlauncher@sn51"
+    # The username you want to use to login to those machines (and your public key will be added to).
+    user: root
+    # The initial username to login with, for fresh nodes that may not have your username setup.
+    ansible_user: root
+    # The default validator each GPU worker node will be assigned to.
+    validator: 5Dt7HZ7Zpw4DppPxFM7Ke3Cm7sDAWhsZXmM5ZAmE7dSVJbcQ
+    # By default, no nodes are the primary (CPU node running all the apps, wireguard, etc.) Override this flag exactly once below.
+    is_primary: false
+    # We assume GPU is enabled on all nodes, but of course you need to disable this for the CPU nodes below.
+    gpu_enabled: true
+    # The port you'll be using for the registry proxy, MUST MATCH chart/values.yaml registry.service.nodePort!
+    registry_port: 30001
+    # SSH sometimes just hangs without this...
+    ansible_ssh_common_args: '-o ControlPath=none'
+    # SSH retries...
+    ansible_ssh_retries: 3
+    # Ubuntu major/minor version.
+    ubuntu_major: "22"
+    ubuntu_minor: "04"
+    # CUDA version - leave as-is unless using h200s, in which case either use 12-5 or skip_cuda: true (if provider already pre-installed drivers)
+    cuda_version: "12-4"
+    # NVIDA GPU drivers - leave as-is unless using h200s, in which case it would be 555
+    nvidia_version: "550"
+    # Flag to skip the cuda install entirely, if the provider already has cuda 12.x+ installed (note some chutes will not work unless 12.6+)
+    skip_cuda: true
+    # Flag to enable/disable IPv6. Some hosts may require IPv6 to be on.
+    ipv6_enabled: true
+    # Default MTU
+    wireguard_mtu: 1380
+
+  hosts:
+    # This would be the main node, which runs postgres, redis, gepetto, etc.
+    inventory-cpu-0:
+      ansible_host: 198.145.121.192
+      external_ip: 198.145.121.192  
+      wireguard_ip: 192.168.230.1
+      gpu_enabled: false
+      is_primary: true
+
+    inventory-gpu-01:
+      ansible_host: 120.240.236.178
+      external_ip: 120.240.236.178
+      wireguard_ip: 192.168.230.41
+      ansible_port: 14162
