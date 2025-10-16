@@ -1,0 +1,14 @@
+<speak version="1.0" xml:lang="ja-JP">
+  <voice name="ja-JP-<YourVoiceHere>">
+    <mstts:express-as style="serious" styledegree="1.0" xmlns:mstts="https://www.w3.org/2001/mstts">
+      <prosody rate="-5%" pitch="-1st">
+        本物の剣道では、<break time="200ms"/>勝負はきわめて短い。<break time="150ms"/>
+        多くは半秒、長くても二秒を超えない。<break time="250ms"/>
+        刃が交わる刹那、すでに一方が倒れている。<break time="300ms"/>
+        しかし、その電光石火の対決の前に、<break time="200ms"/>
+        両者は石像のように静止し、長く相手を見据える。<break time="250ms"/>
+        その時間は、十分にも及ぶことがある。
+      </prosody>
+    </mstts:express-as>
+  </voice>
+</speak>

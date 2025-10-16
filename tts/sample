@@ -1,0 +1,6 @@
+curl -X POST "https://<SPEECH_REGION>.tts.speech.microsoft.com/cognitiveservices/v1" \
+  -H "Ocp-Apim-Subscription-Key: $SPEECH_KEY" \
+  -H "Content-Type: application/ssml+xml" \
+  -H "X-Microsoft-OutputFormat: audio-24khz-48kbitrate-mono-mp3" \
+  --data-binary @kendo.ssml \
+  -o kendo.mp3
