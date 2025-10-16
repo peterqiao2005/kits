@@ -1,0 +1,10 @@
+  <!-- 动态 VPN 管理菜单（Pipe Menu，实时显示各 VPN 状态） -->
+  <menu id="vpn-pipe-menu" label="VPN Menu" execute="/usr/local/bin/openbox-vpn-menu.sh" />
+
+  <!-- RDP 主机选择（用 xterm 打开 whiptail 菜单） -->
+  <item label="RDP Menu">
+    <action name="Execute">
+      <command>xterm -e /usr/local/bin/rdp-menu.sh</command>
+    </action>
+  </item>
+

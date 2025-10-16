@@ -1,0 +1,5 @@
+#name,host,username,password,size,vpn,sec
+OfficeJB,192.168.100.108,ai,32167,3840x2160,client-jb,tls
+Shanghai-home,192.168.1.218,ai,32167,3840x2160,client-shanghai,tls
+LocalLab,192.168.55.10,jojo,MyPass123,1920x1080,none,nla
+
