@@ -1,0 +1,602 @@
+[
+  {
+    "year": 2000,
+    "series": "10",
+    "base_slug": "2000_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2000_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2000,
+    "series": "10A",
+    "base_slug": "2000_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2000_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2000,
+    "series": "10B",
+    "base_slug": "2000_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2000_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2001,
+    "series": "10",
+    "base_slug": "2001_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2001_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2001,
+    "series": "10A",
+    "base_slug": "2001_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2001_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2001,
+    "series": "10B",
+    "base_slug": "2001_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2001_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2002,
+    "series": "10",
+    "base_slug": "2002_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2002_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2002,
+    "series": "10A",
+    "base_slug": "2002_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2002_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2002,
+    "series": "10B",
+    "base_slug": "2002_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2002_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2003,
+    "series": "10",
+    "base_slug": "2003_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2003_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2003,
+    "series": "10A",
+    "base_slug": "2003_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2003_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2003,
+    "series": "10B",
+    "base_slug": "2003_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2003_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2004,
+    "series": "10",
+    "base_slug": "2004_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2004_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2004,
+    "series": "10A",
+    "base_slug": "2004_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2004_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2004,
+    "series": "10B",
+    "base_slug": "2004_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2004_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2005,
+    "series": "10",
+    "base_slug": "2005_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2005_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2005,
+    "series": "10A",
+    "base_slug": "2005_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2005_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2005,
+    "series": "10B",
+    "base_slug": "2005_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2005_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2006,
+    "series": "10",
+    "base_slug": "2006_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2006_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2006,
+    "series": "10A",
+    "base_slug": "2006_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2006_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2006,
+    "series": "10B",
+    "base_slug": "2006_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2006_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2007,
+    "series": "10",
+    "base_slug": "2007_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2007_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2007,
+    "series": "10A",
+    "base_slug": "2007_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2007_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2007,
+    "series": "10B",
+    "base_slug": "2007_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2007_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2008,
+    "series": "10",
+    "base_slug": "2008_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2008_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2008,
+    "series": "10A",
+    "base_slug": "2008_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2008_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2008,
+    "series": "10B",
+    "base_slug": "2008_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2008_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2009,
+    "series": "10",
+    "base_slug": "2009_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2009_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2009,
+    "series": "10A",
+    "base_slug": "2009_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2009_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2009,
+    "series": "10B",
+    "base_slug": "2009_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2009_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2010,
+    "series": "10",
+    "base_slug": "2010_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2010_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2010,
+    "series": "10A",
+    "base_slug": "2010_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2010_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2010,
+    "series": "10B",
+    "base_slug": "2010_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2010_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2011,
+    "series": "10",
+    "base_slug": "2011_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2011_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2011,
+    "series": "10A",
+    "base_slug": "2011_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2011_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2011,
+    "series": "10B",
+    "base_slug": "2011_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2011_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2012,
+    "series": "10",
+    "base_slug": "2012_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2012_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2012,
+    "series": "10A",
+    "base_slug": "2012_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2012_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2012,
+    "series": "10B",
+    "base_slug": "2012_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2012_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2013,
+    "series": "10",
+    "base_slug": "2013_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2013_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2013,
+    "series": "10A",
+    "base_slug": "2013_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2013_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2013,
+    "series": "10B",
+    "base_slug": "2013_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2013_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2014,
+    "series": "10",
+    "base_slug": "2014_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2014_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2014,
+    "series": "10A",
+    "base_slug": "2014_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2014_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2014,
+    "series": "10B",
+    "base_slug": "2014_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2014_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2015,
+    "series": "10",
+    "base_slug": "2015_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2015_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2015,
+    "series": "10A",
+    "base_slug": "2015_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2015_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2015,
+    "series": "10B",
+    "base_slug": "2015_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2015_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2016,
+    "series": "10",
+    "base_slug": "2016_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2016_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2016,
+    "series": "10A",
+    "base_slug": "2016_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2016_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2016,
+    "series": "10B",
+    "base_slug": "2016_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2016_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2017,
+    "series": "10",
+    "base_slug": "2017_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2017_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2017,
+    "series": "10A",
+    "base_slug": "2017_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2017_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2017,
+    "series": "10B",
+    "base_slug": "2017_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2017_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2018,
+    "series": "10",
+    "base_slug": "2018_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2018_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2018,
+    "series": "10A",
+    "base_slug": "2018_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2018_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2018,
+    "series": "10B",
+    "base_slug": "2018_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2018_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2019,
+    "series": "10",
+    "base_slug": "2019_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2019_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2019,
+    "series": "10A",
+    "base_slug": "2019_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2019_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2019,
+    "series": "10B",
+    "base_slug": "2019_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2019_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2020,
+    "series": "10",
+    "base_slug": "2020_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2020_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2020,
+    "series": "10A",
+    "base_slug": "2020_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2020_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2020,
+    "series": "10B",
+    "base_slug": "2020_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2020_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2021,
+    "series": "10",
+    "base_slug": "2021_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2021_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2021,
+    "series": "10A",
+    "base_slug": "2021_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2021_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2021,
+    "series": "10B",
+    "base_slug": "2021_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2021_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2022,
+    "series": "10",
+    "base_slug": "2022_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2022_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2022,
+    "series": "10A",
+    "base_slug": "2022_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2022_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2022,
+    "series": "10B",
+    "base_slug": "2022_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2022_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2023,
+    "series": "10",
+    "base_slug": "2023_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2023_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2023,
+    "series": "10A",
+    "base_slug": "2023_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2023_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2023,
+    "series": "10B",
+    "base_slug": "2023_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2023_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2024,
+    "series": "10",
+    "base_slug": "2024_AMC_10",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2024_AMC_10_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2024,
+    "series": "10A",
+    "base_slug": "2024_AMC_10A",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2024_AMC_10A_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  },
+  {
+    "year": 2024,
+    "series": "10B",
+    "base_slug": "2024_AMC_10B",
+    "problems_url": "https://artofproblemsolving.com/wiki/index.php/2024_AMC_10B_Problems",
+    "pdf_url": null,
+    "status": "problems_page_missing"
+  }
+]
