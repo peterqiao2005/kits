@@ -1,0 +1,14 @@
+## === 文件: wake.service ===
+
+[Unit]
+Description=Wake-on-LAN Web Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /root/workspace/wake_web/app.py
+WorkingDirectory=/root/workspace/wake_web
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
