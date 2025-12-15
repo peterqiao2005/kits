@@ -1,39 +1,30 @@
 #!/usr/bin/env bash
 set -e
 
-KEY_PATH="$HOME/.ssh/peterqiao0612"
-PUB_KEY_PATH="$HOME/.ssh/peterqiao0612.pub"
 SSH_DIR="$HOME/.ssh"
+KEY_PATH="$SSH_DIR/pq_github"
 CONFIG_FILE="$SSH_DIR/config"
 
 GITHUB_USER="peterqiao2005"
 GITHUB_EMAIL="peterqiao2005@gmail.com"
 
-echo "[1/6] 检查 ~/.ssh 目录"
+echo "[1/5] 检查 ~/.ssh 目录"
 if [ ! -d "$SSH_DIR" ]; then
-    echo "❌ $SSH_DIR 不存在，请先创建并放置密钥文件"
+    echo "❌ $SSH_DIR 不存在，请先创建并放置私钥文件"
     exit 1
 fi
 
-echo "[2/6] 检查 SSH key 是否存在"
+echo "[2/5] 检查 GitHub SSH 私钥是否存在"
 if [ ! -f "$KEY_PATH" ]; then
     echo "❌ 私钥不存在: $KEY_PATH"
-    echo "请先将现有 SSH 私钥放置到该路径后再执行脚本"
     exit 1
 fi
 
-if [ ! -f "$PUB_KEY_PATH" ]; then
-    echo "❌ 公钥不存在: $PUB_KEY_PATH"
-    echo "请确认密钥对完整"
-    exit 1
-fi
-
-echo "[3/6] 设置 SSH 目录与 key 权限"
+echo "[3/5] 设置 SSH 权限"
 chmod 700 "$SSH_DIR"
 chmod 600 "$KEY_PATH"
-chmod 644 "$PUB_KEY_PATH"
 
-echo "[4/6] 配置 ~/.ssh/config（仅 GitHub）"
+echo "[4/5] 配置 ~/.ssh/config（仅 github.com）"
 if [ ! -f "$CONFIG_FILE" ]; then
     touch "$CONFIG_FILE"
 fi
@@ -51,19 +42,10 @@ fi
 
 chmod 600 "$CONFIG_FILE"
 
-echo "[5/6] 配置 git 全局用户信息"
+echo "[5/5] 配置 git 用户信息"
 git config --global user.name "$GITHUB_USER"
 git config --global user.email "$GITHUB_EMAIL"
 
-echo "[6/6] 启动 ssh-agent 并加载 key"
-eval "$(ssh-agent -s)"
-ssh-add "$KEY_PATH"
-
 echo
-echo "================= 当前使用的 GitHub 公钥 ================="
-cat "$PUB_KEY_PATH"
-echo "========================================================="
-echo
-
-echo "配置完成，可执行以下命令验证："
+echo "完成。验证："
 echo "ssh -T git@github.com"
