@@ -1,0 +1,3 @@
+$DB = "$env:APPDATA\Code\User\globalStorage\state.vscdb"
+Copy-Item $DB "$DB.bak.$(Get-Date -Format 'yyyyMMdd_HHmmss')"
+cd "$env:APPDATA\Code\User\globalStorage\"

@@ -1,0 +1,8 @@
+$needle="call_QZohFxOJ3HUknTul74WrVu0U"
+$dir="$env:APPDATA\Code\Local Storage\leveldb"
+Get-ChildItem $dir -File | % {
+  try {
+    $c = Get-Content $_.FullName -Raw -ErrorAction Stop
+    if ($c -like "*$needle*") { $_.FullName }
+  } catch {}
+}
