@@ -3,7 +3,7 @@ import json
 import requests
 from datetime import datetime
 
-LOG_PATH = "/var/log/openvpn_dns_update.log"
+LOG_PATH = "openvpn_dns_update.log"
 
 def log(msg):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -113,7 +113,7 @@ def main():
     log("===== 开始 DNS 更新任务 =====")
     try:
         config = load_config()
-        domain = "3518.pro"
+        domain = config['CF_Domain']
 
         log("获取 Zone ID...")
         zone_id = get_zone_id(domain, config)
@@ -122,7 +122,8 @@ def main():
         external_ip = get_external_ip()
         log(f"成功获取公网 IP: {external_ip}")
 
-        fqdn = f"vpn-shanghai.{domain}"
+        dns_name=config['CF_DNS_Name']
+        fqdn = f"{dns_name}.{domain}"
         log(f"处理 DNS A 记录: {fqdn}")
         create_or_update_record(zone_id, "A", fqdn, external_ip, 3600, None, config)
 
@@ -133,4 +134,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
