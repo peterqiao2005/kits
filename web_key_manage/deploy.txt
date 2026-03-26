@@ -1,0 +1,2 @@
+# 安装依赖
+pip install flask flask_sqlalchemy flask-session paramiko argon2-cffi
