@@ -1,0 +1,14 @@
+## === 文件: wake.service ===
+
+[Unit]
+Description=WebConsole
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /root/workspace/weburls/server.py
+WorkingDirectory=/root/workspace/weburls
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

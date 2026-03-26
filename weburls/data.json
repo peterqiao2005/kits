@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1774531325129,
+    "name": "1Panel_GCP_PQ",
+    "externalLink": "http://35.212.149.54:28505/0256a2e4b2",
+    "internalLink": "",
+    "primary": "external",
+    "forceExternal": true,
+    "remark": "http://35.212.149.54:28505/0256a2e4b2\nPanel user: 298156f05c\nPanel password: 39b586214a\nTip: To change the password, you can execute the command: 1pctl update password"
+  },
+  {
+    "id": 1774531311269,
+    "name": "新山Wake-on-LAN",
+    "externalLink": "",
+    "internalLink": "http://192.168.100.11:5000/",
+    "primary": "internal",
+    "forceExternal": false,
+    "remark": ""
+  },
+  {
+    "id": 1774531299001,
+    "name": "上海Wake-on-LAN",
+    "externalLink": "",
+    "internalLink": "http://192.168.1.11:5000/",
+    "primary": "internal",
+    "forceExternal": false,
+    "remark": ""
+  },
+  {
+    "id": 1,
+    "name": "OpenAI",
+    "externalLink": "https://www.openai.com",
+    "internalLink": "",
+    "primary": "external",
+    "forceExternal": false,
+    "remark": "示例：外部链接"
+  },
+  {
+    "id": 2,
+    "name": "内部示例",
+    "externalLink": "",
+    "internalLink": "./index.html",
+    "primary": "internal",
+    "forceExternal": false,
+    "remark": "示例：内部链接"
+  }
+]

@@ -1,0 +1,1064 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>URL 页面管理</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Noto+Sans+SC:wght@400;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --bg: #f4f0e8;
+                --bg-2: #e8edf1;
+                --ink: #1b1b1d;
+                --muted: #6b6f76;
+                --card: #fffaf3;
+                --accent: #d45d3b;
+                --accent-2: #1f6f78;
+                --stroke: #e2d8cd;
+                --shadow: 0 18px 45px rgba(34, 30, 24, 0.15);
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                font-family: "Space Grotesk", "Noto Sans SC", sans-serif;
+                color: var(--ink);
+                background:
+                    radial-gradient(
+                        1200px 600px at 10% -10%,
+                        #f6dfcf 0%,
+                        transparent 60%
+                    ),
+                    radial-gradient(
+                        900px 500px at 110% 10%,
+                        #cfe7e2 0%,
+                        transparent 55%
+                    ),
+                    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+                min-height: 100vh;
+            }
+
+            .page {
+                max-width: 1920px;
+                margin: 0 auto;
+                padding: 28px 22px 40px;
+                animation: fadeIn 600ms ease;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .tabs {
+                display: flex;
+                gap: 12px;
+                align-items: center;
+                padding: 10px;
+                background: rgba(255, 255, 255, 0.7);
+                border: 1px solid var(--stroke);
+                border-radius: 12px;
+                box-shadow: var(--shadow);
+                position: sticky;
+                top: 16px;
+                backdrop-filter: blur(6px);
+                z-index: 10;
+            }
+
+            .tab {
+                border: 1px solid transparent;
+                background: transparent;
+                color: var(--muted);
+                padding: 10px 18px;
+                border-radius: 999px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 160ms ease;
+                letter-spacing: 0.3px;
+            }
+
+            .tab.active {
+                color: var(--ink);
+                border-color: var(--accent);
+                background: rgba(212, 93, 59, 0.12);
+            }
+
+            .section {
+                margin-top: 24px;
+                display: none;
+                animation: slideIn 420ms ease;
+            }
+
+            .section.active {
+                display: block;
+            }
+
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(12px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .home-grid {
+                display: grid;
+                grid-template-columns: 280px 1fr;
+                gap: 18px;
+            }
+
+            .panel {
+                background: var(--card);
+                border: 1px solid var(--stroke);
+                border-radius: 16px;
+                padding: 18px;
+                box-shadow: var(--shadow);
+            }
+
+            .panel h2 {
+                margin: 0 0 12px;
+                font-size: 18px;
+                letter-spacing: 0.3px;
+            }
+
+            .list {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .list-item {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                padding: 10px 12px;
+                border-radius: 12px;
+                border: 1px solid transparent;
+                cursor: pointer;
+                transition: all 160ms ease;
+            }
+
+            .list-item:hover {
+                border-color: var(--accent-2);
+                background: rgba(31, 111, 120, 0.08);
+            }
+
+            .list-item.active {
+                border-color: var(--accent);
+                background: rgba(212, 93, 59, 0.12);
+            }
+
+            .list-item.disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            .list-title {
+                font-weight: 600;
+            }
+
+            .list-link {
+                font-size: 12px;
+                color: var(--muted);
+                word-break: break-all;
+            }
+
+            .frame-wrap {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .frame-wrap iframe {
+                width: 100%;
+                height: 70vh;
+                border: 1px solid var(--stroke);
+                border-radius: 14px;
+                background: #ffffff;
+            }
+
+            .hint {
+                font-size: 12px;
+                color: var(--muted);
+            }
+
+            .form-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+
+            .form-grid .full {
+                grid-column: span 2;
+            }
+
+            label {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                font-size: 13px;
+                color: var(--muted);
+            }
+
+            .checkbox-label {
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+                font-size: 14px;
+                color: var(--ink);
+            }
+
+            input,
+            select,
+            textarea {
+                padding: 10px 12px;
+                border-radius: 10px;
+                border: 1px solid var(--stroke);
+                font-family: inherit;
+                font-size: 14px;
+                color: var(--ink);
+                background: #fff;
+            }
+
+            textarea {
+                resize: vertical;
+                min-height: 72px;
+            }
+
+            .btn-row {
+                display: flex;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .btn {
+                border: 1px solid transparent;
+                padding: 10px 16px;
+                border-radius: 10px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 160ms ease;
+            }
+
+            .btn.primary {
+                background: var(--accent);
+                color: white;
+            }
+
+            .btn.secondary {
+                background: rgba(31, 111, 120, 0.12);
+                border-color: rgba(31, 111, 120, 0.3);
+                color: var(--accent-2);
+            }
+
+            .btn.ghost {
+                background: transparent;
+                border-color: var(--stroke);
+                color: var(--muted);
+            }
+
+            .toolbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                flex-wrap: wrap;
+                margin-bottom: 12px;
+            }
+
+            .toolbar-actions {
+                display: flex;
+                gap: 10px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 16px;
+                font-size: 13px;
+            }
+
+            th,
+            td {
+                text-align: left;
+                padding: 10px 8px;
+                border-bottom: 1px solid var(--stroke);
+                vertical-align: top;
+            }
+
+            th {
+                color: var(--muted);
+                font-weight: 600;
+            }
+
+            th.col-order,
+            td.col-order {
+                width: 60px;
+            }
+
+            .drag-handle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 28px;
+                height: 28px;
+                border-radius: 8px;
+                background: rgba(31, 111, 120, 0.12);
+                color: var(--accent-2);
+                cursor: grab;
+                user-select: none;
+            }
+
+            .drag-handle:active {
+                cursor: grabbing;
+            }
+
+            tr.dragging {
+                opacity: 0.4;
+            }
+
+            tr.drag-over {
+                background: rgba(31, 111, 120, 0.08);
+            }
+
+            .tag {
+                display: inline-block;
+                padding: 2px 8px;
+                border-radius: 999px;
+                font-size: 11px;
+                background: rgba(212, 93, 59, 0.14);
+                color: var(--accent);
+            }
+
+            .empty {
+                color: var(--muted);
+                font-style: italic;
+            }
+
+            @media (max-width: 960px) {
+                .home-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .form-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .form-grid .full {
+                    grid-column: span 1;
+                }
+
+                .tabs {
+                    position: static;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page">
+            <nav class="tabs">
+                <button class="tab active" data-tab="home">Home</button>
+                <button class="tab" data-tab="manage">URL 管理</button>
+            </nav>
+
+            <section id="home" class="section active">
+                <div class="home-grid">
+                    <div class="panel">
+                        <h2>页面名称列表</h2>
+                        <div id="homeList" class="list"></div>
+                    </div>
+                    <div class="panel frame-wrap">
+                        <h2>页面预览</h2>
+                        <iframe id="previewFrame" title="页面预览"></iframe>
+                        <div id="frameHint" class="hint">
+                            选择左侧页面名称后会在这里加载。如果外部站点禁止嵌入，将显示为空白。
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="manage" class="section">
+                <div class="panel">
+                    <h2>URL 管理</h2>
+                    <div class="toolbar">
+                        <div id="dataStatus" class="hint"></div>
+                        <div class="toolbar-actions">
+                            <input
+                                id="importInput"
+                                type="file"
+                                accept="application/json"
+                                hidden
+                            />
+                            <button
+                                type="button"
+                                class="btn secondary"
+                                id="importBtn"
+                            >
+                                导入
+                            </button>
+                            <button
+                                type="button"
+                                class="btn ghost"
+                                id="exportBtn"
+                            >
+                                导出
+                            </button>
+                        </div>
+                    </div>
+                    <form id="urlForm" class="form-grid">
+                        <label>
+                            名称
+                            <input
+                                id="nameInput"
+                                type="text"
+                                placeholder="例如：官方首页"
+                                required
+                            />
+                        </label>
+                        <label>
+                            主要链接方式
+                            <select id="primaryInput">
+                                <option value="external">外部</option>
+                                <option value="internal">内部</option>
+                            </select>
+                        </label>
+                        <label class="checkbox-label">
+                            <input id="forceExternalInput" type="checkbox" />
+                            强制外部跳转（新标签打开）
+                        </label>
+                        <label>
+                            外部链接
+                            <input
+                                id="externalInput"
+                                type="url"
+                                placeholder="https://example.com"
+                            />
+                        </label>
+                        <label>
+                            内部链接
+                            <input
+                                id="internalInput"
+                                type="text"
+                                placeholder="/pages/demo.html"
+                            />
+                        </label>
+                        <label class="full">
+                            备注
+                            <textarea
+                                id="remarkInput"
+                                placeholder="可以写说明、用途或备注"
+                            ></textarea>
+                        </label>
+                        <label class="full">
+                            生效链接（自动计算）
+                            <input id="effectiveInput" type="text" readonly />
+                        </label>
+                        <div class="btn-row full">
+                            <button
+                                type="submit"
+                                class="btn primary"
+                                id="saveBtn"
+                            >
+                                添加
+                            </button>
+                            <button
+                                type="button"
+                                class="btn ghost"
+                                id="cancelBtn"
+                            >
+                                取消编辑
+                            </button>
+                        </div>
+                    </form>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="col-order">顺序</th>
+                                <th>名称</th>
+                                <th>外部链接</th>
+                                <th>内部链接</th>
+                                <th>强制外部</th>
+                                <th>主要方式</th>
+                                <th>备注</th>
+                                <th>生效链接</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <script>
+            const API_URL = "/api/data";
+            const LOCAL_KEY = "weburls.data.v1";
+
+            const defaultData = [
+                {
+                    id: Date.now() - 2,
+                    name: "OpenAI",
+                    externalLink: "https://www.openai.com",
+                    internalLink: "",
+                    primary: "external",
+                    forceExternal: false,
+                    remark: "示例：外部链接",
+                },
+                {
+                    id: Date.now() - 1,
+                    name: "内部示例",
+                    externalLink: "",
+                    internalLink: "./index.html",
+                    primary: "internal",
+                    forceExternal: false,
+                    remark: "示例：内部链接",
+                },
+            ];
+
+            const tabs = document.querySelectorAll(".tab");
+            const sections = document.querySelectorAll(".section");
+            const homeList = document.getElementById("homeList");
+            const previewFrame = document.getElementById("previewFrame");
+            const frameHint = document.getElementById("frameHint");
+            const tableBody = document.getElementById("tableBody");
+            const dataStatus = document.getElementById("dataStatus");
+            const importInput = document.getElementById("importInput");
+            const importBtn = document.getElementById("importBtn");
+            const exportBtn = document.getElementById("exportBtn");
+
+            const form = document.getElementById("urlForm");
+            const nameInput = document.getElementById("nameInput");
+            const primaryInput = document.getElementById("primaryInput");
+            const forceExternalInput =
+                document.getElementById("forceExternalInput");
+            const externalInput = document.getElementById("externalInput");
+            const internalInput = document.getElementById("internalInput");
+            const remarkInput = document.getElementById("remarkInput");
+            const effectiveInput = document.getElementById("effectiveInput");
+            const saveBtn = document.getElementById("saveBtn");
+            const cancelBtn = document.getElementById("cancelBtn");
+
+            let data = [];
+            let editingId = null;
+            let useLocal = false;
+            let draggingId = null;
+
+            function setStatus(message, type = "info") {
+                if (!dataStatus) return;
+                dataStatus.textContent = message;
+                dataStatus.style.color =
+                    type === "warn" ? "var(--accent)" : "var(--muted)";
+            }
+
+            function normalizeText(value) {
+                return (value ?? "").toString().trim();
+            }
+
+            function normalizeData(list) {
+                return list.map((item, index) => ({
+                    id:
+                        typeof item.id === "number"
+                            ? item.id
+                            : Date.now() + index,
+                    name: normalizeText(item.name),
+                    externalLink: normalizeText(item.externalLink),
+                    internalLink: normalizeText(item.internalLink),
+                    primary: item.primary || "external",
+                    forceExternal: Boolean(item.forceExternal),
+                    remark: normalizeText(item.remark),
+                }));
+            }
+
+            function keyFor(item) {
+                return [
+                    normalizeText(item.name),
+                    normalizeText(item.externalLink),
+                    normalizeText(item.internalLink),
+                    item.primary || "external",
+                    item.forceExternal ? "1" : "0",
+                    normalizeText(item.remark),
+                ].join("||");
+            }
+
+            function generateId(usedIds) {
+                let id = Date.now() + Math.floor(Math.random() * 10000);
+                while (usedIds.has(id)) {
+                    id += 1;
+                }
+                usedIds.add(id);
+                return id;
+            }
+
+            function mergeDedup(current, incoming) {
+                const merged = [...current];
+                const keySet = new Set(current.map(keyFor));
+                const idSet = new Set(current.map((item) => item.id));
+                let added = 0;
+                let skipped = 0;
+
+                incoming.forEach((item) => {
+                    const normalized = {
+                        ...item,
+                        name: normalizeText(item.name),
+                        externalLink: normalizeText(item.externalLink),
+                        internalLink: normalizeText(item.internalLink),
+                        primary: item.primary || "external",
+                        forceExternal: Boolean(item.forceExternal),
+                        remark: normalizeText(item.remark),
+                    };
+                    const key = keyFor(normalized);
+                    if (keySet.has(key)) {
+                        skipped += 1;
+                        return;
+                    }
+                    let id =
+                        typeof normalized.id === "number"
+                            ? normalized.id
+                            : null;
+                    if (id === null || idSet.has(id)) {
+                        id = generateId(idSet);
+                    } else {
+                        idSet.add(id);
+                    }
+                    normalized.id = id;
+                    merged.push(normalized);
+                    keySet.add(key);
+                    added += 1;
+                });
+
+                return { merged, added, skipped };
+            }
+
+            async function loadData() {
+                try {
+                    const response = await fetch(API_URL, {
+                        cache: "no-store",
+                    });
+                    if (!response.ok) throw new Error("bad response");
+                    const list = await response.json();
+                    if (!Array.isArray(list)) throw new Error("bad data");
+                    useLocal = false;
+                    setStatus("数据来源：data.json");
+                    return normalizeData(list);
+                } catch (err) {
+                    useLocal = true;
+                    const raw = localStorage.getItem(LOCAL_KEY);
+                    if (raw) {
+                        try {
+                            const parsed = JSON.parse(raw);
+                            if (Array.isArray(parsed)) {
+                                setStatus(
+                                    "无法连接本地服务，已使用浏览器缓存。",
+                                    "warn",
+                                );
+                                return normalizeData(parsed);
+                            }
+                        } catch (e) {
+                            // ignore parse error
+                        }
+                    }
+                    localStorage.setItem(
+                        LOCAL_KEY,
+                        JSON.stringify(defaultData),
+                    );
+                    setStatus(
+                        "无法连接本地服务，已使用默认数据（浏览器缓存）。",
+                        "warn",
+                    );
+                    return normalizeData(defaultData);
+                }
+            }
+
+            async function persistData() {
+                if (useLocal) {
+                    localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
+                    return;
+                }
+                try {
+                    const response = await fetch(API_URL, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    });
+                    if (!response.ok) throw new Error("save failed");
+                    setStatus("已保存到 data.json");
+                } catch (err) {
+                    useLocal = true;
+                    localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
+                    setStatus(
+                        "保存失败，已改用浏览器缓存。请启动本地服务。",
+                        "warn",
+                    );
+                }
+            }
+
+            function computeEffective(primary, internalLink, externalLink) {
+                return primary === "internal"
+                    ? internalLink || ""
+                    : externalLink || "";
+            }
+
+            function updateEffectiveField() {
+                effectiveInput.value = computeEffective(
+                    primaryInput.value,
+                    internalInput.value.trim(),
+                    externalInput.value.trim(),
+                );
+            }
+
+            function resetForm() {
+                form.reset();
+                primaryInput.value = "external";
+                forceExternalInput.checked = false;
+                editingId = null;
+                saveBtn.textContent = "添加";
+                updateEffectiveField();
+            }
+
+            function renderHomeList() {
+                homeList.innerHTML = "";
+                const fragment = document.createDocumentFragment();
+
+                data.forEach((item) => {
+                    const effective = computeEffective(
+                        item.primary,
+                        item.internalLink,
+                        item.externalLink,
+                    );
+                    const row = document.createElement("div");
+                    row.className = "list-item";
+                    if (!effective) {
+                        row.classList.add("disabled");
+                    }
+                    row.dataset.id = item.id;
+
+                    const title = document.createElement("div");
+                    title.className = "list-title";
+                    title.textContent = item.name;
+
+                    const link = document.createElement("div");
+                    link.className = "list-link";
+                    link.textContent = effective || "未设置生效链接";
+
+                    row.appendChild(title);
+                    row.appendChild(link);
+
+                    row.addEventListener("click", () => {
+                        if (!effective) return;
+                        if (item.forceExternal) {
+                            window.open(effective, "_blank", "noopener");
+                            previewFrame.removeAttribute("src");
+                            frameHint.textContent =
+                                "已在新标签打开：" + effective;
+                        } else {
+                            previewFrame.src = effective;
+                            frameHint.textContent = "已加载：" + effective;
+                        }
+                        document
+                            .querySelectorAll(".list-item")
+                            .forEach((el) => el.classList.remove("active"));
+                        row.classList.add("active");
+                    });
+
+                    fragment.appendChild(row);
+                });
+
+                homeList.appendChild(fragment);
+
+                if (data.length === 0) {
+                    previewFrame.removeAttribute("src");
+                    frameHint.textContent = "暂无可显示页面。";
+                    return;
+                }
+
+                if (!previewFrame.getAttribute("src")) {
+                    const first = data.find((item) => {
+                        const effective = computeEffective(
+                            item.primary,
+                            item.internalLink,
+                            item.externalLink,
+                        );
+                        return effective && !item.forceExternal;
+                    });
+                    if (first) {
+                        previewFrame.src = computeEffective(
+                            first.primary,
+                            first.internalLink,
+                            first.externalLink,
+                        );
+                        frameHint.textContent = "已加载：" + previewFrame.src;
+                        const firstRow = homeList.querySelector(
+                            `[data-id="${first.id}"]`,
+                        );
+                        if (firstRow) firstRow.classList.add("active");
+                    } else {
+                        previewFrame.removeAttribute("src");
+                        frameHint.textContent =
+                            "当前列表仅包含外部跳转，点击名称将在新标签打开。";
+                    }
+                }
+            }
+
+            function renderTable() {
+                tableBody.innerHTML = "";
+                if (data.length === 0) {
+                    const row = document.createElement("tr");
+                    row.className = "empty-row";
+                    const cell = document.createElement("td");
+                    cell.colSpan = 9;
+                    cell.className = "empty";
+                    cell.textContent = "暂无数据，先添加一个链接。";
+                    row.appendChild(cell);
+                    tableBody.appendChild(row);
+                    return;
+                }
+
+                data.forEach((item) => {
+                    const effective = computeEffective(
+                        item.primary,
+                        item.internalLink,
+                        item.externalLink,
+                    );
+                    const row = document.createElement("tr");
+                    row.dataset.id = item.id;
+
+                    row.innerHTML = `
+          <td class="col-order"><span class="drag-handle" draggable="true" title="拖拽排序">☰</span></td>
+          <td>${item.name}</td>
+          <td>${item.externalLink ? item.externalLink : '<span class="empty">空</span>'}</td>
+          <td>${item.internalLink ? item.internalLink : '<span class="empty">空</span>'}</td>
+          <td>${item.forceExternal ? '<span class="tag">是</span>' : '<span class="empty">否</span>'}</td>
+          <td><span class="tag">${item.primary === "internal" ? "内部" : "外部"}</span></td>
+          <td>${item.remark ? item.remark : '<span class="empty">空</span>'}</td>
+          <td>${effective ? effective : '<span class="empty">未生效</span>'}</td>
+          <td>
+            <button class="btn secondary" data-action="edit" data-id="${item.id}">编辑</button>
+            <button class="btn ghost" data-action="delete" data-id="${item.id}">删除</button>
+          </td>
+        `;
+
+                    tableBody.appendChild(row);
+                });
+            }
+
+            function selectTab(tabId) {
+                tabs.forEach((tab) => {
+                    tab.classList.toggle("active", tab.dataset.tab === tabId);
+                });
+                sections.forEach((section) => {
+                    section.classList.toggle("active", section.id === tabId);
+                });
+            }
+
+            tabs.forEach((tab) => {
+                tab.addEventListener("click", () => selectTab(tab.dataset.tab));
+            });
+
+            function moveItem(fromId, toId) {
+                if (fromId === toId) return;
+                const fromIndex = data.findIndex(
+                    (entry) => entry.id === fromId,
+                );
+                const toIndex = data.findIndex((entry) => entry.id === toId);
+                if (fromIndex < 0 || toIndex < 0) return;
+                const [moved] = data.splice(fromIndex, 1);
+                data.splice(toIndex, 0, moved);
+                void persistData();
+                renderHomeList();
+                renderTable();
+            }
+
+            function clearDragStyles() {
+                tableBody
+                    .querySelectorAll("tr.drag-over, tr.dragging")
+                    .forEach((row) =>
+                        row.classList.remove("drag-over", "dragging"),
+                    );
+            }
+
+            form.addEventListener("submit", (event) => {
+                event.preventDefault();
+                const item = {
+                    id: editingId || Date.now(),
+                    name: nameInput.value.trim(),
+                    externalLink: externalInput.value.trim(),
+                    internalLink: internalInput.value.trim(),
+                    primary: primaryInput.value,
+                    forceExternal: forceExternalInput.checked,
+                    remark: remarkInput.value.trim(),
+                };
+
+                if (!item.name) {
+                    alert("名称不能为空");
+                    return;
+                }
+
+                if (editingId) {
+                    data = data.map((entry) =>
+                        entry.id === editingId ? item : entry,
+                    );
+                } else {
+                    data.unshift(item);
+                }
+
+                void persistData();
+                renderHomeList();
+                renderTable();
+                resetForm();
+            });
+
+            cancelBtn.addEventListener("click", () => resetForm());
+
+            [primaryInput, externalInput, internalInput].forEach((el) => {
+                el.addEventListener("input", updateEffectiveField);
+                el.addEventListener("change", updateEffectiveField);
+            });
+
+            tableBody.addEventListener("click", (event) => {
+                const target = event.target.closest("button");
+                if (!target) return;
+                const id = Number(target.dataset.id);
+                const action = target.dataset.action;
+                const item = data.find((entry) => entry.id === id);
+                if (!item) return;
+
+                if (action === "edit") {
+                    editingId = id;
+                    nameInput.value = item.name;
+                    externalInput.value = item.externalLink;
+                    internalInput.value = item.internalLink;
+                    primaryInput.value = item.primary;
+                    forceExternalInput.checked = Boolean(item.forceExternal);
+                    remarkInput.value = item.remark;
+                    saveBtn.textContent = "保存修改";
+                    updateEffectiveField();
+                    selectTab("manage");
+                    nameInput.focus();
+                }
+
+                if (action === "delete") {
+                    const ok = confirm(`确定删除 “${item.name}” 吗？`);
+                    if (!ok) return;
+                    data = data.filter((entry) => entry.id !== id);
+                    void persistData();
+                    renderHomeList();
+                    renderTable();
+                    if (editingId === id) {
+                        resetForm();
+                    }
+                }
+            });
+
+            importBtn.addEventListener("click", () => {
+                importInput.click();
+            });
+
+            importInput.addEventListener("change", async (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+                try {
+                    const text = await file.text();
+                    const parsed = JSON.parse(text);
+                    if (!Array.isArray(parsed)) {
+                        throw new Error("data must be array");
+                    }
+                    const incoming = normalizeData(parsed);
+                    const result = mergeDedup(data, incoming);
+                    data = result.merged;
+                    await persistData();
+                    renderHomeList();
+                    renderTable();
+                    alert(
+                        `导入完成：新增 ${result.added} 条，重复跳过 ${result.skipped} 条`,
+                    );
+                } catch (err) {
+                    alert("导入失败：请确认文件是有效的 JSON 数组。");
+                } finally {
+                    importInput.value = "";
+                }
+            });
+
+            exportBtn.addEventListener("click", () => {
+                const payload = JSON.stringify(data, null, 2);
+                const blob = new Blob([payload], {
+                    type: "application/json",
+                });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = "weburls-data.json";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            });
+
+            tableBody.addEventListener("dragstart", (event) => {
+                const handle = event.target.closest(".drag-handle");
+                if (!handle) return;
+                const row = handle.closest("tr");
+                if (!row || !row.dataset.id) return;
+                draggingId = Number(row.dataset.id);
+                row.classList.add("dragging");
+                event.dataTransfer.effectAllowed = "move";
+                event.dataTransfer.setData("text/plain", String(draggingId));
+            });
+
+            tableBody.addEventListener("dragover", (event) => {
+                if (draggingId === null) return;
+                event.preventDefault();
+                const row = event.target.closest("tr");
+                if (!row || !row.dataset.id) return;
+                const targetId = Number(row.dataset.id);
+                if (targetId === draggingId) return;
+                clearDragStyles();
+                row.classList.add("drag-over");
+            });
+
+            tableBody.addEventListener("drop", (event) => {
+                if (draggingId === null) return;
+                event.preventDefault();
+                const row = event.target.closest("tr");
+                if (!row || !row.dataset.id) return;
+                const targetId = Number(row.dataset.id);
+                clearDragStyles();
+                if (targetId === draggingId) return;
+                moveItem(draggingId, targetId);
+            });
+
+            tableBody.addEventListener("dragend", () => {
+                draggingId = null;
+                clearDragStyles();
+            });
+
+            async function init() {
+                updateEffectiveField();
+                data = await loadData();
+                renderHomeList();
+                renderTable();
+            }
+
+            init();
+        </script>
+    </body>
+</html>
