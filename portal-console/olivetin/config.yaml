@@ -1,0 +1,13 @@
+pageTitle: Portal Console OliveTin
+showFooter: true
+showNavigation: true
+
+actions:
+  - title: Show current time
+    shell: date
+
+  - title: Show system uptime
+    shell: uptime
+
+  - title: Show current user
+    shell: whoami

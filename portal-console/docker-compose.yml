@@ -1,0 +1,57 @@
+services:
+    postgres:
+        image: postgres:16-alpine
+        container_name: portal-console-postgres
+        environment:
+            POSTGRES_DB: portal_console
+            POSTGRES_USER: portal
+            POSTGRES_PASSWORD: portal
+        ports:
+            - "5432:5432"
+        volumes:
+            - portal_console_pgdata:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U portal -d portal_console"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    backend:
+        build:
+            context: ./backend
+        container_name: portal-console-backend
+        env_file:
+            - ./.env
+        environment:
+            DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://portal:portal@postgres:5432/portal_console}
+            SECRET_KEY: ${SECRET_KEY:-change-this-secret}
+            FIRST_SUPERUSER: ${FIRST_SUPERUSER:-admin}
+            FIRST_SUPERUSER_PASSWORD: ${FIRST_SUPERUSER_PASSWORD:-admin123}
+            SSH_KEY_STORAGE_DIR: ${SSH_KEY_STORAGE_DIR:-./data/ssh_keys}
+            SSH_KEY_ENCRYPTION_SECRET: ${SSH_KEY_ENCRYPTION_SECRET:-change-this-key-encryption-secret}
+            RUNDECK_URL: ${RUNDECK_URL:-}
+            RUNDECK_TOKEN: ${RUNDECK_TOKEN:-}
+            RUNDECK_API_VERSION: ${RUNDECK_API_VERSION:-57}
+            RUNDECK_POLL_ATTEMPTS: ${RUNDECK_POLL_ATTEMPTS:-3}
+            RUNDECK_POLL_INTERVAL_SECONDS: ${RUNDECK_POLL_INTERVAL_SECONDS:-2}
+            KUMA_URL: ${KUMA_URL:-}
+            KUMA_TOKEN: ${KUMA_TOKEN:-}
+        volumes:
+            - ./backend/data:/app/data
+        depends_on:
+            postgres:
+                condition: service_healthy
+        ports:
+            - "8000:8000"
+
+    frontend:
+        build:
+            context: ./frontend
+        container_name: portal-console-frontend
+        depends_on:
+            - backend
+        ports:
+            - "8080:80"
+
+volumes:
+    portal_console_pgdata:

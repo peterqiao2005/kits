@@ -1,0 +1,338 @@
+:root {
+  color-scheme: light;
+  --bg: #eef2eb;
+  --bg-accent: #d9e7df;
+  --panel: rgba(250, 252, 247, 0.84);
+  --panel-strong: #f7f4ec;
+  --text: #15211e;
+  --muted: #56655f;
+  --line: rgba(21, 33, 30, 0.12);
+  --brand: #bf5f2f;
+  --brand-deep: #8d3f18;
+  --success: #1e7a58;
+  --warning: #b17c20;
+  --shadow: 0 20px 60px rgba(58, 67, 58, 0.12);
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top right, rgba(191, 95, 47, 0.18), transparent 28%),
+    radial-gradient(circle at bottom left, rgba(58, 138, 128, 0.16), transparent 24%),
+    linear-gradient(135deg, var(--bg), var(--bg-accent));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: transparent;
+}
+
+a {
+  color: inherit;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.shell {
+  min-height: 100vh;
+}
+
+.shell-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 18px;
+  border-right: 1px solid var(--line);
+  background: rgba(255, 250, 243, 0.72);
+  backdrop-filter: blur(16px);
+}
+
+.brand-block h1,
+.shell-header h2,
+.login-hero h1,
+.card-header h3,
+.detail-hero h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.brand-block p,
+.shell-user p,
+.page-kicker,
+.muted-line,
+.project-title p,
+.server-description {
+  color: var(--muted);
+}
+
+.brand-kicker,
+.page-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.shell-menu,
+.shell-menu.el-menu {
+  border-right: 0;
+  background: transparent;
+}
+
+.shell-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.shell-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px 0;
+}
+
+.shell-main {
+  padding: 24px 28px 28px;
+}
+
+.page-grid,
+.settings-grid,
+.server-grid,
+.detail-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.metrics-row {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.metric-card strong,
+.server-stats strong {
+  display: block;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.panel-card,
+.metric-card,
+.login-card {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+}
+
+.hero-card {
+  background:
+    linear-gradient(125deg, rgba(255, 252, 245, 0.95), rgba(239, 246, 239, 0.85)),
+    var(--panel);
+}
+
+.card-header,
+.toolbar-row,
+.detail-hero,
+.detail-columns,
+.server-stats,
+.link-grid,
+.link-cloud,
+.action-row {
+  display: flex;
+  gap: 12px;
+}
+
+.card-header,
+.detail-hero {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toolbar-row,
+.detail-columns {
+  flex-wrap: wrap;
+}
+
+.toolbar-row > * {
+  min-width: 180px;
+  flex: 1 1 220px;
+}
+
+.dashboard-table .project-title {
+  cursor: pointer;
+}
+
+.tag-row,
+.link-grid,
+.link-cloud,
+.server-projects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.link-grid {
+  flex-direction: column;
+}
+
+.detail-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.detail-status,
+.detail-list {
+  display: grid;
+  gap: 12px;
+}
+
+.status-stack {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.detail-actions {
+  margin-top: 12px;
+}
+
+.compact-list > div {
+  padding-bottom: 10px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.file-picker,
+.table-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.native-file-input {
+  display: none;
+}
+
+.drawer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.detail-list > div {
+  display: grid;
+  gap: 4px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 32px;
+  padding: 48px;
+  align-items: center;
+}
+
+.login-hero {
+  padding: 32px;
+}
+
+.login-hero h1 {
+  max-width: 760px;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 0.98;
+}
+
+.login-hero p:last-child {
+  max-width: 620px;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.login-card {
+  max-width: 460px;
+  justify-self: end;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.server-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.server-card .server-projects {
+  margin-top: 16px;
+}
+
+.action-row {
+  flex-wrap: wrap;
+}
+
+code {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(21, 33, 30, 0.08);
+}
+
+@media (max-width: 1080px) {
+  .shell {
+    display: block;
+  }
+
+  .shell-sidebar {
+    width: 100%;
+    gap: 20px;
+  }
+
+  .metrics-row,
+  .detail-columns,
+  .login-page {
+    grid-template-columns: 1fr;
+  }
+
+  .login-card {
+    justify-self: stretch;
+    max-width: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .shell-header,
+  .shell-main,
+  .login-page {
+    padding: 20px;
+  }
+
+  .panel-card,
+  .metric-card,
+  .login-card {
+    border-radius: 18px;
+  }
+}

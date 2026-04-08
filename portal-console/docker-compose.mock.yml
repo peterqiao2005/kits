@@ -1,0 +1,22 @@
+services:
+  mock-integrations:
+    image: python:3.12-slim
+    container_name: portal-console-mock-integrations
+    working_dir: /app
+    command: ["python", "/app/scripts/mock_integrations.py"]
+    volumes:
+      - ./scripts:/app/scripts:ro
+    ports:
+      - "9000:9000"
+
+  backend:
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mock-integrations:
+        condition: service_started
+    environment:
+      RUNDECK_URL: http://mock-integrations:9000
+      RUNDECK_TOKEN: mock-token
+      KUMA_URL: http://mock-integrations:9000
+      KUMA_TOKEN: ""

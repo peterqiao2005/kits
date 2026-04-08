@@ -1,0 +1,42 @@
+services:
+  rundeck:
+    image: rundeck/rundeck:5.19.0
+    container_name: portal-console-rundeck
+    environment:
+      RUNDECK_GRAILS_URL: http://127.0.0.1:4440
+      RUNDECK_SECURITY_DBLOGIN_ENABLED: "true"
+      RUNDECK_SECURITY_DBLOGIN_CREATEADMINUSERANDROLES: "true"
+      RUNDECK_SECURITY_DBLOGIN_ADMINUSERNAME: admin
+      RUNDECK_SECURITY_DBLOGIN_ADMINPASSWORD: admin123
+      RUNDECK_TOKENS_FILE: /home/rundeck/server/config/tokens.properties
+    volumes:
+      - portal_console_rundeck_data:/home/rundeck/server/data
+      - ./rundeck/tokens.properties:/home/rundeck/server/config/tokens.properties:ro
+    ports:
+      - "4440:4440"
+
+  kuma:
+    image: louislam/uptime-kuma:2
+    container_name: portal-console-kuma
+    volumes:
+      - portal_console_kuma_data:/app/data
+    ports:
+      - "3001:3001"
+
+  backend:
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rundeck:
+        condition: service_started
+      kuma:
+        condition: service_started
+    environment:
+      RUNDECK_URL: http://rundeck:4440
+      RUNDECK_TOKEN: portal-console-static-token
+      KUMA_URL: http://kuma:3001
+      KUMA_TOKEN: ""
+
+volumes:
+  portal_console_rundeck_data:
+  portal_console_kuma_data:
