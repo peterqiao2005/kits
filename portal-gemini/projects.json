@@ -1,0 +1,39 @@
+[
+    {
+        "id": 1,
+        "name": "Xianxia-AI-Plot",
+        "group": "WSL-Local",
+        "host": "192.168.1.100",
+        "port": 2222,
+        "user": "your_user",
+        "password": "your_password",
+        "start_cmd": "cd /home/user/plot && docker-compose up -d",
+        "stop_cmd": "docker stop plot_container",
+        "memo": "WSL里的剧情分析工具"
+    },
+    {
+        "id": 2,
+        "name": "N1-Proxy-Server",
+        "group": "Remote-Server",
+        "host": "45.xx.xx.xx",
+        "port": 22,
+        "user": "root",
+        "password": "your_password",
+        "start_cmd": "systemctl start xray",
+        "stop_cmd": "systemctl stop xray",
+        "memo": "跑在N1盒子上的代理服务"
+    },
+    {
+        "id": 3,
+        "name": "kylemanna/openvpn",
+        "group": "Remote-Server",
+        "host": "192.168.100.108",
+        "port": 22,
+        "user": "root",
+        "key_file": "C:\\Users\\ai\\.ssh\\peterqiao0612",
+        "password": "umobile$prabayar",
+        "start_cmd": "cd /home/ubuntu/workspace/openvpn && /usr/bin/docker compose up -d || echo 'Startup Failed'",
+        "stop_cmd": "cd /home/ubuntu/workspace/openvpn && /usr/bin/docker compose down || echo 'Shutdown Failed'",
+        "memo": "kylemanna/openvpn"
+    }
+]
