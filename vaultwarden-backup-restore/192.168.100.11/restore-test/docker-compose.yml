@@ -1,0 +1,13 @@
+services:
+  vaultwarden-restore-test:
+    image: vaultwarden/server:1.35.3
+    container_name: vaultwarden-restore-test
+    restart: unless-stopped
+    ports:
+      - "18080:80"
+    volumes:
+      - ./vw-data:/data
+    environment:
+      DOMAIN: https://192.168.100.11:18443
+      SIGNUPS_ALLOWED: "false"
+      WEBSOCKET_ENABLED: "true"
