@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>完成重复待办</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="rail" aria-label="主导航">
+        <div class="avatar">T</div>
+        <button class="rail-btn active" data-mode="list" title="任务">✓</button>
+        <button class="rail-btn" data-mode="calendar" title="日历">▦</button>
+        <button class="rail-btn" data-mode="kanban" title="看板">☷</button>
+        <button class="rail-btn" data-mode="matrix" title="四象限">⌘</button>
+        <button class="rail-btn" data-mode="focus" title="专注">◷</button>
+        <button class="rail-btn bottom" id="syncBtn" title="同步">↻</button>
+      </aside>
+
+      <aside class="sidebar">
+        <nav class="nav-list">
+          <button class="nav-item" data-view="today">
+            <span>▣</span>
+            今天
+            <strong id="todayCount">0</strong>
+          </button>
+          <button class="nav-item" data-view="week">
+            <span>Mo</span>
+            最近7天
+            <strong id="weekCount">0</strong>
+          </button>
+          <button class="nav-item active" data-view="inbox">
+            <span>⌂</span>
+            收集箱
+            <strong id="allCount">0</strong>
+          </button>
+        </nav>
+
+        <section class="side-section">
+          <h2>清单</h2>
+          <button class="list-pill active">手机卡保号提醒</button>
+        </section>
+
+        <section class="side-section muted">
+          <h2>说明</h2>
+          <p>勾选任务后，如果设置了“完成重复”，任务会自动跳到下一次到期日，而不是进入已完成。</p>
+        </section>
+
+        <nav class="nav-list lower">
+          <button class="nav-item" data-view="done"><span>☑</span>已完成</button>
+          <button class="nav-item danger" id="clearDone"><span>⌫</span>清空完成记录</button>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="main-header">
+          <div>
+            <button class="icon-btn" id="toggleSidebar" title="折叠菜单">☰</button>
+            <h1>手机卡保号提醒</h1>
+          </div>
+          <div class="header-actions">
+            <span class="account-badge" id="accountBadge">本地模式</span>
+            <button class="icon-btn" id="sortBtn" title="按日期排序">⇅</button>
+            <button class="icon-btn" id="notificationBtn" title="通知设置">···</button>
+          </div>
+          <div class="more-menu hidden" id="moreMenu">
+            <button type="button" id="openSettings">通知设置</button>
+            <button type="button" id="exportData">导出数据</button>
+            <label for="importData">导入数据</label>
+            <input id="importData" type="file" accept="application/json" />
+            <button type="button" id="resetSamples">恢复示例</button>
+            <button type="button" id="logoutBtn">退出登录</button>
+          </div>
+        </header>
+
+        <form class="quick-add" id="quickAdd">
+          <input id="quickTitle" type="text" placeholder="+ 添加任务，例如：美国Talkatone" autocomplete="off" />
+          <button type="submit">添加</button>
+        </form>
+
+        <section class="task-list" id="taskList" aria-label="任务列表"></section>
+        <section class="calendar-view hidden" id="calendarView"></section>
+        <section class="board-view hidden" id="kanbanView"></section>
+        <section class="matrix-view hidden" id="matrixView"></section>
+        <section class="focus-view hidden" id="focusView">
+          <div class="focus-ring">
+            <strong id="focusTimer">25:00</strong>
+            <span id="focusTaskName">选择任务后开始专注</span>
+          </div>
+          <div class="focus-actions">
+            <button type="button" class="primary" id="startFocus">开始</button>
+            <button type="button" id="pauseFocus">暂停</button>
+            <button type="button" id="resetFocus">重置</button>
+          </div>
+        </section>
+      </main>
+
+      <aside class="detail" id="detailPanel">
+        <div class="empty-detail" id="emptyDetail">选择一个任务来设置日期和完成重复</div>
+        <form class="detail-form hidden" id="detailForm">
+          <div class="detail-top">
+            <input type="checkbox" id="detailDone" />
+            <input id="detailTitle" class="detail-title" />
+            <button type="button" class="icon-btn" id="deleteTask" title="删除任务">⌫</button>
+          </div>
+
+          <label class="field">
+            <span>日期</span>
+            <input id="dueDate" type="date" />
+          </label>
+
+          <div class="calendar-box">
+            <div class="month-head">
+              <button type="button" class="icon-btn" id="prevMonth">‹</button>
+              <strong id="monthLabel">2026年5月</strong>
+              <button type="button" class="icon-btn" id="nextMonth">›</button>
+            </div>
+            <div class="calendar-grid weekday">
+              <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+            </div>
+            <div class="calendar-grid" id="calendar"></div>
+          </div>
+
+          <label class="field two-col">
+            <span>时间</span>
+            <input id="dueTime" type="time" />
+          </label>
+
+          <label class="field">
+            <span>清单</span>
+            <input id="taskListName" type="text" placeholder="手机卡保号提醒" />
+          </label>
+
+          <label class="field">
+            <span>优先级</span>
+            <select id="priority">
+              <option value="none">无</option>
+              <option value="low">低</option>
+              <option value="medium">中</option>
+              <option value="high">高</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>标签</span>
+            <input id="tags" type="text" placeholder="多个标签用逗号分隔，例如：保号,海外卡" />
+          </label>
+
+          <label class="field">
+            <span>备注</span>
+            <textarea id="notes" rows="5" placeholder="记录充值方式、账号、链接或注意事项"></textarea>
+          </label>
+
+          <section class="subtasks">
+            <h2>子任务</h2>
+            <form id="subtaskForm" class="subtask-add">
+              <input id="subtaskTitle" type="text" placeholder="+ 添加子任务" />
+              <button type="submit">添加</button>
+            </form>
+            <ul id="subtaskList"></ul>
+          </section>
+
+          <section class="repeat-section">
+            <button type="button" class="section-toggle" id="repeatToggle">
+              <span>↻</span>
+              重复
+              <b id="repeatSummary">无</b>
+            </button>
+
+            <div class="repeat-editor" id="repeatEditor">
+              <label class="field">
+                <span>模式</span>
+                <select id="repeatMode">
+                  <option value="none">不重复</option>
+                  <option value="afterCompletion">完成重复</option>
+                  <option value="fixedSchedule">固定日程重复</option>
+                </select>
+              </label>
+
+              <div class="interval-row">
+                <span>每</span>
+                <input id="repeatEvery" type="number" min="1" max="999" value="1" />
+                <select id="repeatUnit">
+                  <option value="day">天</option>
+                  <option value="week">周</option>
+                  <option value="month">月</option>
+                  <option value="year">年</option>
+                </select>
+              </div>
+
+              <label class="check-row">
+                <input id="skipHolidays" type="checkbox" disabled />
+                跳过法定节假日（待接入日历）
+              </label>
+              <label class="check-row">
+                <input id="skipWeekends" type="checkbox" />
+                跳过双休日
+              </label>
+
+              <div class="repeat-actions">
+                <button type="button" class="primary" id="applyRepeat">确定</button>
+                <button type="button" id="cancelRepeat">取消</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="history">
+            <h2>完成记录</h2>
+            <ol id="historyList"></ol>
+          </section>
+        </form>
+      </aside>
+
+      <dialog class="settings-dialog" id="settingsDialog">
+        <form class="settings" id="notificationSettings">
+          <header>
+            <h2>通知设置</h2>
+            <button type="button" class="icon-btn" id="closeSettings" title="关闭">×</button>
+          </header>
+
+          <label class="check-row">
+            <input id="browserEnabled" type="checkbox" />
+            浏览器提醒
+          </label>
+
+          <label class="check-row">
+            <input id="serverEnabled" type="checkbox" />
+            后端提醒（微信/飞书/邮件/webhook）
+          </label>
+
+          <label class="field">
+            <span>企业微信机器人 Webhook 或 Key</span>
+            <input id="wecomWebhook" type="text" placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=..." />
+          </label>
+
+          <label class="field">
+            <span>飞书机器人 Webhook</span>
+            <input id="feishuWebhook" type="text" placeholder="https://open.feishu.cn/open-apis/bot/v2/hook/..." />
+          </label>
+
+          <label class="field">
+            <span>飞书签名 Secret（可选）</span>
+            <input id="feishuSecret" type="password" />
+          </label>
+
+          <label class="field">
+            <span>通用 Webhook</span>
+            <input id="genericWebhook" type="text" placeholder="https://example.com/reminder" />
+          </label>
+
+          <div class="mail-grid">
+            <label class="field">
+              <span>SMTP 主机</span>
+              <input id="smtpHost" type="text" />
+            </label>
+            <label class="field">
+              <span>端口</span>
+              <input id="smtpPort" type="number" min="1" placeholder="465" />
+            </label>
+            <label class="field">
+              <span>账号</span>
+              <input id="smtpUser" type="text" />
+            </label>
+            <label class="field">
+              <span>密码/授权码</span>
+              <input id="smtpPassword" type="password" />
+            </label>
+            <label class="field">
+              <span>发件人</span>
+              <input id="mailFrom" type="email" />
+            </label>
+            <label class="field">
+              <span>收件人</span>
+              <input id="mailTo" type="email" />
+            </label>
+          </div>
+
+          <p class="settings-note" id="settingsStatus">浏览器提醒可直接使用；微信、飞书、邮件、webhook 需要运行 server.py。</p>
+
+          <div class="settings-actions">
+            <button type="button" id="testNotification">测试通知</button>
+            <button type="submit" class="primary">保存</button>
+          </div>
+        </form>
+      </dialog>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
