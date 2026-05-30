@@ -36,7 +36,7 @@ const filteredProjects = computed(() =>
       if (!haystack.includes(keyword)) return false;
     }
     if (filters.value.status && project.http_status !== filters.value.status) return false;
-    if (filters.value.serverId && project.server_id !== filters.value.serverId) return false;
+    if (filters.value.serverId && project.server?.id !== filters.value.serverId) return false;
     if (filters.value.favoriteOnly && !project.is_favorite) return false;
     return true;
   }),

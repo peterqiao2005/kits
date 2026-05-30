@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
-import { Key, Monitor, Setting, Tickets, UserFilled } from "@element-plus/icons-vue";
+import { Key, Link, Monitor, Setting, Tickets, UserFilled } from "@element-plus/icons-vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { getMe } from "./api/modules";
@@ -14,6 +14,7 @@ const pageTitle = computed(() => (route.meta.title as string) || String(route.na
 
 const menuItems = [
   { index: "/dashboard", label: "Dashboard", icon: Monitor },
+  { index: "/links", label: "Quick Links", icon: Link },
   { index: "/servers", label: "Servers", icon: Tickets },
   { index: "/ssh-keys", label: "SSH Keys", icon: Key },
   { index: "/logs", label: "Logs", icon: UserFilled },

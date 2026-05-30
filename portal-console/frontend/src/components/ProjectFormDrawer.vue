@@ -2,8 +2,10 @@
 import { computed, reactive, ref, watch } from "vue";
 import { ElMessage } from "element-plus";
 
+import { Delete } from "@element-plus/icons-vue";
+
 import { createProject, updateProject } from "../api/modules";
-import type { Project, ProjectPayload, RuntimeType, Server } from "../types";
+import type { Project, ProjectPayload, RuntimeType, Server, LinkType } from "../types";
 
 const props = defineProps<{
   modelValue: boolean;
@@ -47,6 +49,7 @@ const form = reactive({
   restart_cmd: "",
   kuma_monitor_id: "",
   is_favorite: false,
+  links: [] as { link_type: LinkType; title: string; url: string; sort_order: number }[],
 });
 
 const runtimeOptions: Array<{ label: string; value: RuntimeType }> = [
@@ -190,8 +193,27 @@ function hydrateForm(project: Project | null) {
   form.restart_cmd = project?.restart_cmd ?? "";
   form.kuma_monitor_id = project?.kuma_monitor_id ?? "";
   form.is_favorite = project?.is_favorite ?? false;
+  form.links = (project?.links ?? []).map((link) => ({
+    link_type: link.link_type,
+    title: link.title,
+    url: link.url,
+    sort_order: link.sort_order,
+  }));
   resetDirty();
   applyDefaults();
+}
+
+function addLinkFormItem() {
+  form.links.push({
+    link_type: "web",
+    title: "",
+    url: "",
+    sort_order: form.links.length + 1,
+  });
+}
+
+function removeLinkFormItem(index: number) {
+  form.links.splice(index, 1);
 }
 
 watch(
@@ -251,6 +273,7 @@ async function submit() {
     restart_cmd: normalizeCommand(form.restart_cmd),
     kuma_monitor_id: form.kuma_monitor_id.trim() || null,
     is_favorite: form.is_favorite,
+    links: form.links.map((link, idx) => ({ ...link, sort_order: idx + 1 })),
   };
 
   try {
@@ -311,6 +334,23 @@ async function submit() {
       <el-form-item label="Access note">
         <el-input v-model="form.access_note" type="textarea" :rows="2" />
       </el-form-item>
+
+      <el-divider>Service Access Links</el-divider>
+      <div v-for="(link, index) in form.links" :key="index" class="link-item-row" style="display: flex; gap: 8px; margin-bottom: 12px; align-items: center;">
+        <el-select v-model="link.link_type" style="width: 120px;">
+          <el-option label="web" value="web" />
+          <el-option label="admin" value="admin" />
+          <el-option label="docs" value="docs" />
+          <el-option label="github" value="github" />
+          <el-option label="ssh" value="ssh" />
+          <el-option label="monitor" value="monitor" />
+          <el-option label="logs" value="logs" />
+        </el-select>
+        <el-input v-model="link.title" placeholder="Title" style="width: 140px;" />
+        <el-input v-model="link.url" placeholder="URL" style="flex: 1;" />
+        <el-button type="danger" :icon="Delete" circle @click="removeLinkFormItem(index)" />
+      </div>
+      <el-button type="primary" plain @click="addLinkFormItem" style="margin-bottom: 16px;">Add Link</el-button>
 
       <el-divider>Commands</el-divider>
       <p class="muted-line">

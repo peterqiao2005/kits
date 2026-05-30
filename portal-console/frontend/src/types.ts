@@ -1,6 +1,7 @@
 export type UserRole = "admin" | "viewer";
 export type EnvironmentType = "public" | "lan" | "local";
 export type ServerAuthType = "password" | "ssh_key";
+export type OSType = "linux" | "windows";
 export type RuntimeType =
   | "docker_compose"
   | "docker_container"
@@ -47,6 +48,7 @@ export interface Server {
   id: number;
   name: string;
   host: string;
+  os_type: OSType;
   ssh_port: number;
   ssh_username?: string | null;
   ssh_auth_type: ServerAuthType;
@@ -64,6 +66,7 @@ export interface Server {
 export interface ServerPayload {
   name: string;
   host: string;
+  os_type: OSType;
   ssh_port: number;
   ssh_username: string;
   ssh_auth_type: ServerAuthType;
@@ -136,6 +139,7 @@ export interface ProjectPayload {
   restart_cmd?: string | null;
   kuma_monitor_id?: string | null;
   is_favorite?: boolean;
+  links?: { link_type: LinkType; title: string; url: string; sort_order: number }[];
 }
 
 export interface OperationLog {

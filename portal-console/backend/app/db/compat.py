@@ -7,6 +7,7 @@ from app.models.enums import (
     EnvironmentType,
     OperationAction,
     OperationStatus,
+    OSType,
     ProjectLinkType,
     ProjectStatus,
     ServerAuthType,
@@ -101,6 +102,7 @@ def ensure_schema(session: Session) -> None:
 
     _ensure_enum_type(session, "environmenttype", [item.value for item in EnvironmentType])
     _ensure_enum_type(session, "serverauthtype", [item.value for item in ServerAuthType])
+    _ensure_enum_type(session, "ostype", [item.value for item in OSType])
     _ensure_enum_type(session, "userrole", [item.value for item in UserRole])
     _ensure_enum_type(session, "runtimetype", [item.value for item in RuntimeType])
     _ensure_enum_type(session, "projectlinktype", [item.value for item in ProjectLinkType])
@@ -140,6 +142,12 @@ def ensure_schema(session: Session) -> None:
     _ensure_column(
         session,
         "servers",
+        "os_type",
+        "ostype NOT NULL DEFAULT 'linux'",
+    )
+    _ensure_column(
+        session,
+        "servers",
         "ssh_auth_type",
         "serverauthtype NOT NULL DEFAULT 'ssh_key'",
     )
@@ -173,6 +181,7 @@ def ensure_schema(session: Session) -> None:
     _normalize_enum_column(session, "users", "role", "userrole", UserRole)
     _normalize_enum_column(session, "servers", "env_type", "environmenttype", EnvironmentType)
     _normalize_enum_column(session, "servers", "ssh_auth_type", "serverauthtype", ServerAuthType)
+    _normalize_enum_column(session, "servers", "os_type", "ostype", OSType)
     _normalize_enum_column(session, "projects", "runtime_type", "runtimetype", RuntimeType)
     _normalize_enum_column(
         session, "projects", "current_status", "projectstatus", ProjectStatus

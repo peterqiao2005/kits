@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from app.models.enums import RuntimeType
+from app.models.enums import RuntimeType, OSType
 from app.models.project import Project
+from app.models.server import Server
 
 NOHUP_GUARDS = ("nohup", "setsid", "disown", "tmux", "screen", "systemd-run")
 
@@ -23,9 +24,74 @@ def _script_target(project: Project) -> str:
     return project.deploy_path or _safe_name(project)
 
 
-def build_default_commands(project: Project) -> DefaultCommands:
+def build_default_commands(project: Project, server: Server) -> DefaultCommands:
     service_name = _safe_name(project)
     deploy_path = project.deploy_path or "."
+
+    if server.os_type == OSType.WINDOWS:
+        win_deploy_path = deploy_path.replace("/", "\\")
+        if project.runtime_type == RuntimeType.SYSTEMD_SERVICE:
+            return DefaultCommands(
+                start_cmd=f"powershell -Command \"Start-Service -Name '{service_name}'\"",
+                stop_cmd=f"powershell -Command \"Stop-Service -Name '{service_name}'\"",
+                restart_cmd=f"powershell -Command \"Restart-Service -Name '{service_name}'\"",
+            )
+        if project.runtime_type == RuntimeType.SUPERVISORD:
+            # supervisor doesn't run on Windows typically, but if chosen, map to PowerShell services
+            return DefaultCommands(
+                start_cmd=f"powershell -Command \"Start-Service -Name '{service_name}'\"",
+                stop_cmd=f"powershell -Command \"Stop-Service -Name '{service_name}'\"",
+                restart_cmd=f"powershell -Command \"Restart-Service -Name '{service_name}'\"",
+            )
+        if project.runtime_type == RuntimeType.PM2_PROCESS:
+            return DefaultCommands(
+                start_cmd=f"pm2 start {service_name}",
+                stop_cmd=f"pm2 stop {service_name}",
+                restart_cmd=f"pm2 restart {service_name}",
+            )
+        if project.runtime_type == RuntimeType.DOCKER_CONTAINER:
+            return DefaultCommands(
+                start_cmd=f"docker start {service_name}",
+                stop_cmd=f"docker stop {service_name}",
+                restart_cmd=f"docker restart {service_name}",
+            )
+        if project.runtime_type == RuntimeType.DOCKER_COMPOSE:
+            return DefaultCommands(
+                start_cmd=f"cmd /c \"cd /d {win_deploy_path} && docker compose up -d\"",
+                stop_cmd=f"cmd /c \"cd /d {win_deploy_path} && docker compose down\"",
+                restart_cmd=f"cmd /c \"cd /d {win_deploy_path} && docker compose restart\"",
+            )
+        if project.runtime_type == RuntimeType.PYTHON_SCRIPT:
+            target = _script_target(project).replace("/", "\\")
+            escaped_target = target.replace('\\', '\\\\')
+            safe_name_log = service_name.replace(" ", "_")
+            log_path = f"C:\\Windows\\Temp\\portal-console-{safe_name_log}.log"
+            err_path = f"C:\\Windows\\Temp\\portal-console-{safe_name_log}-err.log"
+            start_args = f"-ArgumentList '{target}' -WindowStyle Hidden -RedirectStandardOutput '{log_path}' -RedirectStandardError '{err_path}'"
+            return DefaultCommands(
+                start_cmd=f"powershell -Command \"Start-Process python {start_args}\"",
+                stop_cmd=f"powershell -Command \"Get-CimInstance Win32_Process -Filter \\\"CommandLine like '%{escaped_target}%'\\\" | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }}\"",
+                restart_cmd=f"powershell -Command \"Get-CimInstance Win32_Process -Filter \\\"CommandLine like '%{escaped_target}%'\\\" | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }}; Start-Process python {start_args}\"",
+            )
+        if project.runtime_type == RuntimeType.SHELL_SCRIPT:
+            target = _script_target(project).replace("/", "\\")
+            escaped_target = target.replace('\\', '\\\\')
+            safe_name_log = service_name.replace(" ", "_")
+            log_path = f"C:\\Windows\\Temp\\portal-console-{safe_name_log}.log"
+            err_path = f"C:\\Windows\\Temp\\portal-console-{safe_name_log}-err.log"
+            if target.endswith(".ps1"):
+                start_args = f"-ArgumentList '-File', '{target}' -WindowStyle Hidden -RedirectStandardOutput '{log_path}' -RedirectStandardError '{err_path}'"
+                start_cmd = f"powershell -Command \"Start-Process powershell {start_args}\""
+            else:
+                start_args = f"-ArgumentList '/c', '{target}' -WindowStyle Hidden -RedirectStandardOutput '{log_path}' -RedirectStandardError '{err_path}'"
+                start_cmd = f"powershell -Command \"Start-Process cmd {start_args}\""
+            
+            return DefaultCommands(
+                start_cmd=start_cmd,
+                stop_cmd=f"powershell -Command \"Get-CimInstance Win32_Process -Filter \\\"CommandLine like '%{escaped_target}%'\\\" | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }}\"",
+                restart_cmd=f"powershell -Command \"Get-CimInstance Win32_Process -Filter \\\"CommandLine like '%{escaped_target}%'\\\" | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }}; {start_cmd[19:-1]}\"",
+            )
+        return DefaultCommands()
 
     if project.runtime_type == RuntimeType.SYSTEMD_SERVICE:
         return DefaultCommands(

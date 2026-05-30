@@ -5,6 +5,7 @@ import { ElMessage } from "element-plus";
 import { createServer, updateServer } from "../api/modules";
 import type {
   EnvironmentType,
+  OSType,
   Server,
   ServerAuthType,
   ServerPayload,
@@ -32,6 +33,7 @@ const drawerTitle = computed(() => (props.server ? "Edit server" : "New server")
 const form = reactive({
   name: "",
   host: "",
+  os_type: "linux" as OSType,
   ssh_port: 22,
   ssh_username: "root",
   ssh_auth_type: "ssh_key" as ServerAuthType,
@@ -52,6 +54,7 @@ function toTags(text: string) {
 function hydrate(server: Server | null) {
   form.name = server?.name ?? "";
   form.host = server?.host ?? "";
+  form.os_type = server?.os_type ?? "linux";
   form.ssh_port = server?.ssh_port ?? 22;
   form.ssh_username = server?.ssh_username ?? "root";
   form.ssh_auth_type = server?.ssh_auth_type ?? "ssh_key";
@@ -100,6 +103,7 @@ async function submit() {
   const payload: Partial<ServerPayload> = {
     name: form.name.trim(),
     host: form.host.trim(),
+    os_type: form.os_type,
     ssh_port: Number(form.ssh_port) || 22,
     ssh_username: form.ssh_username.trim(),
     ssh_auth_type: form.ssh_auth_type,
@@ -135,6 +139,12 @@ async function submit() {
     <el-form label-position="top" class="form-grid">
       <el-form-item label="Server name">
         <el-input v-model="form.name" placeholder="prod-app-01" />
+      </el-form-item>
+      <el-form-item label="OS Type">
+        <el-radio-group v-model="form.os_type">
+          <el-radio-button label="linux">Linux</el-radio-button>
+          <el-radio-button label="windows">Windows</el-radio-button>
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="Host">
         <el-input v-model="form.host" placeholder="192.168.1.10 or server.example.com" />

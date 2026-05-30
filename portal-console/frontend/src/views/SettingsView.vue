@@ -2,16 +2,41 @@
 import { onMounted, ref } from "vue";
 import { ElMessage } from "element-plus";
 
-import { getIntegrations } from "../api/modules";
+import { getIntegrations, getAgentSecret, generateAgentSecret } from "../api/modules";
 import type { IntegrationsSummary } from "../types";
 
 const loading = ref(false);
 const integrations = ref<IntegrationsSummary | null>(null);
+const agentSecret = ref("");
+const generating = ref(false);
+
+async function loadAgentSecret() {
+  try {
+    const res = await getAgentSecret();
+    agentSecret.value = res.secret;
+  } catch {
+    // Viewer role fails to fetch agent secret, ignore silently or warn
+  }
+}
+
+async function onGenerateSecret() {
+  generating.value = true;
+  try {
+    const res = await generateAgentSecret();
+    agentSecret.value = res.secret;
+    ElMessage.success("New Windows Agent JWT Secret generated successfully.");
+  } catch {
+    ElMessage.error("Failed to generate new secret.");
+  } finally {
+    generating.value = false;
+  }
+}
 
 async function loadData() {
   loading.value = true;
   try {
     integrations.value = await getIntegrations();
+    await loadAgentSecret();
   } catch {
     ElMessage.warning("Only admins can view integration summaries.");
   } finally {
@@ -48,6 +73,21 @@ onMounted(loadData);
       <p>HTTP health remains the preferred external signal when a monitor is bound to a service.</p>
       <p class="muted-line">Base URL: {{ integrations?.kuma.base_url || "Not set" }}</p>
       <code>KUMA_URL / KUMA_TOKEN</code>
+    </el-card>
+
+    <el-card shadow="never" class="panel-card" v-if="agentSecret">
+      <template #header>
+        <div class="card-header">
+          <span>Windows Helper Agent</span>
+          <el-tag type="primary" effect="plain">Security</el-tag>
+        </div>
+      </template>
+      <p>Configure and generate the JWT Secret used to authenticate the Windows Helper Agent running locally on dev machines.</p>
+      <div style="display: flex; gap: 12px; align-items: center; margin: 16px 0; flex-wrap: wrap;">
+        <el-input v-model="agentSecret" style="width: 320px;" readonly placeholder="Generating secret..." show-password />
+        <el-button type="primary" :loading="generating" @click="onGenerateSecret">Generate New Secret</el-button>
+      </div>
+      <p class="muted-line">Copy this secret key to your Windows Agent <code>config.json</code> under the <code>"secret"</code> key.</p>
     </el-card>
 
     <el-card shadow="never" class="panel-card">

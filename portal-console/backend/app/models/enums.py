@@ -17,6 +17,11 @@ class ServerAuthType(str, Enum):
     SSH_KEY = "ssh_key"
 
 
+class OSType(str, Enum):
+    LINUX = "linux"
+    WINDOWS = "windows"
+
+
 class RuntimeType(str, Enum):
     DOCKER_COMPOSE = "docker_compose"
     DOCKER_CONTAINER = "docker_container"

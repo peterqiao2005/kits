@@ -33,6 +33,12 @@ const router = createRouter({
       redirect: (to) => `/services/${to.params.id}`,
     },
     {
+      path: "/links",
+      name: "links",
+      component: () => import("../views/LinksView.vue"),
+      meta: { title: "Quick Links" },
+    },
+    {
       path: "/servers",
       name: "servers",
       component: () => import("../views/ServersView.vue"),

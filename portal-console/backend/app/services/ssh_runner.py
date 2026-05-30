@@ -1,13 +1,36 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-
+from datetime import datetime, timedelta, timezone
+import httpx
+from jose import jwt
 import paramiko
+from sqlalchemy import select
 
-from app.models.enums import ServerAuthType
+from app.core.config import get_settings
+from app.db.session import SessionLocal
+from app.models.enums import ServerAuthType, OSType
 from app.models.server import Server
+from app.models.system_setting import SystemSetting
 from app.services.secrets import decrypt_secret
 from app.services.ssh_key_store import resolve_private_key_path
+
+settings = get_settings()
+
+def get_agent_secret() -> str:
+    with SessionLocal() as db:
+        setting = db.scalar(select(SystemSetting).where(SystemSetting.key == "windows_agent_secret"))
+        if setting is None:
+            return settings.SECRET_KEY
+        return setting.value
+
+def generate_agent_token() -> str:
+    payload = {
+        "iss": "portal-console",
+        "exp": int((datetime.now(timezone.utc) + timedelta(minutes=2)).timestamp()),
+    }
+    secret = get_agent_secret()
+    return jwt.encode(payload, secret, algorithm="HS256")
 
 
 @dataclass
@@ -22,6 +45,52 @@ def run_ssh_command(
     command: str,
     timeout_seconds: float = 15.0,
 ) -> SshResult:
+    if server.os_type == OSType.WINDOWS:
+        port = server.ssh_port if server.ssh_port != 22 else 8008
+        try:
+            token = generate_agent_token()
+            url = f"http://{server.host}:{port}/execute"
+            
+            run_as_admin = False
+            admin_triggers = ["start-service", "stop-service", "restart-service", "net start", "net stop", "sc config"]
+            lowered_cmd = command.lower()
+            if any(trigger in lowered_cmd for trigger in admin_triggers):
+                run_as_admin = True
+                
+            shell = "powershell"
+            if "cmd /c" in command or "cmd.exe /c" in command:
+                shell = "cmd"
+                
+            headers = {"Authorization": f"Bearer {token}"}
+            payload = {
+                "command": command,
+                "shell": shell,
+                "run_as_admin": run_as_admin
+            }
+            
+            with httpx.Client(timeout=timeout_seconds) as client:
+                response = client.post(url, json=payload, headers=headers)
+                
+            if response.status_code == 200:
+                res_data = response.json()
+                return SshResult(
+                    exit_code=res_data.get("exit_code", 0),
+                    stdout=res_data.get("stdout", ""),
+                    stderr=res_data.get("stderr", "")
+                )
+            else:
+                return SshResult(
+                    exit_code=1,
+                    stdout="",
+                    stderr=f"Windows Agent returned HTTP {response.status_code}: {response.text}"
+                )
+        except Exception as e:
+            return SshResult(
+                exit_code=255,
+                stdout="",
+                stderr=f"Failed to connect to Windows Agent at {server.host}:{port}: {e}"
+            )
+
     if not server.host:
         return SshResult(exit_code=1, stdout="", stderr="missing_host")
     if not server.ssh_username:

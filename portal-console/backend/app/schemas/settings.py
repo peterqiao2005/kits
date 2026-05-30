@@ -9,3 +9,7 @@ class IntegrationSummary(BaseModel):
 class SettingsRead(BaseModel):
     rundeck: IntegrationSummary
     kuma: IntegrationSummary
+
+
+class AgentSecretRead(BaseModel):
+    secret: str

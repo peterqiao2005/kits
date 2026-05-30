@@ -8,6 +8,7 @@ from app.api.deps import get_current_user, get_db, require_admin
 from app.models.enums import (
     OperationAction,
     OperationStatus,
+    OSType,
     ProjectStatus,
     RuntimeStatus,
     RuntimeType,
@@ -108,13 +109,15 @@ def _normalize_commands(project: Project) -> None:
             setattr(project, field, None)
 
 
-def _default_log_path(project: Project) -> str:
+def _default_log_path(project: Project, server: Server) -> str:
     safe_name = (project.runtime_service_name or project.name or "service").replace(" ", "_")
+    if server.os_type == OSType.WINDOWS:
+        return f"C:\\Windows\\Temp\\portal-console-{safe_name}.log"
     return f"/tmp/portal-console-{safe_name}.log"
 
 
-def apply_default_commands(project: Project, prefer_defaults: bool = False) -> None:
-    defaults = build_default_commands(project)
+def apply_default_commands(project: Project, server: Server, prefer_defaults: bool = False) -> None:
+    defaults = build_default_commands(project, server)
     if prefer_defaults or project.start_cmd is None:
         project.start_cmd = defaults.start_cmd or project.start_cmd
     if prefer_defaults or project.stop_cmd is None:
@@ -122,8 +125,8 @@ def apply_default_commands(project: Project, prefer_defaults: bool = False) -> N
     if prefer_defaults or project.restart_cmd is None:
         project.restart_cmd = defaults.restart_cmd or project.restart_cmd
 
-    if project.runtime_type in {RuntimeType.CMD, RuntimeType.CUSTOM}:
-        log_path = _default_log_path(project)
+    if project.runtime_type in {RuntimeType.CMD, RuntimeType.CUSTOM} and server.os_type != OSType.WINDOWS:
+        log_path = _default_log_path(project, server)
         project.start_cmd = ensure_nohup(project.start_cmd, log_path)
         project.restart_cmd = ensure_nohup(project.restart_cmd, log_path)
 
@@ -189,7 +192,7 @@ def create_project(
     data = payload.model_dump(exclude={"links"})
     project = Project(**data)
     _normalize_commands(project)
-    apply_default_commands(project)
+    apply_default_commands(project, server)
     project.links = [ProjectLink(**link.model_dump()) for link in payload.links]
     db.add(project)
     db.commit()
@@ -246,6 +249,8 @@ def update_project(
         )
 
     for field, value in updates.items():
+        if field == "links":
+            continue
         setattr(project, field, value)
 
     _normalize_commands(project)
@@ -257,9 +262,16 @@ def update_project(
         key in updates for key in ("runtime_type", "runtime_service_name", "deploy_path")
     )
     if runtime_changed and not commands_provided:
-        apply_default_commands(project, prefer_defaults=True)
+        apply_default_commands(project, project.server, prefer_defaults=True)
     else:
-        apply_default_commands(project)
+        apply_default_commands(project, project.server)
+
+    if "links" in updates:
+        db.execute(delete(ProjectLink).where(ProjectLink.project_id == project.id))
+        project.links = [
+            ProjectLink(project_id=project.id, **link.model_dump())
+            for link in payload.links or []
+        ]
 
     db.commit()
     db.refresh(project)

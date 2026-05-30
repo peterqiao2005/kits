@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app.models.enums import EnvironmentType, ServerAuthType
+from app.models.enums import EnvironmentType, ServerAuthType, OSType
 from app.schemas.ssh_key import SSHKeySummaryRead
 from pydantic import BaseModel, Field
 
@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 class ServerBase(BaseModel):
     name: str
     host: str
+    os_type: OSType = OSType.LINUX
     ssh_port: int = 22
     ssh_username: str | None = None
     ssh_auth_type: ServerAuthType = ServerAuthType.SSH_KEY
@@ -24,6 +25,7 @@ class ServerCreate(ServerBase):
 class ServerUpdate(BaseModel):
     name: str | None = None
     host: str | None = None
+    os_type: OSType | None = None
     ssh_port: int | None = None
     ssh_username: str | None = None
     ssh_auth_type: ServerAuthType | None = None

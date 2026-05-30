@@ -52,6 +52,7 @@ class ProjectUpdate(BaseModel):
     rundeck_job_restart_id: str | None = None
     kuma_monitor_id: str | None = None
     is_favorite: bool | None = None
+    links: list[ProjectLinkCreate] | None = None
 
 
 class ProjectRead(ProjectBase):

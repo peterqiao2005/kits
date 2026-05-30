@@ -20,7 +20,7 @@ const canOperate = computed(() => sessionState.user?.role === "admin");
 
 const serverCards = computed(() =>
   servers.value.map((server) => {
-    const related = projects.value.filter((project) => project.server_id === server.id);
+    const related = projects.value.filter((project) => project.server?.id === server.id);
     return {
       ...server,
       online: related.filter((project) => project.http_status === "online").length,

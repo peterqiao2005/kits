@@ -110,3 +110,13 @@ export async function getIntegrations() {
   const { data } = await apiClient.get<IntegrationsSummary>("/settings/integrations");
   return data;
 }
+
+export async function getAgentSecret() {
+  const { data } = await apiClient.get<{ secret: string }>("/settings/agent-secret");
+  return data;
+}
+
+export async function generateAgentSecret() {
+  const { data } = await apiClient.post<{ secret: string }>("/settings/agent-secret/generate");
+  return data;
+}

@@ -39,7 +39,8 @@ a {
 }
 
 .shell {
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .shell-sidebar {
@@ -50,6 +51,15 @@ a {
   border-right: 1px solid var(--line);
   background: rgba(255, 250, 243, 0.72);
   backdrop-filter: blur(16px);
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.shell > .el-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .brand-block h1,
@@ -105,6 +115,7 @@ a {
 
 .shell-main {
   padding: 24px 28px 28px;
+  overflow-y: auto;
 }
 
 .page-grid,
@@ -240,75 +251,27 @@ a {
   margin-top: 16px;
 }
 
-.detail-list > div {
-  display: grid;
-  gap: 4px;
-  padding-bottom: 12px;
-  border-bottom: 1px dashed var(--line);
-}
-
-.login-page {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 32px;
-  padding: 48px;
-  align-items: center;
-}
-
-.login-hero {
-  padding: 32px;
-}
-
-.login-hero h1 {
-  max-width: 760px;
-  font-size: clamp(40px, 6vw, 72px);
-  line-height: 0.98;
-}
-
-.login-hero p:last-child {
-  max-width: 620px;
-  font-size: 18px;
-  line-height: 1.7;
-}
-
-.login-card {
-  max-width: 460px;
-  justify-self: end;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.server-grid {
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-.server-card .server-projects {
-  margin-top: 16px;
-}
-
-.action-row {
-  flex-wrap: wrap;
-}
-
-code {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 10px;
-  border-radius: 12px;
-  background: rgba(21, 33, 30, 0.08);
-}
-
 @media (max-width: 1080px) {
   .shell {
     display: block;
+    height: auto;
+    overflow: visible;
   }
 
   .shell-sidebar {
     width: 100%;
     gap: 20px;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .shell > .el-container {
+    height: auto;
+    overflow: visible;
+  }
+
+  .shell-main {
+    overflow-y: visible;
   }
 
   .metrics-row,
