@@ -509,35 +509,14 @@ if HAS_GUI:
                     )
                     btn_show.pack(side="right", padx=(6, 0))
                     
-            btn_row = tk.Frame(self.config_tab_frame, bg=self.BG_DARK)
-            btn_row.pack(pady=20)
-            
-            btn_cancel = ModernButton(
-                btn_row,
-                text="Cancel ✖",
-                command=self.cancel_config_changes,
-                bg=self.BG_CARD,
-                hover_bg=self.BORDER_COLOR
-            )
-            btn_cancel.pack(side="left", padx=10)
-            
             btn_save = ModernButton(
-                btn_row,
-                text="Save 💾",
-                command=self.save_config_changes,
-                bg=self.COLOR_ONLINE,
-                hover_bg="#059669"
-            )
-            btn_save.pack(side="left", padx=10)
-            
-            btn_restart = ModernButton(
-                btn_row,
-                text="Restart 🔄",
-                command=self.trigger_restart,
+                self.config_tab_frame,
+                text="Save Configuration & Restart Agent 💾",
+                command=self.save_and_restart,
                 bg=self.ACCENT,
                 hover_bg=self.ACCENT_HOVER
             )
-            btn_restart.pack(side="left", padx=10)
+            btn_save.pack(pady=20)
 
         def toggle_password_visibility(self, entry):
             if entry.cget("show") == "*":
@@ -773,18 +752,8 @@ if HAS_GUI:
             # Refresh list to fetch updated status
             self.root.after(0, self.start_refresh_thread)
 
-        # Configuration Action Handlers: Cancel, Save, and Restart
-        def cancel_config_changes(self):
-            # Revert inputs to loaded config values
-            for key, (entry, _) in self.entries.items():
-                val = self.config.get(key)
-                val_str = "" if val is None else str(val)
-                entry.delete(0, "end")
-                entry.insert(0, val_str)
-            self.log_message("Configuration changes canceled. Inputs reverted.")
-            self.show_services_tab()
-
-        def save_config_changes(self):
+        # Save configuration & self restart
+        def save_and_restart(self):
             new_config = {}
             for key, (entry, _) in self.entries.items():
                 val = entry.get().strip()
@@ -822,22 +791,11 @@ if HAS_GUI:
             try:
                 with open(CONFIG_FILE, "w", encoding="utf-8") as f:
                     json.dump(new_config, f, indent=4)
-                
-                # Update memory configuration
-                self.config.update(new_config)
-                # Clear cached auth token in case credentials changed
-                self._cached_token = None
-                
-                self.log_message("Configuration saved successfully. Memory configuration updated. Note: Port/Host modifications require a restart to bind.")
-                messagebox.showinfo("Success", "Configuration saved successfully!")
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to save configuration: {e}")
-
-        def trigger_restart(self):
-            if not messagebox.askyesno("Confirm Restart", "Are you sure you want to restart the agent process?"):
                 return
                 
-            self.log_message("Initiating agent restart...")
+            messagebox.showinfo("Restarting", "Configuration saved. Agent will now restart to apply updates.")
             
             # Close HTTP socket to release port cleanly
             try:

@@ -32,6 +32,10 @@ def main() -> None:
             ServerCreate(
                 name="local-demo",
                 host="127.0.0.1",
+                os_type="linux",
+                ssh_username="root",
+                ssh_auth_type="password",
+                ssh_password="password",
                 env_type="local",
                 description="Local validation host for portal-console.",
                 tags=["demo", "local"],

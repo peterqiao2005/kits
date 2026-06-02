@@ -4,7 +4,7 @@ from pathlib import Path
 
 import httpx
 
-BASE_URL = os.environ.get("PORTAL_BASE_URL", "http://127.0.0.1:8000")
+BASE_URL = os.environ.get("PORTAL_BASE_URL", "http://127.0.0.1:15001")
 USERNAME = os.environ.get("PORTAL_USERNAME", "admin")
 PASSWORD = os.environ.get("PORTAL_PASSWORD", "admin123")
 
