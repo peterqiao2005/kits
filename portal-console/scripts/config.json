@@ -2,5 +2,8 @@
     "host": "192.168.100.105",
     "port": 18008,
     "secret": "91ee4aa91a1be9750db40448a5b521eb",
-    "main_app_url": "http://127.0.0.1:5001"
+    "main_app_url": "http://127.0.0.1:5015",
+    "username": "admin",
+    "password": "admin123",
+    "server_id": null
 }

@@ -122,21 +122,33 @@ def api_request(url, method="GET", payload=None, token=None):
 def run_command_normal(command, shell="powershell"):
     try:
         if shell == "powershell":
+            import base64
+            encoded_cmd = base64.b64encode(command.encode('utf-16-le')).decode('ascii')
             result = subprocess.run(
-                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command],
+                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-EncodedCommand", encoded_cmd],
                 capture_output=True,
                 text=True,
                 encoding="utf-8",
                 errors="replace"
             )
         else:
-            result = subprocess.run(
-                ["cmd", "/c", command],
-                capture_output=True,
-                text=True,
-                encoding="utf-8",
-                errors="replace"
-            )
+            if os.name == 'nt':
+                # Windows-specific: Pass command as a raw string wrapped in outer quotes to prevent CMD from stripping internal quotes
+                result = subprocess.run(
+                    f'cmd.exe /c "{command}"',
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                    errors="replace"
+                )
+            else:
+                result = subprocess.run(
+                    ["cmd", "/c", command],
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                    errors="replace"
+                )
         return result.returncode, result.stdout, result.stderr
     except Exception as e:
         return 1, "", str(e)
