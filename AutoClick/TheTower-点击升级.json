@@ -1,0 +1,132 @@
+{
+  "mode": "background",
+  "target_hwnd": 27267944,
+  "target_title": "[PID:45636 | HWND:27267944] BlueStacks-Jojo",
+  "adb_enabled": true,
+  "adb_device": "127.0.0.1:5565",
+  "adb_custom_path": "",
+  "topmost": false,
+  "follow_target": true,
+  "points": [
+    {
+      "id": 1,
+      "enabled": true,
+      "level": 0,
+      "remark": "升级-左1",
+      "x": "149",
+      "y": "656",
+      "delay": "0.0",
+      "interval": "0.3",
+      "count": "0",
+      "hotkey": "ctrl+shift+1"
+    },
+    {
+      "id": 2,
+      "enabled": false,
+      "level": 0,
+      "remark": "升级-右1",
+      "x": "328",
+      "y": "662",
+      "delay": "1",
+      "interval": "0.7",
+      "count": "0",
+      "hotkey": "ctrl+shift+2"
+    },
+    {
+      "id": 3,
+      "enabled": false,
+      "level": 0,
+      "remark": "升级-左2",
+      "x": "143",
+      "y": "742",
+      "delay": "2",
+      "interval": "0.8",
+      "count": "0",
+      "hotkey": "ctrl+shift+3"
+    },
+    {
+      "id": 4,
+      "enabled": false,
+      "level": 0,
+      "remark": "升级-右2",
+      "x": "334",
+      "y": "740",
+      "delay": "0.0",
+      "interval": "0.9",
+      "count": "0",
+      "hotkey": "ctrl+shift+4"
+    },
+    {
+      "id": 5,
+      "enabled": false,
+      "level": 0,
+      "remark": "升级-左3",
+      "x": "140",
+      "y": "815",
+      "delay": "0.0",
+      "interval": "1.1",
+      "count": "0",
+      "hotkey": "ctrl+shift+5"
+    },
+    {
+      "id": 6,
+      "enabled": false,
+      "level": 0,
+      "remark": "升级-右3",
+      "x": "347",
+      "y": "810",
+      "delay": "0.0",
+      "interval": "1.2",
+      "count": "0",
+      "hotkey": "ctrl+shift+6"
+    },
+    {
+      "id": 7,
+      "enabled": false,
+      "level": 0,
+      "remark": "",
+      "x": "0",
+      "y": "0",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+7"
+    },
+    {
+      "id": 8,
+      "enabled": false,
+      "level": 0,
+      "remark": "",
+      "x": "0",
+      "y": "0",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+8"
+    },
+    {
+      "id": 9,
+      "enabled": false,
+      "level": 0,
+      "remark": "",
+      "x": "53",
+      "y": "856",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+9"
+    },
+    {
+      "id": 10,
+      "enabled": false,
+      "level": 0,
+      "remark": "",
+      "x": "140",
+      "y": "856",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+0"
+    }
+  ]
+}

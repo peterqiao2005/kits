@@ -1,1 +1,1 @@
-pip install -y pyautogui keyboard
+pip install pyautogui keyboard pywin32

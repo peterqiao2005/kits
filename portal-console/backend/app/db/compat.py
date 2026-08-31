@@ -97,6 +97,20 @@ def _normalize_enum_column(
 
 
 def ensure_schema(session: Session) -> None:
+    if session.bind is not None and session.bind.dialect.name == "sqlite":
+        for col_name, col_def in [
+            ("health_check_type", "VARCHAR(32) DEFAULT 'auto'"),
+            ("health_check_operator", "VARCHAR(32) DEFAULT 'OR'"),
+            ("health_check_http_path", "VARCHAR(255)"),
+            ("health_check_port", "INTEGER"),
+            ("health_check_process_name", "VARCHAR(255)"),
+        ]:
+            try:
+                session.execute(text(f'ALTER TABLE projects ADD COLUMN {col_name} {col_def}'))
+                session.commit()
+            except Exception:
+                session.rollback()
+
     if session.bind is None or session.bind.dialect.name != "postgresql":
         return
 
@@ -137,6 +151,11 @@ def ensure_schema(session: Session) -> None:
         "runtimestatus NOT NULL DEFAULT 'unknown'",
     )
     _ensure_column(session, "projects", "runtime_checked_at", "TIMESTAMPTZ")
+    _ensure_column(session, "projects", "health_check_type", "VARCHAR(32) NOT NULL DEFAULT 'auto'")
+    _ensure_column(session, "projects", "health_check_operator", "VARCHAR(32) NOT NULL DEFAULT 'OR'")
+    _ensure_column(session, "projects", "health_check_http_path", "VARCHAR(255)")
+    _ensure_column(session, "projects", "health_check_port", "INTEGER")
+    _ensure_column(session, "projects", "health_check_process_name", "VARCHAR(255)")
     _ensure_column(session, "servers", "ssh_port", "INTEGER NOT NULL DEFAULT 22")
     _ensure_column(session, "servers", "ssh_username", "VARCHAR(128)")
     _ensure_column(

@@ -1,0 +1,127 @@
+{
+  "mode": "background",
+  "target_hwnd": 3412542,
+  "target_title": "[7998284] AutoClick 自动点击器 v2.5 - [TheTower-PQ.json*]",
+  "points": [
+    {
+      "id": 1,
+      "enabled": true,
+      "level": 0,
+      "remark": "升级-左1",
+      "x": "151",
+      "y": "701",
+      "delay": "0.0",
+      "interval": "0.3",
+      "count": "0",
+      "hotkey": "ctrl+shift+1"
+    },
+    {
+      "id": 2,
+      "enabled": true,
+      "level": 0,
+      "remark": "升级-右1",
+      "x": "365",
+      "y": "702",
+      "delay": "1",
+      "interval": "0.7",
+      "count": "0",
+      "hotkey": "ctrl+shift+2"
+    },
+    {
+      "id": 3,
+      "enabled": true,
+      "level": 1,
+      "remark": "升级-左2",
+      "x": "154",
+      "y": "777",
+      "delay": "2",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+3"
+    },
+    {
+      "id": 4,
+      "enabled": true,
+      "level": 0,
+      "remark": "升级-右2",
+      "x": "336",
+      "y": "770",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+4"
+    },
+    {
+      "id": 5,
+      "enabled": true,
+      "level": 0,
+      "remark": "升级-左3",
+      "x": "1098",
+      "y": "707",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+5"
+    },
+    {
+      "id": 6,
+      "enabled": true,
+      "level": 0,
+      "remark": "升级-右3",
+      "x": "360",
+      "y": "856",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+6"
+    },
+    {
+      "id": 7,
+      "enabled": false,
+      "level": 0,
+      "remark": "",
+      "x": "0",
+      "y": "0",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+7"
+    },
+    {
+      "id": 8,
+      "enabled": false,
+      "level": 0,
+      "remark": "",
+      "x": "0",
+      "y": "0",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+8"
+    },
+    {
+      "id": 9,
+      "enabled": false,
+      "level": 0,
+      "remark": "",
+      "x": "0",
+      "y": "0",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+9"
+    },
+    {
+      "id": 10,
+      "enabled": false,
+      "level": 0,
+      "remark": "",
+      "x": "0",
+      "y": "0",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+0"
+    }
+  ]
+}

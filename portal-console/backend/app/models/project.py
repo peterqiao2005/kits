@@ -1,10 +1,17 @@
 from datetime import datetime
 
-from sqlalchemy import Boolean, DateTime, Enum, ForeignKey, JSON, String, Text
+from sqlalchemy import Boolean, DateTime, Enum, ForeignKey, Integer, JSON, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
-from app.models.enums import ProjectStatus, RuntimeStatus, RuntimeType, enum_values
+from app.models.enums import (
+    HealthCheckOperator,
+    HealthCheckType,
+    ProjectStatus,
+    RuntimeStatus,
+    RuntimeType,
+    enum_values,
+)
 from app.models.mixins import TimestampMixin
 
 
@@ -32,6 +39,17 @@ class Project(TimestampMixin, Base):
     rundeck_job_restart_id: Mapped[str | None] = mapped_column(String(128), nullable=True)
     kuma_monitor_id: Mapped[str | None] = mapped_column(String(128), nullable=True)
     is_favorite: Mapped[bool] = mapped_column(Boolean, default=False)
+    health_check_type: Mapped[HealthCheckType] = mapped_column(
+        Enum(HealthCheckType, values_callable=enum_values),
+        default=HealthCheckType.AUTO,
+    )
+    health_check_operator: Mapped[HealthCheckOperator] = mapped_column(
+        Enum(HealthCheckOperator, values_callable=enum_values),
+        default=HealthCheckOperator.OR,
+    )
+    health_check_http_path: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    health_check_port: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    health_check_process_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
     current_status: Mapped[ProjectStatus] = mapped_column(
         Enum(ProjectStatus, values_callable=enum_values),
         default=ProjectStatus.UNKNOWN,

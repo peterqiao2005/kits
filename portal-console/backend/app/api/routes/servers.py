@@ -3,6 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
 from app.api.deps import get_current_user, get_db, require_admin
+from app.models.enums import OSType
 from app.models.server import Server
 from app.models.ssh_key import SSHKey
 from app.schemas.server import ServerCreate, ServerRead, ServerUpdate
@@ -17,6 +18,7 @@ def build_server_read(server: Server) -> ServerRead:
         id=server.id,
         name=server.name,
         host=server.host,
+        os_type=server.os_type,
         ssh_port=server.ssh_port,
         ssh_username=server.ssh_username,
         ssh_auth_type=server.ssh_auth_type,
@@ -49,6 +51,12 @@ def apply_auth_settings(
     ssh_password: str | None,
     db: Session,
 ) -> None:
+    if server.os_type == OSType.WINDOWS:
+        server.ssh_username = None
+        server.ssh_key_id = None
+        server.ssh_password_encrypted = None
+        return
+
     if not server.ssh_username or not server.ssh_username.strip():
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

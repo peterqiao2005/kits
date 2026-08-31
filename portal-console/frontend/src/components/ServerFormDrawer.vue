@@ -79,6 +79,17 @@ watch(
   },
 );
 
+watch(
+  () => form.os_type,
+  (newVal) => {
+    if (newVal === "windows" && form.ssh_port === 22) {
+      form.ssh_port = 8008;
+    } else if (newVal === "linux" && form.ssh_port === 8008) {
+      form.ssh_port = 22;
+    }
+  },
+);
+
 const submitting = ref(false);
 
 async function submit() {
@@ -86,17 +97,19 @@ async function submit() {
     ElMessage.warning("Server name and host are required.");
     return;
   }
-  if (!form.ssh_username.trim()) {
-    ElMessage.warning("SSH username is required.");
-    return;
-  }
-  if (form.ssh_auth_type === "password" && !props.server && !form.ssh_password.trim()) {
-    ElMessage.warning("SSH password is required for password login.");
-    return;
-  }
-  if (form.ssh_auth_type === "ssh_key" && !form.ssh_key_id) {
-    ElMessage.warning("Select an SSH key.");
-    return;
+  if (form.os_type === "linux") {
+    if (!form.ssh_username.trim()) {
+      ElMessage.warning("SSH username is required.");
+      return;
+    }
+    if (form.ssh_auth_type === "password" && !props.server && !form.ssh_password.trim()) {
+      ElMessage.warning("SSH password is required for password login.");
+      return;
+    }
+    if (form.ssh_auth_type === "ssh_key" && !form.ssh_key_id) {
+      ElMessage.warning("Select an SSH key.");
+      return;
+    }
   }
 
   submitting.value = true;
@@ -104,16 +117,22 @@ async function submit() {
     name: form.name.trim(),
     host: form.host.trim(),
     os_type: form.os_type,
-    ssh_port: Number(form.ssh_port) || 22,
-    ssh_username: form.ssh_username.trim(),
-    ssh_auth_type: form.ssh_auth_type,
-    ssh_key_id: form.ssh_auth_type === "ssh_key" ? form.ssh_key_id : null,
+    ssh_port: Number(form.ssh_port) || (form.os_type === "windows" ? 8008 : 22),
     env_type: form.env_type,
     description: form.description.trim() || null,
     tags: toTags(form.tagsText),
   };
-  if (form.ssh_auth_type === "password" && form.ssh_password.trim()) {
-    payload.ssh_password = form.ssh_password.trim();
+  if (form.os_type === "linux") {
+    payload.ssh_username = form.ssh_username.trim();
+    payload.ssh_auth_type = form.ssh_auth_type;
+    payload.ssh_key_id = form.ssh_auth_type === "ssh_key" ? form.ssh_key_id : null;
+    if (form.ssh_auth_type === "password" && form.ssh_password.trim()) {
+      payload.ssh_password = form.ssh_password.trim();
+    }
+  } else {
+    payload.ssh_username = undefined;
+    payload.ssh_auth_type = "ssh_key";
+    payload.ssh_key_id = null;
   }
 
   try {
@@ -149,31 +168,33 @@ async function submit() {
       <el-form-item label="Host">
         <el-input v-model="form.host" placeholder="192.168.1.10 or server.example.com" />
       </el-form-item>
-      <el-form-item label="SSH port">
+      <el-form-item :label="form.os_type === 'windows' ? 'Agent port' : 'SSH port'">
         <el-input-number v-model="form.ssh_port" :min="1" :max="65535" />
       </el-form-item>
-      <el-form-item label="SSH username">
-        <el-input v-model="form.ssh_username" placeholder="root / ubuntu / deploy" />
-      </el-form-item>
-      <el-form-item label="Authentication">
-        <el-radio-group v-model="form.ssh_auth_type">
-          <el-radio-button label="ssh_key">SSH key</el-radio-button>
-          <el-radio-button label="password">Password</el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item v-if="form.ssh_auth_type === 'ssh_key'" label="SSH key">
-        <el-select v-model="form.ssh_key_id" placeholder="Select uploaded key">
-          <el-option v-for="sshKey in sshKeys" :key="sshKey.id" :label="sshKey.name" :value="sshKey.id" />
-        </el-select>
-      </el-form-item>
-      <el-form-item v-else label="SSH password">
-        <el-input
-          v-model="form.ssh_password"
-          type="password"
-          show-password
-          placeholder="Leave blank to keep current password when editing"
-        />
-      </el-form-item>
+      <template v-if="form.os_type === 'linux'">
+        <el-form-item label="SSH username">
+          <el-input v-model="form.ssh_username" placeholder="root / ubuntu / deploy" />
+        </el-form-item>
+        <el-form-item label="Authentication">
+          <el-radio-group v-model="form.ssh_auth_type">
+            <el-radio-button label="ssh_key">SSH key</el-radio-button>
+            <el-radio-button label="password">Password</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item v-if="form.ssh_auth_type === 'ssh_key'" label="SSH key">
+          <el-select v-model="form.ssh_key_id" placeholder="Select uploaded key">
+            <el-option v-for="sshKey in sshKeys" :key="sshKey.id" :label="sshKey.name" :value="sshKey.id" />
+          </el-select>
+        </el-form-item>
+        <el-form-item v-else label="SSH password">
+          <el-input
+            v-model="form.ssh_password"
+            type="password"
+            show-password
+            placeholder="Leave blank to keep current password when editing"
+          />
+        </el-form-item>
+      </template>
       <el-form-item label="Environment">
         <el-select v-model="form.env_type">
           <el-option label="public" value="public" />

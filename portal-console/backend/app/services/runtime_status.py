@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+import re
 
 from app.models.enums import RuntimeStatus, RuntimeType, OSType
 from app.models.project import Project
@@ -16,11 +17,28 @@ def _parse_tokens(output: str, active_tokens: tuple[str, ...], stop_tokens: tupl
     return RuntimeStatus.UNKNOWN
 
 
-def check_runtime_status(project: Project, server: Server) -> tuple[RuntimeStatus, datetime | None, str]:
-    if project.runtime_type in {RuntimeType.CMD, RuntimeType.CUSTOM}:
-        return RuntimeStatus.UNKNOWN, None, "cmd_ignored"
+def _extract_script_targets(project: Project) -> list[str]:
+    targets: list[str] = []
+    if project.start_cmd:
+        matches = re.findall(r'[\w\-]+\.(?:ps1|py|js|bat|exe|sh)', project.start_cmd)
+        for f in matches:
+            targets.append(f)
+            targets.append(f.rsplit('.', 1)[0])
+    if project.deploy_path:
+        clean_path = project.deploy_path.rstrip("/\\").replace("/", "\\")
+        base = clean_path.split("\\")[-1]
+        if base:
+            targets.append(base)
+    if project.runtime_service_name:
+        targets.append(project.runtime_service_name)
+    if project.name:
+        targets.append(project.name)
+    clean_targets = list(dict.fromkeys([t.strip() for t in targets if t and len(t.strip()) > 2]))
+    return clean_targets or [project.name]
 
-    if not server.host:
+
+def check_runtime_status(project: Project, server: Server) -> tuple[RuntimeStatus, datetime | None, str]:
+    if not server or not server.host:
         return RuntimeStatus.UNKNOWN, None, "missing_host"
 
     service_name = project.runtime_service_name or project.name
@@ -62,8 +80,10 @@ def check_runtime_status(project: Project, server: Server) -> tuple[RuntimeStatu
                 return RuntimeStatus.ACTIVE
             
             parser = parse_compose
-        elif project.runtime_type in {RuntimeType.PYTHON_SCRIPT, RuntimeType.SHELL_SCRIPT}:
-            command = f"powershell -Command \"if (Get-CimInstance Win32_Process -Filter \\\"CommandLine like '%{escaped_target_regex}%'\\\") {{ 'Running' }} else {{ 'Stopped' }}\""
+        elif project.runtime_type in {RuntimeType.PYTHON_SCRIPT, RuntimeType.SHELL_SCRIPT, RuntimeType.POWERSHELL, RuntimeType.CMD, RuntimeType.CUSTOM}:
+            script_targets = _extract_script_targets(project)
+            filter_expr = " -or ".join([f"$_.CommandLine -like '*{t}*'" for t in script_targets])
+            command = f"powershell -Command \"if (Get-CimInstance Win32_Process | Where-Object {{ {filter_expr} }}) {{ 'Running' }} else {{ 'Stopped' }}\""
             parser = lambda out: RuntimeStatus.ACTIVE if "running" in out.strip().lower() else RuntimeStatus.STOPPED
         else:
             return RuntimeStatus.UNKNOWN, None, "unsupported_type"
@@ -102,17 +122,14 @@ def check_runtime_status(project: Project, server: Server) -> tuple[RuntimeStatu
             return RuntimeStatus.ACTIVE
 
         parser = parse_compose
-    elif project.runtime_type == RuntimeType.PYTHON_SCRIPT:
-        command = f"pgrep -f \"{target}\""
-        parser = lambda out: RuntimeStatus.ACTIVE if out.strip() else RuntimeStatus.STOPPED
-    elif project.runtime_type == RuntimeType.SHELL_SCRIPT:
+    elif project.runtime_type in {RuntimeType.PYTHON_SCRIPT, RuntimeType.SHELL_SCRIPT, RuntimeType.POWERSHELL, RuntimeType.CMD, RuntimeType.CUSTOM}:
         command = f"pgrep -f \"{target}\""
         parser = lambda out: RuntimeStatus.ACTIVE if out.strip() else RuntimeStatus.STOPPED
     else:
         return RuntimeStatus.UNKNOWN, None, "unsupported_type"
 
     result = run_ssh_command(server, command)
-    if project.runtime_type in {RuntimeType.PYTHON_SCRIPT, RuntimeType.SHELL_SCRIPT}:
+    if project.runtime_type in {RuntimeType.PYTHON_SCRIPT, RuntimeType.SHELL_SCRIPT, RuntimeType.POWERSHELL, RuntimeType.CMD, RuntimeType.CUSTOM}:
         if result.stderr.startswith("missing_") or result.stderr.startswith("ssh_"):
             return RuntimeStatus.UNKNOWN, datetime.now(timezone.utc), result.stderr
         status = RuntimeStatus.ACTIVE if result.exit_code == 0 else RuntimeStatus.STOPPED

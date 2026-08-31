@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import sys
 import os
+import re
 import json
+import socket
 import time
 import hmac
 import base64
@@ -61,7 +63,7 @@ CONFIG_FILE = "config.json"
 
 def load_config():
     default_config = {
-        "host": "127.0.0.1",
+        "host": "0.0.0.0",
         "port": 8008,
         "secret": "change-this-secret",
         "main_app_url": "http://127.0.0.1:15001",
@@ -623,20 +625,135 @@ if HAS_GUI:
                     self.root.after(0, self.update_services_ui, [], error_msg)
                     return
                     
-                # Load full details to fetch commands
+                # Load full details to fetch commands and check local status
+                reported_statuses = []
                 for proj in projects:
                     proj_id = proj["id"]
                     detail_url = f"{main_url}/api/projects/{proj_id}"
                     status_d, proj_detail = api_request(detail_url, "GET", token=token)
-                    if status_d == 200:
-                        detailed_projects.append(proj_detail)
-                    else:
-                        detailed_projects.append(proj)
+                    target_proj = proj_detail if status_d == 200 else proj
+                    
+                    # Local status check
+                    local_stat = self.check_local_project_status(target_proj)
+                    if local_stat != "unknown":
+                        target_proj["current_status"] = local_stat
+                        reported_statuses.append({"project_id": proj_id, "status": local_stat})
+
+                    detailed_projects.append(target_proj)
+                    
+                if reported_statuses and token and main_url:
+                    sync_url = f"{main_url}/api/projects/sync-status"
+                    api_request(sync_url, "POST", {"reported_statuses": reported_statuses}, token=token)
                         
             except Exception as e:
                 error_msg = f"Connection failed: {str(e)}"
                 
             self.root.after(0, self.update_services_ui, detailed_projects, error_msg)
+
+        def check_local_project_status(self, project):
+            check_type = (project.get("health_check_type") or "auto").lower()
+            operator = (project.get("health_check_operator") or "OR").upper()
+            custom_port = project.get("health_check_port")
+            custom_process = project.get("health_check_process_name")
+            custom_http_path = project.get("health_check_http_path")
+
+            results = {}
+
+            # 1. Port check logic
+            if check_type in ("auto", "port", "composite"):
+                ports_to_check = []
+                if custom_port:
+                    ports_to_check.append(custom_port)
+                else:
+                    links = project.get("links", [])
+                    for link in links:
+                        url = link.get("url") if isinstance(link, dict) else ""
+                        if url:
+                            try:
+                                parsed = urllib.parse.urlparse(url)
+                                port = parsed.port
+                                if not port and parsed.scheme == "http": port = 80
+                                elif not port and parsed.scheme == "https": port = 443
+                                if port: ports_to_check.append(port)
+                            except Exception: pass
+                    start_cmd = project.get("start_cmd", "") or ""
+                    port_matches = re.findall(r'(?:--port|-p|\bport\b)[:=\s]+(\d+)', start_cmd, re.IGNORECASE)
+                    for p_str in port_matches:
+                        try: ports_to_check.append(int(p_str))
+                        except Exception: pass
+
+                port_ok = False
+                for p in set(ports_to_check):
+                    try:
+                        s = socket.create_connection(("127.0.0.1", p), timeout=0.3)
+                        s.close()
+                        port_ok = True
+                        break
+                    except Exception: pass
+                results["port"] = port_ok
+
+            # 2. Process check logic
+            if check_type in ("auto", "process", "composite"):
+                keywords = []
+                if custom_process:
+                    keywords.append(custom_process)
+                else:
+                    start_cmd = project.get("start_cmd", "") or ""
+                    deploy_path = project.get("deploy_path", "") or ""
+                    name = project.get("name", "") or ""
+                    runtime_service = project.get("runtime_service_name", "") or ""
+                    if start_cmd:
+                        matches = re.findall(r'[\w\-]+\.(?:ps1|py|js|bat|exe|sh)', start_cmd)
+                        for m in matches:
+                            keywords.append(m)
+                            keywords.append(m.rsplit('.', 1)[0])
+                    if deploy_path:
+                        clean_path = deploy_path.rstrip("/\\").replace("/", "\\")
+                        base = clean_path.split("\\")[-1]
+                        if base: keywords.append(base)
+                    if runtime_service: keywords.append(runtime_service)
+                    if name: keywords.append(name)
+
+                clean_kw = [k.strip() for k in keywords if k and len(k.strip()) > 2]
+                if clean_kw:
+                    filter_expr = " -or ".join([f"$_.CommandLine -like '*{k}*'" for k in clean_kw])
+                    check_cmd = f"powershell -Command \"if (Get-CimInstance Win32_Process | Where-Object {{ {filter_expr} }}) {{ 'Running' }} else {{ 'Stopped' }}\""
+                    _, stdout, _ = run_command_normal(check_cmd)
+                    results["process"] = ("running" in stdout.lower())
+                else:
+                    results["process"] = False
+
+            # 3. HTTP / Health endpoint check logic
+            if check_type in ("http", "composite") or (check_type == "auto" and custom_http_path):
+                http_ok = False
+                links = project.get("links", [])
+                base_url = None
+                for link in links:
+                    url = link.get("url") if isinstance(link, dict) else ""
+                    if url and (url.startswith("http://") or url.startswith("https://")):
+                        base_url = url
+                        break
+                if base_url:
+                    path = custom_http_path or "/health"
+                    target_url = urllib.parse.urljoin(base_url, path if path.startswith("/") else f"/{path}")
+                    try:
+                        req = urllib.request.Request(target_url, headers={"User-Agent": "PortalConsoleAgent/1.0"})
+                        with urllib.request.urlopen(req, timeout=1.0) as resp:
+                            if resp.status < 500:
+                                http_ok = True
+                    except Exception:
+                        pass
+                results["http"] = http_ok
+
+            if not results:
+                return "unknown"
+
+            if operator == "AND":
+                is_online = all(results.values())
+            else:
+                is_online = any(results.values())
+
+            return "online" if is_online else "offline"
 
         def update_services_ui(self, detailed_projects, error_msg):
             self.refresh_btn.configure(state="normal", text="Refresh List")
@@ -770,10 +887,18 @@ if HAS_GUI:
                 f"=================================================="
             )
             
-            # Sync server status
+            # Report operation log to server
             token = self.get_auth_token()
             main_url = self.config.get("main_app_url", "").rstrip("/")
             if token and proj_id and main_url:
+                log_url = f"{main_url}/api/projects/{proj_id}/log-action"
+                log_payload = {
+                    "action": action,
+                    "exit_code": exit_code,
+                    "output": f"Local agent executed {action.upper()}: exit={exit_code}\nSTDOUT:\n{stdout.strip()[:200]}\nSTDERR:\n{stderr.strip()[:200]}"
+                }
+                api_request(log_url, "POST", log_payload, token=token)
+
                 sync_url = f"{main_url}/api/projects/sync-status"
                 self.log_message(f"[{proj_name}] Syncing status to Portal Console server...")
                 status, res = api_request(sync_url, "POST", {"project_ids": [proj_id]}, token=token)

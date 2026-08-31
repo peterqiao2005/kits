@@ -1,29 +1,13 @@
 services:
-    postgres:
-        image: postgres:16-alpine
-        container_name: portal-console-postgres
-        environment:
-            POSTGRES_DB: portal_console
-            POSTGRES_USER: portal
-            POSTGRES_PASSWORD: portal
-        ports:
-            - "5432:5432"
-        volumes:
-            - portal_console_pgdata:/var/lib/postgresql/data
-        healthcheck:
-            test: ["CMD-SHELL", "pg_isready -U portal -d portal_console"]
-            interval: 10s
-            timeout: 5s
-            retries: 5
-
     backend:
         build:
             context: ./backend
         container_name: portal-console-backend
+        image: portal-console-backend:latest
         env_file:
             - ./.env
         environment:
-            DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://portal:portal@postgres:5432/portal_console}
+            DATABASE_URL: ${DATABASE_URL:-sqlite:////app/data/portal_console.db}
             SECRET_KEY: ${SECRET_KEY:-change-this-secret}
             FIRST_SUPERUSER: ${FIRST_SUPERUSER:-admin}
             FIRST_SUPERUSER_PASSWORD: ${FIRST_SUPERUSER_PASSWORD:-admin123}
@@ -38,20 +22,15 @@ services:
             KUMA_TOKEN: ${KUMA_TOKEN:-}
         volumes:
             - ./backend/data:/app/data
-        depends_on:
-            postgres:
-                condition: service_healthy
         ports:
-            - "8000:8000"
+            - "${BACKEND_PORT:-15001}:15001"
 
     frontend:
         build:
             context: ./frontend
         container_name: portal-console-frontend
+        image: portal-console-frontend:latest
         depends_on:
             - backend
         ports:
-            - "8080:80"
-
-volumes:
-    portal_console_pgdata:
+            - "${FRONTEND_PORT:-5015}:80"

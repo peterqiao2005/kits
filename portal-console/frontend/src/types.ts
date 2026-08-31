@@ -11,9 +11,12 @@ export type RuntimeType =
   | "python_script"
   | "shell_script"
   | "cmd"
+  | "powershell"
   | "custom";
 export type ProjectStatus = "online" | "offline" | "degraded" | "unknown";
 export type RuntimeStatus = "active" | "stopped" | "unknown";
+export type HealthCheckType = "auto" | "port" | "process" | "http" | "composite";
+export type HealthCheckOperator = "OR" | "AND";
 export type LinkType = "web" | "admin" | "github" | "docs" | "ssh" | "monitor" | "logs";
 export type OperationAction = "start" | "stop" | "restart";
 export type OperationStatus = "pending" | "running" | "succeeded" | "failed";
@@ -107,6 +110,11 @@ export interface Project {
   rundeck_job_restart_id?: string | null;
   kuma_monitor_id?: string | null;
   is_favorite: boolean;
+  health_check_type?: HealthCheckType;
+  health_check_operator?: HealthCheckOperator;
+  health_check_http_path?: string | null;
+  health_check_port?: number | null;
+  health_check_process_name?: string | null;
   current_status: ProjectStatus;
   last_checked_at?: string | null;
   http_status: ProjectStatus;
@@ -139,6 +147,11 @@ export interface ProjectPayload {
   restart_cmd?: string | null;
   kuma_monitor_id?: string | null;
   is_favorite?: boolean;
+  health_check_type?: HealthCheckType;
+  health_check_operator?: HealthCheckOperator;
+  health_check_http_path?: string | null;
+  health_check_port?: number | null;
+  health_check_process_name?: string | null;
   links?: { link_type: LinkType; title: string; url: string; sort_order: number }[];
 }
 

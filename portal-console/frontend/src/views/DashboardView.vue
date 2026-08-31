@@ -35,7 +35,7 @@ const filteredProjects = computed(() =>
       const haystack = `${project.name} ${project.description ?? ""} ${project.tags.join(" ")}`.toLowerCase();
       if (!haystack.includes(keyword)) return false;
     }
-    if (filters.value.status && project.http_status !== filters.value.status) return false;
+    if (filters.value.status && (project.current_status || project.http_status) !== filters.value.status) return false;
     if (filters.value.serverId && project.server?.id !== filters.value.serverId) return false;
     if (filters.value.favoriteOnly && !project.is_favorite) return false;
     return true;
@@ -44,8 +44,8 @@ const filteredProjects = computed(() =>
 
 const stats = computed(() => ({
   total: projects.value.length,
-  online: projects.value.filter((item) => item.http_status === "online").length,
-  offline: projects.value.filter((item) => item.http_status === "offline").length,
+  online: projects.value.filter((item) => (item.current_status || item.http_status) === "online").length,
+  offline: projects.value.filter((item) => (item.current_status || item.http_status) === "offline").length,
   actionable: projects.value.filter((item) => item.can_start || item.can_stop || item.can_restart).length,
 }));
 
@@ -167,9 +167,9 @@ onMounted(loadData);
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="HTTP" width="120">
+        <el-table-column label="Status" width="120">
           <template #default="{ row }">
-            <StatusTag :status="row.http_status" />
+            <StatusTag :status="row.current_status || row.http_status" />
           </template>
         </el-table-column>
         <el-table-column label="Runtime" width="120">

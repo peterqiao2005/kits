@@ -9,7 +9,7 @@
 - Rundeck action adapter that triggers jobs by Job ID and records the Rundeck execution ID
 - Conservative Uptime Kuma adapter that falls back to `unknown` when the instance does not expose a compatible endpoint
 - Vue 3 + Element Plus frontend with login, dashboard, project detail, servers, logs, and settings views
-- Docker Compose setup for `postgres`, `backend`, and `frontend`
+- Docker Compose setup for `backend` and `frontend` with SQLite
 
 ## Structure
 
@@ -23,12 +23,14 @@ portal-console/
 
 ## Quick start
 
-1. Copy `.env.example` to `.env` and set `SECRET_KEY`, `RUNDECK_*`, and `KUMA_*` as needed.
+1. Copy `.env.example` to `.env` and set `SECRET_KEY` as needed.
 2. Run `docker compose up --build` from `portal-console/`.
 3. Open `http://localhost:8080`.
 4. Sign in with `FIRST_SUPERUSER` / `FIRST_SUPERUSER_PASSWORD`.
 
-Backend API will be available at `http://localhost:8000`, and interactive docs at `http://localhost:8000/docs`.
+The app uses SQLite for storage, so no PostgreSQL service is required.
+
+Backend API will be available at `http://localhost:15001`, and interactive docs at `http://localhost:15001/docs`.
 
 ## Local validation stack
 
@@ -36,7 +38,7 @@ For a self-contained local demo without external Rundeck or Uptime Kuma instance
 
 1. Run `docker compose -f docker-compose.yml -f docker-compose.mock.yml up --build -d`.
 2. Seed demo data:
-   `env PYTHONPATH=/root/portal-console/backend DATABASE_URL=postgresql+psycopg://portal:portal@127.0.0.1:5432/portal_console SECRET_KEY=change-this-secret RUNDECK_URL=http://127.0.0.1:9000 RUNDECK_TOKEN=mock-token KUMA_URL=http://127.0.0.1:9000 KUMA_TOKEN= /root/portal-console/backend/.venv/bin/python /root/portal-console/scripts/seed_demo_data.py`
+   `env PYTHONPATH=/root/portal-console/backend DATABASE_URL=sqlite:///./backend/data/portal_console.db SECRET_KEY=change-this-secret RUNDECK_URL=http://127.0.0.1:9000 RUNDECK_TOKEN=mock-token KUMA_URL=http://127.0.0.1:9000 KUMA_TOKEN= /root/portal-console/backend/.venv/bin/python /root/portal-console/scripts/seed_demo_data.py`
 3. Open `http://localhost:8080` and sign in with `admin` / `admin123`.
 
 The mock override exposes deterministic project states and successful Rundeck-like action responses so the dashboard, project detail, logs, and settings views can be exercised end-to-end.

@@ -23,8 +23,8 @@ const serverCards = computed(() =>
     const related = projects.value.filter((project) => project.server?.id === server.id);
     return {
       ...server,
-      online: related.filter((project) => project.http_status === "online").length,
-      offline: related.filter((project) => project.http_status === "offline").length,
+      online: related.filter((project) => (project.current_status || project.http_status) === "online").length,
+      offline: related.filter((project) => (project.current_status || project.http_status) === "offline").length,
       services: related,
     };
   }),

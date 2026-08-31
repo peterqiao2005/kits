@@ -24,6 +24,11 @@ def check_http_status(project: Project) -> tuple[ProjectStatus, datetime | None,
     if not url:
         return ProjectStatus.UNKNOWN, None, "no_link"
 
+    if project.health_check_http_path:
+        from urllib.parse import urljoin
+        path = project.health_check_http_path if project.health_check_http_path.startswith("/") else f"/{project.health_check_http_path}"
+        url = urljoin(url, path)
+
     try:
         with httpx.Client(timeout=6.0, follow_redirects=True) as client:
             response = client.head(url)

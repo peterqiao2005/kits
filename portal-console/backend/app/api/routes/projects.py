@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
+from pydantic import BaseModel
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session, selectinload
 
@@ -91,7 +92,7 @@ def build_project_read(project: Project) -> ProjectRead:
         runtime_checked_at=project.runtime_checked_at,
         created_at=project.created_at,
         updated_at=project.updated_at,
-        server=build_server_read(project.server),
+        server=build_server_read(project.server) if project.server else None,
         links=[
             ProjectLinkRead.model_validate(link)
             for link in sorted(project.links, key=lambda item: item.sort_order)
@@ -125,7 +126,7 @@ def apply_default_commands(project: Project, server: Server, prefer_defaults: bo
     if prefer_defaults or project.restart_cmd is None:
         project.restart_cmd = defaults.restart_cmd or project.restart_cmd
 
-    if project.runtime_type in {RuntimeType.CMD, RuntimeType.CUSTOM} and server.os_type != OSType.WINDOWS:
+    if project.runtime_type in {RuntimeType.CMD, RuntimeType.POWERSHELL, RuntimeType.CUSTOM} and server.os_type != OSType.WINDOWS:
         log_path = _default_log_path(project, server)
         project.start_cmd = ensure_nohup(project.start_cmd, log_path)
         project.restart_cmd = ensure_nohup(project.restart_cmd, log_path)
@@ -324,26 +325,57 @@ def sync_project_status(
     _: object = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> list[ProjectStatusRead]:
+    reported_map: dict[int, ProjectStatus] = {}
+    if payload and payload.reported_statuses:
+        for item in payload.reported_statuses:
+            reported_map[item.project_id] = item.status
+
     stmt = select(Project)
     if payload and payload.project_ids:
         stmt = stmt.where(Project.id.in_(payload.project_ids))
+    elif reported_map:
+        stmt = stmt.where(Project.id.in_(list(reported_map.keys())))
+
     projects = db.scalars(
         stmt.options(selectinload(Project.links), selectinload(Project.server))
     ).all()
 
     statuses: list[ProjectStatusRead] = []
     for project in projects:
-        http_status, http_checked_at, http_source = check_http_status(project)
-        runtime_status, runtime_checked_at, runtime_source = check_runtime_status(
-            project, project.server
-        )
+        if project.id in reported_map:
+            rep_status = reported_map[project.id]
+            project.current_status = rep_status
+            project.runtime_status = RuntimeStatus.ACTIVE if rep_status == ProjectStatus.ONLINE else RuntimeStatus.STOPPED
+            project.runtime_checked_at = datetime.now(timezone.utc)
+            project.last_checked_at = project.runtime_checked_at
+            http_status = project.http_status or ProjectStatus.UNKNOWN
+            http_source = "agent_reported"
+            runtime_source = "agent_reported"
+        else:
+            http_status, http_checked_at, http_source = check_http_status(project)
+            runtime_status, runtime_checked_at, runtime_source = check_runtime_status(
+                project, project.server
+            )
 
-        project.http_status = http_status
-        project.http_checked_at = http_checked_at or datetime.now(timezone.utc)
-        project.runtime_status = runtime_status
-        project.runtime_checked_at = runtime_checked_at or datetime.now(timezone.utc)
-        project.current_status = project.http_status
-        project.last_checked_at = project.http_checked_at
+            project.http_status = http_status
+            project.http_checked_at = http_checked_at or datetime.now(timezone.utc)
+            project.runtime_status = runtime_status
+            project.runtime_checked_at = runtime_checked_at or datetime.now(timezone.utc)
+            
+            if runtime_status == RuntimeStatus.ACTIVE:
+                if http_status == ProjectStatus.DEGRADED:
+                    project.current_status = ProjectStatus.DEGRADED
+                else:
+                    project.current_status = ProjectStatus.ONLINE
+            elif runtime_status == RuntimeStatus.STOPPED:
+                project.current_status = ProjectStatus.OFFLINE
+            else:
+                if http_status in {ProjectStatus.ONLINE, ProjectStatus.OFFLINE, ProjectStatus.DEGRADED}:
+                    project.current_status = http_status
+                else:
+                    project.current_status = ProjectStatus.UNKNOWN
+
+            project.last_checked_at = project.http_checked_at
         statuses.append(
             ProjectStatusRead(
                 project_id=project.id,
@@ -401,6 +433,37 @@ def run_project_action(
     db.commit()
     db.refresh(log)
     return log
+
+
+class ActionLogCreate(BaseModel):
+    action: OperationAction
+    exit_code: int = 0
+    output: str | None = None
+
+
+@router.post("/projects/{project_id}/log-action")
+def log_project_action(
+    project_id: int,
+    payload: ActionLogCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> dict[str, str | int]:
+    project = db.get(Project, project_id)
+    if project is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Project not found."
+        )
+    log = OperationLog(
+        project_id=project.id,
+        user_id=current_user.id,
+        action=payload.action,
+        status=OperationStatus.SUCCEEDED if payload.exit_code == 0 else OperationStatus.FAILED,
+        message=payload.output or f"Action {payload.action.value} executed via Agent.",
+    )
+    db.add(log)
+    db.commit()
+    db.refresh(log)
+    return {"status": log.status.value, "log_id": log.id}
 
 
 @router.post("/projects/{project_id}/start")

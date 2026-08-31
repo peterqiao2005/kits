@@ -1,0 +1,132 @@
+{
+  "mode": "background",
+  "target_hwnd": 985770,
+  "target_title": "[PID:34024 | HWND:985770] BlueStacks-PQ",
+  "adb_enabled": true,
+  "adb_device": "127.0.0.1:5555",
+  "adb_custom_path": "",
+  "topmost": false,
+  "follow_target": true,
+  "points": [
+    {
+      "id": 1,
+      "enabled": true,
+      "level": 0,
+      "remark": "右上菜单",
+      "x": "368",
+      "y": "22",
+      "delay": "0.0",
+      "interval": "900",
+      "count": "0",
+      "hotkey": "ctrl+shift+1"
+    },
+    {
+      "id": 2,
+      "enabled": true,
+      "level": 1,
+      "remark": "结束战斗",
+      "x": "352",
+      "y": "253",
+      "delay": "1",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+2"
+    },
+    {
+      "id": 3,
+      "enabled": true,
+      "level": 1,
+      "remark": "Surrender",
+      "x": "128",
+      "y": "487",
+      "delay": "2",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+3"
+    },
+    {
+      "id": 4,
+      "enabled": true,
+      "level": 1,
+      "remark": "Retry",
+      "x": "119",
+      "y": "602",
+      "delay": "3",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+4"
+    },
+    {
+      "id": 5,
+      "enabled": true,
+      "level": 1,
+      "remark": "升级-左1",
+      "x": "145",
+      "y": "661",
+      "delay": "11",
+      "interval": "0.5",
+      "count": "0",
+      "hotkey": "ctrl+shift+5"
+    },
+    {
+      "id": 6,
+      "enabled": true,
+      "level": 1,
+      "remark": "升级-左2",
+      "x": "146",
+      "y": "740",
+      "delay": "13",
+      "interval": "0.7",
+      "count": "0",
+      "hotkey": "ctrl+shift+6"
+    },
+    {
+      "id": 7,
+      "enabled": true,
+      "level": 1,
+      "remark": "升级-右3",
+      "x": "333",
+      "y": "811",
+      "delay": "15",
+      "interval": "0.9",
+      "count": "0",
+      "hotkey": "ctrl+shift+7"
+    },
+    {
+      "id": 8,
+      "enabled": true,
+      "level": 1,
+      "remark": "Demon Mode",
+      "x": "30",
+      "y": "500",
+      "delay": "700",
+      "interval": "3",
+      "count": "3",
+      "hotkey": "ctrl+shift+8"
+    },
+    {
+      "id": 9,
+      "enabled": false,
+      "level": 0,
+      "remark": "",
+      "x": "0",
+      "y": "0",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+9"
+    },
+    {
+      "id": 10,
+      "enabled": false,
+      "level": 0,
+      "remark": "",
+      "x": "0",
+      "y": "0",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+0"
+    }
+  ]
+}

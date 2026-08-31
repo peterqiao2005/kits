@@ -1,0 +1,7 @@
+services:
+  backend:
+    volumes:
+      - ./backend/app:/app/app
+  frontend:
+    ports:
+      - "${FRONTEND_PORT:-5015}:80"

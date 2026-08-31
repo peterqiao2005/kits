@@ -31,6 +31,7 @@ class RuntimeType(str, Enum):
     PYTHON_SCRIPT = "python_script"
     SHELL_SCRIPT = "shell_script"
     CMD = "cmd"
+    POWERSHELL = "powershell"
     CUSTOM = "custom"
 
 
@@ -68,6 +69,19 @@ class OperationStatus(str, Enum):
     RUNNING = "running"
     SUCCEEDED = "succeeded"
     FAILED = "failed"
+
+
+class HealthCheckType(str, Enum):
+    AUTO = "auto"
+    PORT = "port"
+    PROCESS = "process"
+    HTTP = "http"
+    COMPOSITE = "composite"
+
+
+class HealthCheckOperator(str, Enum):
+    OR = "OR"
+    AND = "AND"
 
 
 def enum_values(enum_class: type[Enum]) -> list[str]:

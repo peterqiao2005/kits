@@ -1,0 +1,16 @@
+//设置是否界面里有联赛
+InTournament = 0
+
+ClickEx(0, 119, 602, 100, 31, 0, "Retry",2)
+ClickEx(0, 368, 22, 0.0, 60, 0, "右上菜单",1)
+If InTournament {
+    ClickEx(1, 352, 283, 1.0, 0.5, 1, "结束战斗") }
+Else {
+    ClickEx(1, 352, 253, 1.0, 0.5, 1, "结束战斗") }
+
+    ClickEx(1, 128, 487, 2.0, 0.5, 1, "Surrender")
+    ClickEx(1, 119, 602, 4.0, 0.5, 1, "Retry")
+    
+ClickEx(1, 30, 505, 30, 3.0, 1, "Demon Mode")
+
+

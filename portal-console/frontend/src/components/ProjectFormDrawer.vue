@@ -5,7 +5,7 @@ import { ElMessage } from "element-plus";
 import { Delete } from "@element-plus/icons-vue";
 
 import { createProject, updateProject } from "../api/modules";
-import type { Project, ProjectPayload, RuntimeType, Server, LinkType } from "../types";
+import type { Project, ProjectPayload, RuntimeType, Server, LinkType, HealthCheckType, HealthCheckOperator } from "../types";
 
 const props = defineProps<{
   modelValue: boolean;
@@ -49,6 +49,11 @@ const form = reactive({
   restart_cmd: "",
   kuma_monitor_id: "",
   is_favorite: false,
+  health_check_type: "auto" as HealthCheckType,
+  health_check_operator: "OR" as HealthCheckOperator,
+  health_check_http_path: "",
+  health_check_port: null as number | null,
+  health_check_process_name: "",
   links: [] as { link_type: LinkType; title: string; url: string; sort_order: number }[],
 });
 
@@ -61,6 +66,7 @@ const runtimeOptions: Array<{ label: string; value: RuntimeType }> = [
   { label: "python_script", value: "python_script" },
   { label: "shell_script", value: "shell_script" },
   { label: "cmd", value: "cmd" },
+  { label: "powershell", value: "powershell" },
   { label: "custom", value: "custom" },
 ];
 
@@ -81,9 +87,18 @@ function scriptTarget() {
   return form.deploy_path || safeName();
 }
 
+function selectedServer() {
+  return props.servers.find((s) => s.id === form.server_id) ?? null;
+}
+
+function isWindows() {
+  return selectedServer()?.os_type === "windows";
+}
+
 function defaultCommands() {
   const service = safeName();
   const deployPath = form.deploy_path || ".";
+  const win = isWindows();
   if (form.runtime_type === "systemd_service") {
     return {
       start_cmd: `systemctl start ${service}`,
@@ -135,6 +150,42 @@ function defaultCommands() {
       restart_cmd: `pkill -f "${target}" && bash ${target}`,
     };
   }
+  if (form.runtime_type === "cmd") {
+    if (win) {
+      const winPath = deployPath.replace(/\//g, "\\");
+      const startCmd = `cmd /c "cd /d ${winPath} && start /b ${service}.bat"`;
+      const stopCmd = `taskkill /F /FI "COMMANDLINE eq *${service}*"`;
+      return {
+        start_cmd: startCmd,
+        stop_cmd: stopCmd,
+        restart_cmd: `${stopCmd} & ${startCmd}`,
+      };
+    }
+    return {
+      start_cmd: `cd ${deployPath} && ./${service}`,
+      stop_cmd: `pkill -f "${service}"`,
+      restart_cmd: `pkill -f "${service}" && cd ${deployPath} && ./${service}`,
+    };
+  }
+  if (form.runtime_type === "powershell") {
+    if (win) {
+      const winPath = deployPath.replace(/\//g, "\\");
+      const script = `${winPath}\\${service}.ps1`;
+      const stopKill = `powershell -Command "Get-CimInstance Win32_Process -Filter \\"CommandLine like '%${service}%'\\" | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }"`;
+      const startCmd = `powershell -ExecutionPolicy Bypass -File "${script}"`;
+      return {
+        start_cmd: startCmd,
+        stop_cmd: stopKill,
+        restart_cmd: `${stopKill} & ${startCmd}`,
+      };
+    }
+    const script = `${deployPath}/${service}.ps1`;
+    return {
+      start_cmd: `pwsh -ExecutionPolicy Bypass -File ${script}`,
+      stop_cmd: `pkill -f "${script}"`,
+      restart_cmd: `pkill -f "${script}" && pwsh -ExecutionPolicy Bypass -File ${script}`,
+    };
+  }
   return {
     start_cmd: "",
     stop_cmd: "",
@@ -170,7 +221,8 @@ function wrapNohup(command: string) {
 function normalizeCommand(command: string) {
   const trimmed = command.trim();
   if (!trimmed) return "";
-  if (form.runtime_type === "cmd" || form.runtime_type === "custom") {
+  if (isWindows()) return trimmed;
+  if (form.runtime_type === "cmd" || form.runtime_type === "powershell" || form.runtime_type === "custom") {
     return shouldWrap(trimmed) ? wrapNohup(trimmed) : trimmed;
   }
   return trimmed;
@@ -193,6 +245,11 @@ function hydrateForm(project: Project | null) {
   form.restart_cmd = project?.restart_cmd ?? "";
   form.kuma_monitor_id = project?.kuma_monitor_id ?? "";
   form.is_favorite = project?.is_favorite ?? false;
+  form.health_check_type = project?.health_check_type ?? "auto";
+  form.health_check_operator = project?.health_check_operator ?? "OR";
+  form.health_check_http_path = project?.health_check_http_path ?? "";
+  form.health_check_port = project?.health_check_port ?? null;
+  form.health_check_process_name = project?.health_check_process_name ?? "";
   form.links = (project?.links ?? []).map((link) => ({
     link_type: link.link_type,
     title: link.title,
@@ -239,7 +296,7 @@ watch(
 );
 
 watch(
-  () => [form.runtime_type, form.runtime_service_name, form.deploy_path, form.name],
+  () => [form.runtime_type, form.runtime_service_name, form.deploy_path, form.name, form.server_id],
   () => applyDefaults(),
 );
 
@@ -273,6 +330,11 @@ async function submit() {
     restart_cmd: normalizeCommand(form.restart_cmd),
     kuma_monitor_id: form.kuma_monitor_id.trim() || null,
     is_favorite: form.is_favorite,
+    health_check_type: form.health_check_type,
+    health_check_operator: form.health_check_operator,
+    health_check_http_path: form.health_check_http_path.trim() || null,
+    health_check_port: form.health_check_port || null,
+    health_check_process_name: form.health_check_process_name.trim() || null,
     links: form.links.map((link, idx) => ({ ...link, sort_order: idx + 1 })),
   };
 
@@ -351,6 +413,34 @@ async function submit() {
         <el-button type="danger" :icon="Delete" circle @click="removeLinkFormItem(index)" />
       </div>
       <el-button type="primary" plain @click="addLinkFormItem" style="margin-bottom: 16px;">Add Link</el-button>
+
+      <el-divider>Health Check & Status Criteria</el-divider>
+      <el-form-item label="Health Check Mode">
+        <el-select v-model="form.health_check_type">
+          <el-option label="Auto (Smart Port / Process / HTTP)" value="auto" />
+          <el-option label="Port Only (TCP Listening)" value="port" />
+          <el-option label="Process Only (Execution Match)" value="process" />
+          <el-option label="HTTP / Health Endpoint" value="http" />
+          <el-option label="Composite (Custom Multi-Check)" value="composite" />
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="Combination Rule">
+        <el-radio-group v-model="form.health_check_operator">
+          <el-radio label="OR">OR (Any check passes ➜ ONLINE)</el-radio>
+          <el-radio label="AND">AND (All checks must pass ➜ ONLINE)</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item label="Custom Health Path (optional)">
+        <el-input v-model="form.health_check_http_path" placeholder="e.g. /health or /api/status" />
+      </el-form-item>
+      <el-form-item label="Custom Port Override (optional)">
+        <el-input-number v-model="form.health_check_port" :min="1" :max="65535" placeholder="e.g. 18010" style="width: 100%;" />
+      </el-form-item>
+      <el-form-item label="Custom Process Keyword Override (optional)">
+        <el-input v-model="form.health_check_process_name" placeholder="e.g. run-host.ps1" />
+      </el-form-item>
 
       <el-divider>Commands</el-divider>
       <p class="muted-line">

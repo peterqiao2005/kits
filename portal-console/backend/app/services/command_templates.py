@@ -85,11 +85,31 @@ def build_default_commands(project: Project, server: Server) -> DefaultCommands:
             else:
                 start_args = f"-ArgumentList '/c', '{target}' -WindowStyle Hidden -RedirectStandardOutput '{log_path}' -RedirectStandardError '{err_path}'"
                 start_cmd = f"powershell -Command \"Start-Process cmd {start_args}\""
-            
             return DefaultCommands(
                 start_cmd=start_cmd,
                 stop_cmd=f"powershell -Command \"Get-CimInstance Win32_Process -Filter \\\"CommandLine like '%{escaped_target}%'\\\" | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }}\"",
                 restart_cmd=f"powershell -Command \"Get-CimInstance Win32_Process -Filter \\\"CommandLine like '%{escaped_target}%'\\\" | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }}; {start_cmd[19:-1]}\"",
+            )
+        if project.runtime_type == RuntimeType.CMD:
+            start_cmd = f"cmd /c \"cd /d {win_deploy_path} && start /b {service_name}.bat\""
+            stop_cmd = f"taskkill /F /FI \"COMMANDLINE eq *{service_name}*\""
+            return DefaultCommands(
+                start_cmd=start_cmd,
+                stop_cmd=stop_cmd,
+                restart_cmd=f"{stop_cmd} & {start_cmd}",
+            )
+        if project.runtime_type == RuntimeType.POWERSHELL:
+            script = f"{win_deploy_path}\\{service_name}.ps1"
+            escaped_script = script.replace('\\', '\\\\')
+            safe_name_log = service_name.replace(" ", "_")
+            log_path = f"C:\\Windows\\Temp\\portal-console-{safe_name_log}.log"
+            err_path = f"C:\\Windows\\Temp\\portal-console-{safe_name_log}-err.log"
+            start_args = f"-ArgumentList '-ExecutionPolicy', 'Bypass', '-File', '{script}' -WindowStyle Hidden -RedirectStandardOutput '{log_path}' -RedirectStandardError '{err_path}'"
+            start_cmd = f"powershell -Command \"Start-Process powershell {start_args}\""
+            return DefaultCommands(
+                start_cmd=start_cmd,
+                stop_cmd=f"powershell -Command \"Get-CimInstance Win32_Process -Filter \\\"CommandLine like '%{escaped_script}%'\\\" | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }}\"",
+                restart_cmd=f"powershell -Command \"Get-CimInstance Win32_Process -Filter \\\"CommandLine like '%{escaped_script}%'\\\" | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }}; {start_cmd[19:-1]}\"",
             )
         return DefaultCommands()
 
@@ -137,6 +157,19 @@ def build_default_commands(project: Project, server: Server) -> DefaultCommands:
             start_cmd=f"bash {target}",
             stop_cmd=f"pkill -f \"{target}\"",
             restart_cmd=f"pkill -f \"{target}\" && bash {target}",
+        )
+    if project.runtime_type == RuntimeType.CMD:
+        return DefaultCommands(
+            start_cmd=f"cd {deploy_path} && ./{service_name}",
+            stop_cmd=f"pkill -f \"{service_name}\"",
+            restart_cmd=f"pkill -f \"{service_name}\" && cd {deploy_path} && ./{service_name}",
+        )
+    if project.runtime_type == RuntimeType.POWERSHELL:
+        script = f"{deploy_path}/{service_name}.ps1"
+        return DefaultCommands(
+            start_cmd=f"pwsh -ExecutionPolicy Bypass -File {script}",
+            stop_cmd=f"pkill -f \"{script}\"",
+            restart_cmd=f"pkill -f \"{script}\" && pwsh -ExecutionPolicy Bypass -File {script}",
         )
 
     return DefaultCommands()

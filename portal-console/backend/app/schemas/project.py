@@ -1,6 +1,12 @@
 from datetime import datetime
 
-from app.models.enums import ProjectStatus, RuntimeStatus, RuntimeType
+from app.models.enums import (
+    HealthCheckOperator,
+    HealthCheckType,
+    ProjectStatus,
+    RuntimeStatus,
+    RuntimeType,
+)
 from app.schemas.project_link import ProjectLinkCreate, ProjectLinkRead
 from app.schemas.server import ServerRead
 from pydantic import BaseModel, Field
@@ -26,6 +32,11 @@ class ProjectBase(BaseModel):
     rundeck_job_restart_id: str | None = None
     kuma_monitor_id: str | None = None
     is_favorite: bool = False
+    health_check_type: HealthCheckType = HealthCheckType.AUTO
+    health_check_operator: HealthCheckOperator = HealthCheckOperator.OR
+    health_check_http_path: str | None = None
+    health_check_port: int | None = None
+    health_check_process_name: str | None = None
 
 
 class ProjectCreate(ProjectBase):
@@ -52,6 +63,11 @@ class ProjectUpdate(BaseModel):
     rundeck_job_restart_id: str | None = None
     kuma_monitor_id: str | None = None
     is_favorite: bool | None = None
+    health_check_type: HealthCheckType | None = None
+    health_check_operator: HealthCheckOperator | None = None
+    health_check_http_path: str | None = None
+    health_check_port: int | None = None
+    health_check_process_name: str | None = None
     links: list[ProjectLinkCreate] | None = None
 
 
@@ -82,6 +98,11 @@ class ProjectListItem(BaseModel):
     runtime_type: RuntimeType
     repo_url: str | None = None
     is_favorite: bool
+    health_check_type: HealthCheckType = HealthCheckType.AUTO
+    health_check_operator: HealthCheckOperator = HealthCheckOperator.OR
+    health_check_http_path: str | None = None
+    health_check_port: int | None = None
+    health_check_process_name: str | None = None
     current_status: ProjectStatus
     last_checked_at: datetime | None = None
     http_status: ProjectStatus
@@ -105,5 +126,11 @@ class ProjectStatusRead(BaseModel):
     runtime_source: str
 
 
+class ProjectReportedStatus(BaseModel):
+    project_id: int
+    status: ProjectStatus
+
+
 class StatusSyncRequest(BaseModel):
     project_ids: list[int] | None = None
+    reported_statuses: list[ProjectReportedStatus] | None = None
