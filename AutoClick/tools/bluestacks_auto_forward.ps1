@@ -2,6 +2,7 @@
 #  The Tower · BlueStacks 实例端口全自动侦测与固定映射工具 (PowerShell 版)
 # =====================================================================
 
+# 1. 确保以管理员权限运行
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
     Write-Host "[提示] 正在请求管理员权限，请在弹出的 UAC 窗口中点击【是】..." -ForegroundColor Yellow
@@ -16,12 +17,25 @@ Write-Host "====================================================================
 Write-Host ""
 Write-Host "[1/3] 正在扫描 BlueStacks 5 配置文件与所有运行中实例..." -ForegroundColor Yellow
 
+# 检查 BlueStacks 进程是否正在运行
+$bsProcesses = Get-Process -Name "HD-Player" -ErrorAction SilentlyContinue
+if (-not $bsProcesses) {
+    Write-Host "`n[警告] 当前系统中未检测到任何正在运行的 BlueStacks (HD-Player.exe) 进程！" -ForegroundColor Red
+    Write-Host "👉 原因排查:" -ForegroundColor Yellow
+    Write-Host "   1. 模拟器尚未启动或在后台崩溃退出；" -ForegroundColor White
+    Write-Host "   2. 请在桌面上打开 BlueStacks 多开管理器，并【启动】您的模拟器实例；" -ForegroundColor White
+    Write-Host "   3. 确保模拟器窗口已经完全进入 Android 系统桌面并已开启游戏。" -ForegroundColor White
+    Write-Host ""
+    Pause
+    exit 1
+}
+
 $confPath = 'C:\ProgramData\BlueStacks_nxt\bluestacks.conf'
 if (-not (Test-Path $confPath)) {
-    Write-Host "[错误] 未找到 BlueStacks 配置文件: $confPath" -ForegroundColor Red
-    Write-Host "请确认该机器已安装 BlueStacks 5 并在运行中。" -ForegroundColor Yellow
+    Write-Host "`n[错误] 未找到 BlueStacks 配置文件: $confPath" -ForegroundColor Red
+    Write-Host "请确认该机器已正确安装 BlueStacks 5。" -ForegroundColor Yellow
     Pause
-    exit
+    exit 1
 }
 
 $lines = Get-Content $confPath
@@ -41,10 +55,15 @@ foreach ($line in $lines) {
 
 $activeInstances = $instances.GetEnumerator() | Where-Object { $_.Value.Port -and $_.Value.Port -ne '0' }
 if ($activeInstances.Count -eq 0) {
-    Write-Host "[警告] 未检测到任何运行中的 BlueStacks 实例（或 ADB 调试未开启）。" -ForegroundColor Red
-    Write-Host "请先在 BlueStacks 中启动实例，并在【设置->高级】中打开【Android 调试桥 (ADB)】！" -ForegroundColor Yellow
+    Write-Host "`n[警告] 虽有模拟器进程，但未检测到任何开放 ADB 端口的实例。" -ForegroundColor Red
+    Write-Host "👉 解决方法:" -ForegroundColor Yellow
+    Write-Host "   1. 打开 BlueStacks 窗口右下角【设置 (齿轮图标)】；" -ForegroundColor White
+    Write-Host "   2. 切换到【高级 (Advanced)】选项卡；" -ForegroundColor White
+    Write-Host "   3. 找到【Android 调试桥 (ADB)】，将其开关打开并保存更改；" -ForegroundColor White
+    Write-Host "   4. 重启模拟器后再次运行本工具！" -ForegroundColor White
+    Write-Host ""
     Pause
-    exit
+    exit 1
 }
 
 Write-Host "[2/3] 正在建立固定端口转发 (5555, 5565, 5575...)..." -ForegroundColor Cyan
@@ -68,7 +87,7 @@ foreach ($inst in $activeInstances) {
 
     $summary += [PSCustomObject]@{
         '实例名称' = $name
-        'BlueStacks动态端口' = $dynPort
+        'BlueStacks当前动态端口' = $dynPort
         '固定局域网连接地址 (Web端填这个)' = "$ip`:$fixPort"
     }
     $idx++

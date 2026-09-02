@@ -1,4 +1,3 @@
-import concurrent.futures
 import ctypes
 from ctypes import wintypes
 import json
@@ -964,41 +963,8 @@ def post_background_click(hwnd, x, y):
     return True
 
 
-def get_all_bluestacks_instance_info():
-    """解析 BlueStacks 配置文件获取所有多开实例名、显示名称与对应的 adb_port"""
-    paths = [
-        os.path.expandvars(r"%ProgramData%\BlueStacks_nxt\bluestacks.conf"),
-        os.path.expandvars(r"%ProgramData%\BlueStacks\bluestacks.conf"),
-        r"C:\ProgramData\BlueStacks_nxt\bluestacks.conf",
-        r"C:\ProgramData\BlueStacks\bluestacks.conf",
-    ]
-    instances = {}
-    for p in paths:
-        if not os.path.exists(p):
-            continue
-        try:
-            with open(p, "r", encoding="utf-8", errors="ignore") as f:
-                for line in f:
-                    line = line.strip()
-                    m_port = re.match(r'bst\.instance\.([^\.]+)\.(?:status\.)?adb_port="(\d+)"', line)
-                    if m_port:
-                        inst_id, port = m_port.group(1), int(m_port.group(2))
-                        if inst_id not in instances:
-                            instances[inst_id] = {}
-                        instances[inst_id]["port"] = port
-                    m_name = re.match(r'bst\.instance\.([^\.]+)\.display_name="([^"]+)"', line)
-                    if m_name:
-                        inst_id, name = m_name.group(1), m_name.group(2)
-                        if inst_id not in instances:
-                            instances[inst_id] = {}
-                        instances[inst_id]["display_name"] = name
-        except Exception:
-            pass
-    return instances
-
-
 def detect_adb_ports_by_hwnd(hwnd):
-    """通用算法：获取目标窗口进程及相关模拟器进程在系统监听的 TCP 本地端口 (支持所有模拟器)"""
+    """通用算法：获取目标窗口进程在系统监听的 TCP 本地端口 (支持所有模拟器)"""
     if not hwnd or not win32gui.IsWindow(hwnd):
         return []
 
@@ -1019,10 +985,10 @@ def detect_adb_ports_by_hwnd(hwnd):
         found_ports = []
         for line in out.splitlines():
             parts = line.strip().split()
-            if len(parts) >= 5 and parts[0].startswith("TCP") and parts[3] == "LISTENING":
+            if len(parts) >= 5 and parts[0].upper().startswith("TCP") and parts[3].upper() == "LISTENING":
                 proc_pid = parts[4]
                 if proc_pid in target_pids:
-                    local_addr = parts[1]  # 例如 127.0.0.1:5556 或 [::]:5556
+                    local_addr = parts[1]  # 例如 127.0.0.1:5565 或 [::]:5565
                     if ":" in local_addr:
                         port_str = local_addr.split(":")[-1]
                         try:
@@ -3037,7 +3003,7 @@ class AutoClickerApp:
         return None
 
     def refresh_adb_devices(self):
-        """精准依据选中窗口 PID、实例配置与模拟器特征匹配连接对应的 ADB 模拟器端口"""
+        """通用算法：依据当前绑定的目标窗口进程 PID，从系统 netstat 探测其正在监听的 TCP 端口并连接匹配 ADB 设备"""
         adb_bin = self.get_adb_path()
         if not adb_bin:
             self.log_msg("⚠️ 刷新失败：未找到可用的 ADB 工具 (请确认 adb/ 目录是否存在)")
@@ -3046,51 +3012,45 @@ class AutoClickerApp:
 
         flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
 
-        # 1. 收集候选端口 (BlueStacks 配置文件 + PID 监听端口 + 常用模拟器默认端口)
-        candidate_ports = []
-
-        # 1.1 从 BlueStacks 配置文件读取所有实例端口
-        bs_instances = get_all_bluestacks_instance_info()
-        bs_ports = [data["port"] for data in bs_instances.values() if "port" in data]
-        for p in bs_ports:
-            if p not in candidate_ports:
-                candidate_ports.append(p)
-
-        # 1.2 依据目标窗口进程 PID 查找其监听的 TCP 本地端口
+        # 1. 依据目标窗口进程 PID 查找其在系统上正处于 LISTENING 状态的 TCP 端口
         hwnd = self.target_hwnd_var.get()
         pid_ports = []
+        target_pid = 0
         if hwnd and win32gui.IsWindow(hwnd):
-            pid_ports = detect_adb_ports_by_hwnd(hwnd)
-            if pid_ports:
-                for p in pid_ports:
-                    if p not in candidate_ports:
-                        candidate_ports.append(p)
-                self.log_msg(f"🔍 锁定当前窗口进程对应的 ADB 监听端口: {pid_ports}")
-
-        # 1.3 常用主流模拟器默认端口补救 (BlueStacks, 雷电, MuMu, 夜神, 逍遥, WSA)
-        common_ports = [5555, 5565, 5575, 5585, 5595, 5557, 5559, 16384, 16416, 7555, 62001, 21503, 58526]
-        for cp in common_ports:
-            if cp not in candidate_ports:
-                candidate_ports.append(cp)
-
-        # 1.4 多线程并发快速连接候选端口 (单端口最多等待 1.2 秒，整体在 1 秒内完成)
-        def _connect_port(port):
             try:
-                subprocess.run(
-                    [adb_bin, "connect", f"127.0.0.1:{port}"],
-                    creationflags=flags,
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL,
-                    timeout=1.2
-                )
+                _, target_pid = win32process.GetWindowThreadProcessId(hwnd)
             except Exception:
                 pass
+            pid_ports = detect_adb_ports_by_hwnd(hwnd)
+            if pid_ports:
+                self.log_msg(f"🔍 锁定当前窗口进程 [PID:{target_pid}] 对应的监听端口: {pid_ports}")
+                for port in pid_ports:
+                    try:
+                        subprocess.run(
+                            [adb_bin, "connect", f"127.0.0.1:{port}"],
+                            creationflags=flags,
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.DEVNULL,
+                            timeout=2.0
+                        )
+                    except Exception:
+                        pass
 
-        if candidate_ports:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=min(12, len(candidate_ports))) as executor:
-                list(executor.map(_connect_port, candidate_ports))
+        # 兜底尝试常用标准 ADB 端口连接 (如 5555, 5565)
+        for default_port in [5555, 5565]:
+            if default_port not in pid_ports:
+                try:
+                    subprocess.run(
+                        [adb_bin, "connect", f"127.0.0.1:{default_port}"],
+                        creationflags=flags,
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
+                        timeout=1.0
+                    )
+                except Exception:
+                    pass
 
-        # 2. 查询系统当前已连接的 ADB 设备
+        # 2. 查询当前系统已连接的 ADB 设备
         try:
             out = subprocess.check_output(
                 [adb_bin, "devices"],
@@ -3106,7 +3066,7 @@ class AutoClickerApp:
                     if len(parts) >= 2 and parts[1] == "device":
                         devices.append(parts[0])
 
-            # 3. 校验设备响应并进行 PID / 标题专属匹配
+            # 3. 校验设备可用性
             valid_devices = []
             for d in devices:
                 try:
@@ -3125,43 +3085,10 @@ class AutoClickerApp:
             if not valid_devices:
                 valid_devices = devices
 
-            # 4. 智能匹配属于当前窗口的 ADB 设备
+            # 4. 精准分配属于当前进程 PID 监听端口的 ADB 设备
             matched_dev = None
             matched_list = []
 
-            # 4.1 依据 BlueStacks 窗口标题 / 实例名精准匹配
-            target_title = self.target_title_var.get().strip()
-            if not target_title and hasattr(self, "win_cb"):
-                target_title = self.win_cb.get().strip()
-
-            target_bs_port = None
-            if target_title and bs_instances:
-                for inst_id, data in bs_instances.items():
-                    disp = data.get("display_name", "")
-                    p = data.get("port")
-                    if not p:
-                        continue
-                    if (disp and disp in target_title) or (disp and target_title in disp) or (inst_id.lower() in target_title.lower()):
-                        target_bs_port = p
-                        break
-                    # 子串匹配 (如 Jojo / PQ / CubeLand)
-                    keywords = [w for w in re.split(r"[\s\-_\|\(\)\[\]]+", disp) if len(w) >= 2]
-                    for kw in keywords:
-                        if kw.lower() in target_title.lower():
-                            target_bs_port = p
-                            break
-                    if target_bs_port:
-                        break
-
-            if target_bs_port:
-                p_str = str(target_bs_port)
-                console_p_str = str(target_bs_port - 1)
-                for d in valid_devices:
-                    if f":{p_str}" in d or f"-{p_str}" in d or f"-{console_p_str}" in d:
-                        if d not in matched_list:
-                            matched_list.append(d)
-
-            # 4.2 依据 netstat 探测到的 PID 端口匹配
             if pid_ports:
                 for p in pid_ports:
                     p_str = str(p)
@@ -3171,14 +3098,14 @@ class AutoClickerApp:
                             if d not in matched_list:
                                 matched_list.append(d)
 
-            # 优先挑选 IP:Port 形式（如 127.0.0.1:5565）
-            ip_ports = [d for d in matched_list if ":" in d]
-            if ip_ports:
-                matched_dev = ip_ports[0]
-            elif matched_list:
-                matched_dev = matched_list[0]
+                # 优先挑选 IP:Port 形式（如 127.0.0.1:5565）
+                ip_ports = [d for d in matched_list if ":" in d]
+                if ip_ports:
+                    matched_dev = ip_ports[0]
+                elif matched_list:
+                    matched_dev = matched_list[0]
 
-            # 下拉列表内容
+            # 填充下拉列表内容
             if matched_list:
                 final_dropdown_list = matched_list
             else:
@@ -3186,20 +3113,11 @@ class AutoClickerApp:
 
             self.adb_dev_cb["values"] = final_dropdown_list
 
-            hwnd = self.target_hwnd_var.get()
-            target_pid = 0
-            if hwnd and win32gui.IsWindow(hwnd):
-                try:
-                    _, target_pid = win32process.GetWindowThreadProcessId(hwnd)
-                except Exception:
-                    pass
-
-            # 获取当前已选中的设备
             curr_selected = self.adb_device_var.get().strip()
 
             if matched_dev:
                 self.adb_device_var.set(matched_dev)
-                self.log_msg(f"✅ [ADB 锁定] 成功将目标窗口 [{target_title or f'PID:{target_pid}'}] 精准绑定到 ADB 设备: [{matched_dev}]")
+                self.log_msg(f"✅ [ADB 锁定] 成功将目标窗口 [PID:{target_pid}] 精准绑定到 ADB 设备: [{matched_dev}]")
             elif curr_selected and curr_selected in final_dropdown_list:
                 # 保持用户之前选中的有效设备
                 self.adb_device_var.set(curr_selected)
@@ -3212,7 +3130,7 @@ class AutoClickerApp:
                 self.log_msg(f"ℹ️ [ADB 多设备] 检测到 {len(final_dropdown_list)} 个在线设备 ({', '.join(final_dropdown_list)})，已默认选中 [{final_dropdown_list[0]}]，可在下拉框中按需切换。")
             else:
                 self.adb_device_var.set("")
-                self.log_msg("⚠️ 未检测到可正常响应的 ADB 设备。请确认模拟器已开启，并在设置 -> 高级中开启「Android 调试桥 (ADB)」。")
+                self.log_msg("⚠️ 未检测到可正常响应的 ADB 设备。请确认目标模拟器已开启，且「设置 -> 高级」中已开启「Android 调试桥 (ADB)」。")
 
             return final_dropdown_list
         except Exception as e:
