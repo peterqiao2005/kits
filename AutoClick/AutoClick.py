@@ -835,7 +835,11 @@ class SearchableCombobox(ttk.Frame):
     def _on_listbox_select(self, event):
         """鼠标单击释放选中某项：填入并立即收起下拉框"""
         if self._listbox and self._listbox.size() > 0:
-            idx = self._listbox.nearest(event.y)
+            sel = self._listbox.curselection()
+            if sel:
+                idx = sel[0]
+            else:
+                idx = self._listbox.nearest(event.y)
             if 0 <= idx < len(self._filtered_values):
                 val = self._filtered_values[idx]
                 if val != "(无匹配窗口)":
@@ -2380,16 +2384,7 @@ class AutoClickerApp:
     def align_mini_to_target(self):
         """将 Mini 面板自动吸附/粘连到当前绑定的目标窗口下方或右方（支持点位模式与脚本模式、多显示器、副屏负坐标与高分屏）"""
         try:
-            target_hwnd = self.target_hwnd_var.get()
-
-            # 1. 严格基于用户选中的 target_hwnd 校验，严禁自动猜测并串台重置用户绑定的窗口！
-            if not target_hwnd or not win32gui.IsWindow(target_hwnd) or win32gui.IsIconic(target_hwnd):
-                selected_title = self.win_cb.get() if hasattr(self, "win_cb") else ""
-                if hasattr(self, "window_map") and selected_title in self.window_map:
-                    target_hwnd = self.window_map[selected_title]
-                else:
-                    return False
-
+            target_hwnd = self.get_current_target_hwnd()
             if not target_hwnd or not win32gui.IsWindow(target_hwnd) or win32gui.IsIconic(target_hwnd):
                 return False
 
@@ -2707,14 +2702,72 @@ class AutoClickerApp:
         if not silent:
             self.log_msg(f"窗口列表已更新，找到 {len(values)} 个活动窗口。")
 
-    def on_window_selected(self, event=None):
-        """下拉选择或回车锁定窗口项回调"""
-        selected = self.win_cb.get().strip()
-        if selected in self.window_map:
+    def get_current_target_hwnd(self):
+        """统一获取并智能解析当前选中的目标窗口句柄 (确保从下拉框选择、手动输入或会话恢复后均能直接生效)"""
+        target_hwnd = self.target_hwnd_var.get()
+        if target_hwnd and win32gui.IsWindow(target_hwnd):
+            return target_hwnd
+
+        selected = self.win_cb.get().strip() if hasattr(self, "win_cb") else ""
+        if not selected or selected in ["选择目标窗口...", "未选择目标窗口"]:
+            selected = self.target_title_var.get().strip()
+        if not selected or selected in ["选择目标窗口...", "未选择目标窗口"]:
+            return 0
+
+        # 1. 尝试从 window_map 精确匹配
+        if hasattr(self, "window_map") and selected in self.window_map:
             hwnd = self.window_map[selected]
+            if hwnd and win32gui.IsWindow(hwnd):
+                self.target_hwnd_var.set(hwnd)
+                self.target_title_var.set(selected)
+                return hwnd
+
+        # 2. 尝试从文本中解析 HWND (例如 [PID:1234 | HWND:56789] 或 HWND:56789)
+        m_hwnd = re.search(r"HWND:(\d+)", selected, re.IGNORECASE)
+        if m_hwnd:
+            try:
+                hwnd = int(m_hwnd.group(1))
+                if hwnd and win32gui.IsWindow(hwnd):
+                    self.target_hwnd_var.set(hwnd)
+                    self.target_title_var.set(selected)
+                    return hwnd
+            except Exception:
+                pass
+
+        # 3. 尝试从文本中解析 PID 并匹配窗口
+        m_pid = re.search(r"PID:(\d+)", selected, re.IGNORECASE)
+        if m_pid:
+            try:
+                target_pid = int(m_pid.group(1))
+                windows = get_window_list()
+                for h, t in windows:
+                    _, p = win32process.GetWindowThreadProcessId(h)
+                    if p == target_pid:
+                        self.target_hwnd_var.set(h)
+                        self.target_title_var.set(selected)
+                        return h
+            except Exception:
+                pass
+
+        # 4. 尝试重新刷新窗口列表并按子串/标题模糊匹配
+        windows = get_window_list()
+        for h, t in windows:
+            if t and (t in selected or selected in t):
+                self.target_hwnd_var.set(h)
+                self.target_title_var.set(selected)
+                return h
+
+        return 0
+
+    def on_window_selected(self, event=None):
+        """下拉选择窗口项回调 (点选立即生效绑定)"""
+        selected = self.win_cb.get().strip()
+        hwnd = self.get_current_target_hwnd()
+        if hwnd and win32gui.IsWindow(hwnd):
             self.target_hwnd_var.set(hwnd)
             self.target_title_var.set(selected)
             self.mark_dirty()
+            self.log_msg(f"🎯 已锁定目标窗口: {selected}")
             if self.adb_enabled_var.get():
                 self.refresh_adb_devices()
             self.update_mini_target_title()
@@ -2728,33 +2781,18 @@ class AutoClickerApp:
             self.update_mini_target_title()
             return
 
-        # 1. 精确匹配 window_map key
-        if text in self.window_map:
-            hwnd = self.window_map[text]
+        hwnd = self.get_current_target_hwnd()
+        if hwnd and win32gui.IsWindow(hwnd):
             self.target_hwnd_var.set(hwnd)
             self.target_title_var.set(text)
             self.mark_dirty()
+            self.log_msg(f"🎯 已锁定目标窗口: {text}")
             if self.adb_enabled_var.get():
                 self.refresh_adb_devices()
             self.update_mini_target_title()
             return
 
-        # 2. 若输入的是 HWND 数字 (如 123456)
-        if text.isdigit() and int(text) in self.window_map.values():
-            h = int(text)
-            for k, v in self.window_map.items():
-                if v == h:
-                    self.win_cb.set(k)
-                    self.target_hwnd_var.set(h)
-                    self.target_title_var.set(k)
-                    self.mark_dirty()
-                    if self.adb_enabled_var.get():
-                        self.refresh_adb_devices()
-                    self.update_mini_target_title()
-                    return
-
-        # 3. 模糊/子串匹配 window_map keys
-        matches = [k for k in self.window_map.keys() if text.lower() in k.lower()]
+        matches = [k for k in self.window_map.keys() if text.lower() in k.lower()] if hasattr(self, "window_map") else []
         if len(matches) == 1:
             matched_key = matches[0]
             hwnd = self.window_map[matched_key]
@@ -3294,7 +3332,7 @@ class AutoClickerApp:
 
     def restore_target_window_size(self):
         """将当前绑定的目标模拟器窗口还原为配置中指定的标准尺寸 (默认 424x901)"""
-        target_hwnd = self.target_hwnd_var.get()
+        target_hwnd = self.get_current_target_hwnd()
         if not target_hwnd or not win32gui.IsWindow(target_hwnd):
             messagebox.showwarning("提示", "请先选择或锁定有效的目标窗口！")
             return
@@ -3732,17 +3770,12 @@ class AutoClickerApp:
         3. 若开启 ADB 模式，所选 ADB 设备端口必须属于该窗口 PID (若检测到属于其他模拟器实例或未选择，直接拦截报错)。
         返回值：(is_valid: bool, target_hwnd: int, real_pid: int, real_title: str)
         """
-        target_hwnd = self.target_hwnd_var.get()
+        target_hwnd = self.get_current_target_hwnd()
         if not target_hwnd or not win32gui.IsWindow(target_hwnd):
-            selected = self.win_cb.get() if hasattr(self, "win_cb") else ""
-            if selected in self.window_map:
-                target_hwnd = self.window_map[selected]
-                self.target_hwnd_var.set(target_hwnd)
-            else:
-                err_msg = f"❌ [安全拦截: 目标未绑定] 当前未绑定有效的目标窗口，已强制终止 {caller_name}！请在下拉框中选择要操作的目标模拟器窗口。"
-                self.log_msg(err_msg)
-                messagebox.showerror("未绑定目标窗口", f"当前未绑定有效的目标窗口！\n\n为确保数据安全，已终止 {caller_name}。\n请先在窗口下拉菜单中明确选择目标窗口。")
-                return False, 0, 0, ""
+            err_msg = f"❌ [安全拦截: 目标未绑定] 当前未绑定有效的目标窗口，已强制终止 {caller_name}！请在下拉框中选择要操作的目标模拟器窗口。"
+            self.log_msg(err_msg)
+            messagebox.showerror("未绑定目标窗口", f"当前未绑定有效的目标窗口！\n\n为确保数据安全，已终止 {caller_name}。\n请先在窗口下拉菜单中明确选择目标窗口。")
+            return False, 0, 0, ""
 
         # 1. 查询目标窗口当前在操作系统中的实时 PID 与标题
         try:
