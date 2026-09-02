@@ -1,9 +1,9 @@
 {
   "mode": "background",
-  "target_hwnd": 27267944,
-  "target_title": "[PID:45636 | HWND:27267944] BlueStacks-Jojo",
+  "target_hwnd": 183112470,
+  "target_title": "[PID:43840 | HWND:183112470] BlueStacks-PQ",
   "adb_enabled": true,
-  "adb_device": "127.0.0.1:5565",
+  "adb_device": "127.0.0.1:5555",
   "adb_custom_path": "",
   "topmost": false,
   "follow_target": true,
@@ -22,7 +22,7 @@
     },
     {
       "id": 2,
-      "enabled": false,
+      "enabled": true,
       "level": 0,
       "remark": "升级-右1",
       "x": "328",
@@ -46,7 +46,7 @@
     },
     {
       "id": 4,
-      "enabled": false,
+      "enabled": true,
       "level": 0,
       "remark": "升级-右2",
       "x": "334",
