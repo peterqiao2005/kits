@@ -2405,22 +2405,12 @@ class AutoClickerApp:
             except Exception:
                 pass
 
-            cx, cy = win32gui.ScreenToClient(render_hwnd, (screen_x, screen_y))
-            norm_x = max(0.0, min(1.0, cx / max(1, cl_w)))
-            norm_y = max(0.0, min(1.0, cy / max(1, cl_h)))
-
-            if is_adb:
-                device = self.adb_device_var.get().strip()
-                wm_w, wm_h = self.get_adb_screen_resolution(device)
-                if wm_w <= 0 or wm_h <= 0:
-                    wm_w, wm_h = getattr(self, "base_adb_resolution", [540, 1200])
-                real_adb_w = wm_h if (cl_w > cl_h) != (wm_w > wm_h) else wm_w
-                real_adb_h = wm_w if (cl_w > cl_h) != (wm_w > wm_h) else wm_h
-                final_x, final_y = int(norm_x * real_adb_w), int(norm_y * real_adb_h)
-                coord_desc = f"[ADB 内部物理坐标: ({final_x}, {final_y}) | 比例: {norm_x*100:.1f}%, {norm_y*100:.1f}%]"
-            elif mode == "background":
+            if mode == "background" or is_adb:
+                cx, cy = win32gui.ScreenToClient(render_hwnd, (screen_x, screen_y))
                 final_x, final_y = cx, cy
-                coord_desc = f"[模拟器视口相对坐标: ({final_x}, {final_y}) | 比例: {norm_x*100:.1f}%, {norm_y*100:.1f}%]"
+                norm_x = max(0.0, min(1.0, cx / max(1, cl_w)))
+                norm_y = max(0.0, min(1.0, cy / max(1, cl_h)))
+                coord_desc = f"[视口相对坐标: ({final_x}, {final_y}) | 比例: {norm_x*100:.1f}%, {norm_y*100:.1f}%]"
             else:
                 final_x, final_y = screen_x, screen_y
                 coord_desc = f"[屏幕绝对坐标: ({final_x}, {final_y})]"
@@ -2447,70 +2437,13 @@ class AutoClickerApp:
         self.log_msg(msg)
 
     def on_adb_toggled(self):
-        """模拟器增强 (ADB模式) 切换逻辑与点位坐标智能等比换算"""
+        """模拟器增强 (ADB模式) 切换逻辑"""
         self.mark_dirty()
-        is_adb = self.adb_enabled_var.get()
-        hwnd = self.target_hwnd_var.get()
-
-        if is_adb:
+        if self.adb_enabled_var.get():
             self.log_msg("⚡ 已开启 [模拟器增强 (ADB后台模式)]！点击指令将通过 ADB 底层触控直接发送至模拟器。")
             self.refresh_adb_devices()
-            if hwnd and win32gui.IsWindow(hwnd):
-                render_hwnd, cl_w, cl_h, _, _ = self.get_emulator_render_info(hwnd)
-                device = self.adb_device_var.get().strip()
-                wm_w, wm_h = self.get_adb_screen_resolution(device)
-                if wm_w <= 0 or wm_h <= 0:
-                    wm_w, wm_h = getattr(self, "base_adb_resolution", [540, 1200])
-                if wm_w > 0 and wm_h > 0 and cl_w > 0 and cl_h > 0:
-                    real_adb_w = wm_h if (cl_w > cl_h) != (wm_w > wm_h) else wm_w
-                    real_adb_h = wm_w if (cl_w > cl_h) != (wm_w > wm_h) else wm_h
-                    cnt = 0
-                    for i in range(NUM_POINTS):
-                        p_vars = self.point_vars[i]
-                        try:
-                            x, y = int(p_vars["x"].get()), int(p_vars["y"].get())
-                        except ValueError:
-                            continue
-                        if x == 0 and y == 0:
-                            continue
-                        # 如果坐标看起来还是视口相对坐标 (<= cl_w, cl_h)
-                        if x <= cl_w * 1.1 and y <= cl_h * 1.1:
-                            nx = x / max(1, cl_w)
-                            ny = y / max(1, cl_h)
-                            p_vars["x"].set(str(int(nx * real_adb_w)))
-                            p_vars["y"].set(str(int(ny * real_adb_h)))
-                            cnt += 1
-                    if cnt > 0:
-                        self.log_msg(f"⚡ 已自动将 {cnt} 组点位坐标等比转换为 [ADB 内部物理坐标 ({real_adb_w}x{real_adb_h})]")
         else:
             self.log_msg("已关闭 [模拟器增强 (ADB后台模式)]，恢复使用标准 Windows 消息。")
-            if hwnd and win32gui.IsWindow(hwnd):
-                render_hwnd, cl_w, cl_h, _, _ = self.get_emulator_render_info(hwnd)
-                device = self.adb_device_var.get().strip()
-                wm_w, wm_h = self.get_adb_screen_resolution(device)
-                if wm_w <= 0 or wm_h <= 0:
-                    wm_w, wm_h = getattr(self, "base_adb_resolution", [540, 1200])
-                if wm_w > 0 and wm_h > 0 and cl_w > 0 and cl_h > 0:
-                    real_adb_w = wm_h if (cl_w > cl_h) != (wm_w > wm_h) else wm_w
-                    real_adb_h = wm_w if (cl_w > cl_h) != (wm_w > wm_h) else wm_h
-                    cnt = 0
-                    for i in range(NUM_POINTS):
-                        p_vars = self.point_vars[i]
-                        try:
-                            x, y = int(p_vars["x"].get()), int(p_vars["y"].get())
-                        except ValueError:
-                            continue
-                        if x == 0 and y == 0:
-                            continue
-                        # 如果坐标看起来是 ADB 内部坐标 (> cl_w 或 > cl_h)
-                        if x > cl_w * 1.1 or y > cl_h * 1.1:
-                            nx = x / max(1, real_adb_w)
-                            ny = y / max(1, real_adb_h)
-                            p_vars["x"].set(str(int(nx * cl_w)))
-                            p_vars["y"].set(str(int(ny * cl_h)))
-                            cnt += 1
-                    if cnt > 0:
-                        self.log_msg(f"🔄 已自动将 {cnt} 组点位坐标等比转换为 [模拟器视口相对坐标 ({cl_w}x{cl_h})]")
 
     def get_adb_path(self):
         """优先使用程序所在目录下的独立 ADB 工具，保证全功能兼容与免冲突"""
@@ -2858,104 +2791,8 @@ class AutoClickerApp:
         except Exception as e:
             self.log_msg(f"❌ 还原窗口尺寸失败: {e}")
 
-    def calculate_scaled_coords(self, x, y, hwnd=None, mode=None):
-        """
-        双轨坐标自适应换算引擎：
-        根据基准录制视口尺寸 (base_render_size) 或 Android 内部物理分辨率 (base_adb_resolution)，
-        自适应换算当前目标窗口与当前模式下的实际点击坐标与归一化百分比。
-        返回: (target_x, target_y, norm_x, norm_y, render_hwnd)
-        """
-        if hwnd is None:
-            hwnd = self.target_hwnd_var.get()
-        if mode is None:
-            mode = self.mode_var.get()
-        is_adb = self.adb_enabled_var.get()
-
-        render_hwnd, cl_w, cl_h, offset_x, offset_y = self.get_emulator_render_info(hwnd)
-        base_w, base_h = getattr(self, "base_render_size", [390, 867])
-        if base_w <= 0 or base_h <= 0:
-            base_w, base_h = max(1, cl_w) if cl_w > 0 else 390, max(1, cl_h) if cl_h > 0 else 867
-
-        if is_adb:
-            adb_base_w, adb_base_h = getattr(self, "base_adb_resolution", [540, 1200])
-            if adb_base_w <= 0 or adb_base_h <= 0:
-                adb_base_w, adb_base_h = 540, 1200
-
-            # 智能判断传入坐标是基于视口尺寸还是 ADB 内部物理分辨率
-            if x <= base_w * 1.08 and y <= base_h * 1.08:
-                norm_x = max(0.0, min(1.0, x / max(1, base_w)))
-                norm_y = max(0.0, min(1.0, y / max(1, base_h)))
-            else:
-                norm_x = max(0.0, min(1.0, x / max(1, adb_base_w)))
-                norm_y = max(0.0, min(1.0, y / max(1, adb_base_h)))
-
-            device = self.adb_device_var.get().strip()
-            wm_w, wm_h = self.get_adb_screen_resolution(device)
-            if wm_w <= 0 or wm_h <= 0:
-                wm_w, wm_h = adb_base_w, adb_base_h
-
-            is_win_landscape = cl_w > cl_h
-            is_adb_landscape = wm_w > wm_h
-            if is_win_landscape != is_adb_landscape:
-                real_adb_w, real_adb_h = wm_h, wm_w
-            else:
-                real_adb_w, real_adb_h = wm_w, wm_h
-
-            target_x = int(norm_x * real_adb_w)
-            target_y = int(norm_y * real_adb_h)
-            return target_x, target_y, norm_x, norm_y, render_hwnd
-
-        elif mode == "background":
-            norm_x = max(0.0, min(1.0, x / max(1, base_w)))
-            norm_y = max(0.0, min(1.0, y / max(1, base_h)))
-            cur_w = max(1, cl_w) if cl_w > 0 else base_w
-            cur_h = max(1, cl_h) if cl_h > 0 else base_h
-            target_x = int(norm_x * cur_w)
-            target_y = int(norm_y * cur_h)
-            return target_x, target_y, norm_x, norm_y, render_hwnd
-
-        else:
-            # 前台模式
-            if hwnd and win32gui.IsWindow(hwnd):
-                norm_x = max(0.0, min(1.0, x / max(1, base_w)))
-                norm_y = max(0.0, min(1.0, y / max(1, base_h)))
-                cur_w = max(1, cl_w) if cl_w > 0 else base_w
-                cur_h = max(1, cl_h) if cl_h > 0 else base_h
-                vx = int(norm_x * cur_w)
-                vy = int(norm_y * cur_h)
-                try:
-                    screen_pt = win32gui.ClientToScreen(render_hwnd, (vx, vy))
-                    target_x, target_y = screen_pt[0], screen_pt[1]
-                except Exception:
-                    target_x, target_y = x, y
-            else:
-                target_x, target_y = x, y
-                norm_x, norm_y = 0.0, 0.0
-            return target_x, target_y, norm_x, norm_y, render_hwnd
-
-    def dispatch_click(self, x, y, hwnd=None):
-        """统一底层点击击发器 (支持自适应缩放与三大模式调度)"""
-        if hwnd is None:
-            hwnd = self.target_hwnd_var.get()
-        mode = self.mode_var.get()
-        is_adb = self.adb_enabled_var.get()
-
-        target_x, target_y, norm_x, norm_y, render_h = self.calculate_scaled_coords(x, y, hwnd, mode)
-
-        if is_adb:
-            return self.execute_adb_click(target_x, target_y, direct_adb=True)
-        elif mode == "foreground":
-            pyautogui.click(target_x, target_y)
-            return True
-        else:
-            if render_h and win32gui.IsWindow(render_h):
-                return post_background_click(render_h, target_x, target_y)
-            elif hwnd and win32gui.IsWindow(hwnd):
-                return post_background_click(hwnd, target_x, target_y)
-            return False
-
-    def execute_adb_click(self, x, y, direct_adb=False):
-        """使用 ADB 向模拟器发送带适度长按延时的 input 触控指令 (精准计算画布偏移与坐标映射)"""
+    def execute_adb_click(self, x, y):
+        """使用 ADB 向模拟器发送带适度长按延时的 input 触控指令 (精准计算画布偏移与真实分辨率映射)"""
         adb_bin = self.get_adb_path()
         if not adb_bin:
             self.log_msg("❌ [ADB] 未找到 ADB 可执行文件！")
@@ -2973,14 +2810,49 @@ class AutoClickerApp:
                 self.log_msg("❌ [ADB] 未选择且未找到匹配的 ADB 设备！")
                 return False
 
-        if direct_adb:
-            target_x, target_y = int(x), int(y)
-        else:
-            hwnd = self.target_hwnd_var.get()
-            target_x, target_y, norm_x, norm_y, _ = self.calculate_scaled_coords(x, y, hwnd, mode="background")
-            self.log_msg(f"⚡ [ADB 自适应映射] 坐标({x},{y}) -> 比例({norm_x*100:.1f}%, {norm_y*100:.1f}%) -> 物理触控({target_x}, {target_y})")
+        target_x, target_y = int(x), int(y)
+        hwnd = self.target_hwnd_var.get()
 
-        # 使用 input swipe 按住 80 毫秒 (模拟真实手指点击，解决部分游戏 input tap 太快被过滤的问题)
+        if hwnd and win32gui.IsWindow(hwnd):
+            try:
+                # 1. 自动定位模拟器内部实际渲染画布 Viewport 并获取除去外框/标题栏后的真实尺寸与偏移
+                render_hwnd, cl_w, cl_h, offset_x, offset_y = self.get_emulator_render_info(hwnd)
+
+                if self.mode_var.get() == "foreground":
+                    # 屏幕绝对坐标 -> 转换到模拟器游戏画布 Client 坐标 (完美去除顶栏与侧栏)
+                    cl_pt = win32gui.ScreenToClient(render_hwnd, (int(x), int(y)))
+                    rel_x_px, rel_y_px = cl_pt[0], cl_pt[1]
+                else:
+                    # 后台/脚本相对坐标：针对渲染画布的相对坐标
+                    rel_x_px, rel_y_px = int(x), int(y)
+
+                # 2. 计算在模拟器实际游戏画布内的归一化比例 (0.0 ~ 1.0)
+                norm_x = max(0.0, min(1.0, rel_x_px / max(1, cl_w)))
+                norm_y = max(0.0, min(1.0, rel_y_px / max(1, cl_h)))
+
+                # 3. 读取 Android 设备物理分辨率
+                wm_w, wm_h = self.get_adb_screen_resolution(device)
+
+                if wm_w > 0 and wm_h > 0:
+                    is_win_landscape = cl_w > cl_h
+                    is_adb_landscape = wm_w > wm_h
+
+                    if is_win_landscape != is_adb_landscape:
+                        real_adb_w, real_adb_h = wm_h, wm_w
+                    else:
+                        real_adb_w, real_adb_h = wm_w, wm_h
+
+                    target_x = int(norm_x * real_adb_w)
+                    target_y = int(norm_y * real_adb_h)
+
+                self.log_msg(
+                    f"⚡ [ADB 映射] 画面坐标({rel_x_px},{rel_y_px}) / 画布尺寸({cl_w}x{cl_h}) "
+                    f"-> 比例({norm_x*100:.1f}%, {norm_y*100:.1f}%) -> ADB 物理触控({target_x}, {target_y})"
+                )
+            except Exception as err:
+                self.log_msg(f"⚠️ ADB 坐标换算异常: {err}")
+
+        # 使用 input swipe 按住 80 毫秒 (模拟真实手指点击)
         cmd = [adb_bin]
         if device:
             cmd.extend(["-s", device])
@@ -3002,6 +2874,24 @@ class AutoClickerApp:
             self.log_msg(f"❌ [ADB] 点击命令执行异常: {e}")
             return False
 
+    def dispatch_click(self, x, y, hwnd=None):
+        """统一底层点击击发器 (支持三大模式调度)"""
+        if hwnd is None:
+            hwnd = self.target_hwnd_var.get()
+        mode = self.mode_var.get()
+        is_adb = self.adb_enabled_var.get()
+
+        if is_adb:
+            return self.execute_adb_click(x, y)
+        elif mode == "foreground":
+            pyautogui.click(int(x), int(y))
+            return True
+        else:
+            if hwnd and win32gui.IsWindow(hwnd):
+                render_hwnd, _, _, _, _ = self.get_emulator_render_info(hwnd)
+                return post_background_click(render_hwnd, int(x), int(y))
+            return False
+
     def test_adb_connection(self):
         """测试 ADB 点击功能 (点击模拟器中央屏幕)"""
         if not self.adb_enabled_var.get():
@@ -3018,14 +2908,13 @@ class AutoClickerApp:
             return
 
         device = self.adb_device_var.get().strip()
-        wm_w, wm_h = self.get_adb_screen_resolution(device)
-        if wm_w <= 0 or wm_h <= 0:
-            wm_w, wm_h = getattr(self, "base_adb_resolution", [540, 1200])
+        center_x, center_y = 200, 300
+        if hwnd and win32gui.IsWindow(hwnd):
+            render_hwnd, cl_w, cl_h, _, _ = self.get_emulator_render_info(hwnd)
+            center_x, center_y = max(10, cl_w // 2), max(10, cl_h // 2)
 
-        center_x, center_y = max(10, wm_w // 2), max(10, wm_h // 2)
-
-        if self.execute_adb_click(center_x, center_y, direct_adb=True):
-            self.log_msg(f"⚡ [ADB 点击测试成功] 已向设备 [{device}] 屏幕中央物理坐标 ({center_x}, {center_y}) 发送触控指令！")
+        if self.execute_adb_click(center_x, center_y):
+            self.log_msg(f"⚡ [ADB 点击测试成功] 已向设备 [{device}] 发送中央触控指令！")
         else:
             self.log_msg("❌ [ADB 点击测试失败] 发送点击失败。")
 
@@ -3065,11 +2954,8 @@ class AutoClickerApp:
         rem_str = f" ({rem})" if rem else ""
         mode_desc = "ADB模式" if is_adb else ("前台" if mode == "foreground" else "后台")
 
-        target_x, target_y, norm_x, norm_y, _ = self.calculate_scaled_coords(x, y, hwnd, mode)
-        scale_info = f" -> 实际击发 ({target_x}, {target_y}) [比例 {norm_x*100:.1f}%, {norm_y*100:.1f}%]"
-
         if success:
-            self.log_msg(f"⚡ [{mode_desc}测试击发] 点位 #{index + 1}{rem_str} (L{lvl}) | 原始坐标 ({x}, {y}){scale_info}")
+            self.log_msg(f"⚡ [{mode_desc}测试击发] 点位 #{index + 1}{rem_str} (L{lvl}) | 坐标 ({x}, {y})")
         else:
             self.log_msg(f"❌ [{mode_desc}测试失败] 点位 #{index + 1}{rem_str} (L{lvl}) 点击未能送达模拟器！")
 
@@ -3079,9 +2965,6 @@ class AutoClickerApp:
         mode = self.mode_var.get()
         is_adb = self.adb_enabled_var.get()
 
-        tx1, ty1, _, _, render_hwnd = self.calculate_scaled_coords(x1, y1, hwnd, mode)
-        tx2, ty2, _, _, _ = self.calculate_scaled_coords(x2, y2, hwnd, mode)
-
         if is_adb:
             adb_bin = self.get_adb_path()
             device = self.adb_device_var.get().strip()
@@ -3089,7 +2972,36 @@ class AutoClickerApp:
                 self.log_msg("❌ [Macro Drag] ADB 未就绪或未选择设备！")
                 return False
 
-            cmd = [adb_bin, "-s", device, "shell", "input", "swipe", str(tx1), str(ty1), str(tx2), str(ty2), str(duration_ms)]
+            target_x1, target_y1 = int(x1), int(y1)
+            target_x2, target_y2 = int(x2), int(y2)
+
+            if hwnd and win32gui.IsWindow(hwnd):
+                try:
+                    render_hwnd, cl_w, cl_h, offset_x, offset_y = self.get_emulator_render_info(hwnd)
+                    if mode == "foreground":
+                        pt1 = win32gui.ScreenToClient(render_hwnd, (int(x1), int(y1)))
+                        pt2 = win32gui.ScreenToClient(render_hwnd, (int(x2), int(y2)))
+                        rx1, ry1 = pt1[0], pt1[1]
+                        rx2, ry2 = pt2[0], pt2[1]
+                    else:
+                        rx1, ry1 = int(x1), int(y1)
+                        rx2, ry2 = int(x2), int(y2)
+
+                    norm_x1 = max(0.0, min(1.0, rx1 / max(1, cl_w)))
+                    norm_y1 = max(0.0, min(1.0, ry1 / max(1, cl_h)))
+                    norm_x2 = max(0.0, min(1.0, rx2 / max(1, cl_w)))
+                    norm_y2 = max(0.0, min(1.0, ry2 / max(1, cl_h)))
+
+                    wm_w, wm_h = self.get_adb_screen_resolution(device)
+                    if wm_w > 0 and wm_h > 0:
+                        real_w = wm_h if (cl_w > cl_h) != (wm_w > wm_h) else wm_w
+                        real_h = wm_w if (cl_w > cl_h) != (wm_w > wm_h) else wm_w
+                        target_x1, target_y1 = int(norm_x1 * real_w), int(norm_y1 * real_h)
+                        target_x2, target_y2 = int(norm_x2 * real_w), int(norm_y2 * real_h)
+                except Exception as e:
+                    self.log_msg(f"⚠️ Drag 坐标换算异常: {e}")
+
+            cmd = [adb_bin, "-s", device, "shell", "input", "swipe", str(target_x1), str(target_y1), str(target_x2), str(target_y2), str(duration_ms)]
             try:
                 flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
                 res = subprocess.run(cmd, creationflags=flags, capture_output=True, text=True, timeout=5)
@@ -3099,23 +3011,22 @@ class AutoClickerApp:
 
         elif mode == "foreground":
             try:
-                pyautogui.moveTo(tx1, ty1)
-                pyautogui.dragTo(tx2, ty2, duration=max(0.1, duration_ms / 1000.0))
+                pyautogui.moveTo(int(x1), int(y1))
+                pyautogui.dragTo(int(x2), int(y2), duration=max(0.1, duration_ms / 1000.0))
                 return True
             except Exception:
                 return False
         else:
-            if not render_hwnd or not win32gui.IsWindow(render_hwnd):
-                if not hwnd or not win32gui.IsWindow(hwnd):
-                    return False
-                render_hwnd = hwnd
-            lp1 = win32api.MAKELONG(max(0, tx1), max(0, ty1))
-            lp2 = win32api.MAKELONG(max(0, tx2), max(0, ty2))
+            if not hwnd or not win32gui.IsWindow(hwnd):
+                return False
+            render_hwnd, _, _, _, _ = self.get_emulator_render_info(hwnd)
+            lp1 = win32api.MAKELONG(max(0, int(x1)), max(0, int(y1)))
+            lp2 = win32api.MAKELONG(max(0, int(x2)), max(0, int(y2)))
             win32gui.PostMessage(render_hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lp1)
             steps = 5
             for s in range(1, steps + 1):
-                ix = int(tx1 + (tx2 - tx1) * (s / steps))
-                iy = int(ty1 + (ty2 - ty1) * (s / steps))
+                ix = int(x1 + (x2 - x1) * (s / steps))
+                iy = int(y1 + (y2 - y1) * (s / steps))
                 win32gui.PostMessage(render_hwnd, win32con.WM_MOUSEMOVE, win32con.MK_LBUTTON, win32api.MAKELONG(max(0, ix), max(0, iy)))
                 time.sleep(duration_ms / (1000.0 * steps))
             win32gui.PostMessage(render_hwnd, win32con.WM_LBUTTONUP, 0, lp2)
