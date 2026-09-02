@@ -721,6 +721,7 @@ class AutoClickerApp:
         # 置顶与窗口前台联动切换控制变量
         self.topmost_var = tk.BooleanVar(value=False)
         self.follow_target_var = tk.BooleanVar(value=True)
+        self.mini_dock_right_var = tk.BooleanVar(value=False)  # Mini面板吸附位置: False=下方, True=右方
 
         # 10个点的配置数据框变量
         self.point_vars = []
@@ -976,7 +977,7 @@ class AutoClickerApp:
         )
         self.chk_adb.pack(side="left", padx=15)
 
-        # 模式通用共享：右侧 Mini 面板切换按钮
+        # 模式通用共享：右侧 Mini 面板切换按钮与吸附位置勾选框
         tk.Button(
             mode_inner,
             text="📱 Mini面板",
@@ -991,6 +992,14 @@ class AutoClickerApp:
             pady=1,
             command=self.switch_to_mini_panel,
         ).pack(side="right", padx=5)
+
+        self.chk_mini_dock = ttk.Checkbutton(
+            mode_inner,
+            text="📱 Mini吸附于右侧 (未勾选为下方)",
+            variable=self.mini_dock_right_var,
+            command=self.on_mini_dock_changed,
+        )
+        self.chk_mini_dock.pack(side="right", padx=8)
 
         # 目标窗口选择面板 (放在进程框顶部)
         win_frame = ttk.Frame(top_frame)
@@ -1977,8 +1986,8 @@ class AutoClickerApp:
         if getattr(self, "is_mini_mode", False):
             self.root.title(title_str)
 
-    def align_mini_to_target_bottom(self):
-        """将 Mini 面板自动吸附/粘连到当前绑定的目标窗口正下方（支持点位模式与脚本模式、多显示器、副屏负坐标与高分屏）"""
+    def align_mini_to_target(self):
+        """将 Mini 面板自动吸附/粘连到当前绑定的目标窗口下方或右方（支持点位模式与脚本模式、多显示器、副屏负坐标与高分屏）"""
         try:
             target_hwnd = self.target_hwnd_var.get()
 
@@ -2027,13 +2036,20 @@ class AutoClickerApp:
                 work_bottom = win32api.GetSystemMetrics(win32con.SM_CYSCREEN)
 
             mini_w, mini_h = 415, 255
+            dock_right = self.mini_dock_right_var.get() if hasattr(self, "mini_dock_right_var") else False
 
-            # 4. 计算 X 轴：优先与目标窗口左对齐；若右侧超出该屏幕工作区，则向左贴齐该显示器工作区右边缘
-            pos_x = max(work_left, min(t_left, work_right - mini_w))
-
-            # 5. 计算 Y 轴：优先紧贴目标窗口下方 (t_bottom)
-            # 若窗口底部空间不足以放下 Mini 面板，则贴靠在当前显示器的工作区底部
-            pos_y = max(work_top, min(t_bottom, work_bottom - mini_h))
+            if dock_right:
+                # 停靠在目标窗口右侧
+                # X 轴：优先紧贴目标窗口右边缘 (t_right)；若右侧超出屏幕工作区，则贴齐工作区右边缘
+                pos_x = max(work_left, min(t_right, work_right - mini_w))
+                # Y 轴：优先与目标窗口顶部 (t_top) 对齐；若底部超出工作区，则向上贴齐工作区底部
+                pos_y = max(work_top, min(t_top, work_bottom - mini_h))
+            else:
+                # 停靠在目标窗口下方
+                # X 轴：优先与目标窗口左对齐 (t_left)；若右侧超出屏幕工作区，则向左贴齐工作区右边缘
+                pos_x = max(work_left, min(t_left, work_right - mini_w))
+                # Y 轴：优先紧贴目标窗口下方 (t_bottom)；若底部空间不足，贴靠在工作区底部
+                pos_y = max(work_top, min(t_bottom, work_bottom - mini_h))
 
             # 6. 更新 Tkinter 几何位置并调用 Win32 SetWindowPos 实现跨屏无缝精确定位
             self.root.update_idletasks()
@@ -2059,6 +2075,18 @@ class AutoClickerApp:
         except Exception:
             pass
         return False
+
+    def align_mini_to_target_bottom(self):
+        """兼容别名"""
+        return self.align_mini_to_target()
+
+    def on_mini_dock_changed(self):
+        """Mini 面板停靠位置 (下方 / 右方) 切换回调"""
+        self.mark_dirty()
+        if getattr(self, "is_mini_mode", False):
+            self.align_mini_to_target()
+        pos_desc = "右方" if self.mini_dock_right_var.get() else "下方"
+        self.log_msg(f"📱 已设置 Mini 面板吸附位置为: 目标窗口【{pos_desc}】")
 
     def switch_to_mini_panel(self):
         """切换到 Mini 面板界面 (根据当前激活的 Notebook Tab 自动决定显示 10点位 Mini 面板还是 脚本宏 Mini 面板)"""
@@ -4555,6 +4583,7 @@ class AutoClickerApp:
             "adb_custom_path": self.adb_custom_path_var.get(),
             "topmost": self.topmost_var.get(),
             "follow_target": self.follow_target_var.get(),
+            "mini_dock_right": self.mini_dock_right_var.get(),
             "points": [],
         }
 
@@ -4654,6 +4683,7 @@ class AutoClickerApp:
 
             self.topmost_var.set(config.get("topmost", False))
             self.follow_target_var.set(config.get("follow_target", True))
+            self.mini_dock_right_var.set(config.get("mini_dock_right", False))
             self.apply_topmost_ui()
             self.apply_follow_target_ui()
 
