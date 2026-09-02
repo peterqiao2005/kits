@@ -24,6 +24,11 @@ NUM_POINTS = 10
 MAX_LEVEL = 4  # 0~4 共 5 级
 DEFAULT_HOTKEYS = [f"ctrl+shift+{i if i < 10 else 0}" for i in range(1, NUM_POINTS + 1)]
 
+# Windows API 电源防休眠控制常量 (SetThreadExecutionState)
+ES_CONTINUOUS = 0x80000000
+ES_SYSTEM_REQUIRED = 0x00000001
+ES_DISPLAY_REQUIRED = 0x00000002
+
 
 class MacroCommand:
     def __init__(self, cmd_type, params=None, line_num=0, raw_text=""):
@@ -566,6 +571,298 @@ class ToolTip:
             tw.destroy()
 
 
+class SearchableCombobox(ttk.Frame):
+    """
+    网页风格的实时搜索下拉组合框 (Searchable Autocomplete Dropdown):
+    - 输入框与下拉箭头按钮并存；
+    - 点击下拉按钮时清空输入框并展示所有备选项，支持 Esc/外部点击恢复原值；
+    - 键盘上下键可在筛选候选列表中逐项上下移动选中，自动随光标滚动；
+    - 鼠标单击任意备选项立即选中并自动收起下拉面板；
+    - 输入文字时焦点全程保持在输入框中，支持不间断连续键入。
+    """
+    def __init__(self, parent, values=None, **kwargs):
+        super().__init__(parent)
+        self._all_values = list(values) if values else []
+        self._filtered_values = list(self._all_values)
+        self._selected_callback = None
+        self._saved_value = ""  # 记录展开/编辑前的有效值
+
+        self.entry_var = tk.StringVar()
+        entry_kwargs = {k: v for k, v in kwargs.items() if k in ["width", "font"]}
+        self.entry = ttk.Entry(self, textvariable=self.entry_var, **entry_kwargs)
+        self.entry.pack(side="left", fill="x", expand=True)
+
+        self.drop_btn = ttk.Button(self, text="▼", width=3, command=self._on_drop_btn_click)
+        self.drop_btn.pack(side="right", padx=(1, 0))
+
+        self._popup = None
+        self._listbox = None
+        self._current_index = -1
+
+        # 键盘与焦点事件绑定
+        self.entry.bind("<KeyRelease>", self._on_keyrelease)
+        self.entry.bind("<Down>", self._on_down_key)
+        self.entry.bind("<Up>", self._on_up_key)
+        self.entry.bind("<Return>", self._on_return)
+        self.entry.bind("<Escape>", self._on_escape)
+        self.entry.bind("<FocusIn>", self._on_focus_in)
+
+    def __setitem__(self, key, value):
+        if key == "values":
+            self._all_values = list(value)
+            if self._popup_visible():
+                self._update_list(self._all_values)
+
+    def __getitem__(self, key):
+        if key == "values":
+            return self._all_values
+        raise KeyError(key)
+
+    def cget(self, key):
+        if key == "state":
+            return "normal"
+        return self.entry.cget(key)
+
+    def get(self):
+        return self.entry_var.get()
+
+    def set(self, text):
+        self.entry_var.set(text)
+        self._saved_value = text
+
+    def bind(self, sequence=None, func=None, add=None):
+        if sequence == "<<ComboboxSelected>>":
+            self._selected_callback = func
+        elif sequence == "<Return>":
+            self._submit_callback = func
+        else:
+            self.entry.bind(sequence, func, add=add)
+
+    def _popup_visible(self):
+        return self._popup is not None and self._popup.winfo_exists() and self._popup.winfo_viewable()
+
+    def _show_popup(self, items=None):
+        if items is None:
+            typed = self.entry_var.get().strip().lower()
+            if not typed or typed == "选择目标窗口...":
+                items = self._all_values
+            else:
+                items = [v for v in self._all_values if typed in v.lower()]
+                if not items:
+                    items = ["(无匹配窗口)"]
+
+        self._filtered_values = list(items)
+
+        if not self._popup or not self._popup.winfo_exists():
+            self._popup = tk.Toplevel(self)
+            self._popup.wm_overrideredirect(True)
+            self._popup.attributes("-topmost", True)
+
+            frame = tk.Frame(self._popup, bg="#3498db", bd=1, relief="solid")
+            frame.pack(fill="both", expand=True)
+
+            self._listbox = tk.Listbox(
+                frame,
+                font=("Segoe UI", 9),
+                selectmode="single",
+                bg="#ffffff",
+                fg="#2c3e50",
+                selectbackground="#2980b9",
+                selectforeground="#ffffff",
+                activestyle="none",
+                bd=0,
+                highlightthickness=0,
+            )
+            scrollbar = ttk.Scrollbar(frame, orient="vertical", command=self._listbox.yview)
+            self._listbox.config(yscrollcommand=scrollbar.set)
+
+            self._listbox.pack(side="left", fill="both", expand=True)
+            scrollbar.pack(side="right", fill="y")
+
+            # 绑定鼠标选择、悬停与回车事件
+            self._listbox.bind("<ButtonRelease-1>", self._on_listbox_select)
+            self._listbox.bind("<Motion>", self._on_listbox_motion)
+            self._listbox.bind("<Return>", self._on_return)
+
+            self.winfo_toplevel().bind("<Button-1>", self._check_outside_click, add="+")
+
+        try:
+            x = self.entry.winfo_rootx()
+            y = self.entry.winfo_rooty() + self.entry.winfo_height() + 2
+            w = max(self.winfo_width(), 400)
+
+            self._update_list(self._filtered_values)
+            h = min(260, max(50, len(self._filtered_values) * 22 + 6))
+            self._popup.geometry(f"{w}x{h}+{x}+{y}")
+            self._popup.deiconify()
+            self._popup.lift()
+            self._current_index = -1
+        except Exception:
+            pass
+
+    def _update_list(self, items):
+        if not self._listbox:
+            return
+        self._listbox.delete(0, tk.END)
+        for item in items:
+            self._listbox.insert(tk.END, f"  {item}")
+
+    def _hide_popup(self):
+        if self._popup and self._popup.winfo_exists():
+            self._popup.withdraw()
+        self._current_index = -1
+
+    def _on_drop_btn_click(self):
+        """点击下拉按钮：记录当前有效值并清空输入框，显示全部备选窗口"""
+        if self._popup_visible():
+            self._on_escape()
+        else:
+            curr = self.entry_var.get().strip()
+            if curr and curr != "选择目标窗口...":
+                self._saved_value = curr
+            self.entry_var.set("")
+            self.entry.focus_set()
+            self._show_popup(self._all_values)
+
+    def _on_focus_in(self, event=None):
+        curr = self.entry_var.get().strip()
+        if curr and curr != "选择目标窗口...":
+            self._saved_value = curr
+
+    def _on_keyrelease(self, event):
+        if event.keysym in [
+            "Up", "Down", "Return", "Escape", "Tab", "ISO_Left_Tab",
+            "Shift_L", "Shift_R", "Control_L", "Control_R", "Alt_L", "Alt_R", "Caps_Lock"
+        ]:
+            return
+        typed = self.entry_var.get().strip().lower()
+        if not typed:
+            filtered = self._all_values
+        else:
+            filtered = [v for v in self._all_values if typed in v.lower()]
+            if not filtered:
+                filtered = ["(无匹配窗口)"]
+        self._show_popup(filtered)
+
+    def _on_down_key(self, event):
+        """按向下方向键：在下拉备选项列表中逐项向下移动，并自动滚动视口"""
+        if not self._popup_visible():
+            self._show_popup()
+            return "break"
+
+        if self._listbox and len(self._filtered_values) > 0 and self._filtered_values[0] != "(无匹配窗口)":
+            total = len(self._filtered_values)
+            self._current_index = (self._current_index + 1) % total
+            self._listbox.selection_clear(0, tk.END)
+            self._listbox.selection_set(self._current_index)
+            self._listbox.activate(self._current_index)
+            self._listbox.see(self._current_index)
+        return "break"
+
+    def _on_up_key(self, event):
+        """按向上方向键：在下拉备选项列表中逐项向上移动，并自动滚动视口"""
+        if not self._popup_visible():
+            self._show_popup()
+            return "break"
+
+        if self._listbox and len(self._filtered_values) > 0 and self._filtered_values[0] != "(无匹配窗口)":
+            total = len(self._filtered_values)
+            if self._current_index <= 0:
+                self._current_index = total - 1
+            else:
+                self._current_index -= 1
+            self._listbox.selection_clear(0, tk.END)
+            self._listbox.selection_set(self._current_index)
+            self._listbox.activate(self._current_index)
+            self._listbox.see(self._current_index)
+        return "break"
+
+    def _on_return(self, event=None):
+        """按回车键：确认选择当前高亮备选项，收起下拉面板并触发选择绑定"""
+        if self._popup_visible() and self._listbox:
+            # 1. 优先采用当前上下键选中的高亮行
+            if 0 <= self._current_index < len(self._filtered_values):
+                val = self._filtered_values[self._current_index]
+                if val != "(无匹配窗口)":
+                    self.set(val)
+                    self._saved_value = val
+                    self._hide_popup()
+                    if self._selected_callback:
+                        self._selected_callback(None)
+                    if self._submit_callback:
+                        self._submit_callback(None)
+                    return "break"
+
+            # 2. 若未主动按方向键，但过滤列表中只有1项（且不是无匹配提示），直接确认该项
+            if len(self._filtered_values) == 1 and self._filtered_values[0] != "(无匹配窗口)":
+                val = self._filtered_values[0]
+                self.set(val)
+                self._saved_value = val
+                self._hide_popup()
+                if self._selected_callback:
+                    self._selected_callback(None)
+                if self._submit_callback:
+                    self._submit_callback(None)
+                return "break"
+
+        typed = self.entry_var.get().strip()
+        self._hide_popup()
+        if typed and typed != "(无匹配窗口)":
+            self._saved_value = typed
+            if self._submit_callback:
+                self._submit_callback(None)
+            elif self._selected_callback:
+                self._selected_callback(None)
+        else:
+            self.entry_var.set(self._saved_value)
+        return "break"
+
+    def _on_escape(self, event=None):
+        """按 Esc 键：取消选择并恢复至本次操作前的有效内容"""
+        self._hide_popup()
+        self.entry_var.set(self._saved_value)
+        return "break"
+
+    def _on_listbox_motion(self, event):
+        if self._listbox and self._listbox.size() > 0:
+            idx = self._listbox.nearest(event.y)
+            if 0 <= idx < len(self._filtered_values) and self._filtered_values[idx] != "(无匹配窗口)":
+                self._current_index = idx
+                self._listbox.selection_clear(0, tk.END)
+                self._listbox.selection_set(idx)
+                self._listbox.activate(idx)
+
+    def _on_listbox_select(self, event):
+        """鼠标单击释放选中某项：填入并立即收起下拉框"""
+        if self._listbox and self._listbox.size() > 0:
+            idx = self._listbox.nearest(event.y)
+            if 0 <= idx < len(self._filtered_values):
+                val = self._filtered_values[idx]
+                if val != "(无匹配窗口)":
+                    self.set(val)
+                    self._hide_popup()
+                    self.entry.focus_set()
+                    if self._selected_callback:
+                        self._selected_callback(None)
+
+    def _check_outside_click(self, event):
+        if not self._popup_visible():
+            return
+        x, y = event.x_root, event.y_root
+        sx, sy, sw, sh = self.winfo_rootx(), self.winfo_rooty(), self.winfo_width(), self.winfo_height()
+        if sx <= x <= sx + sw and sy <= y <= sy + sh:
+            return
+        if self._popup and self._popup.winfo_exists():
+            px, py, pw, ph = self._popup.winfo_rootx(), self._popup.winfo_rooty(), self._popup.winfo_width(), self._popup.winfo_height()
+            if px <= x <= px + pw and py <= y <= py + ph:
+                return
+
+        typed = self.entry_var.get().strip()
+        if not typed:
+            self.entry_var.set(self._saved_value)
+        self._hide_popup()
+
+
 def format_target_title_components(raw_title):
     """
     解析目标窗口字符串，返回 (pid_val, prog_name)。
@@ -590,27 +887,40 @@ def format_target_title_components(raw_title):
     return pid_val, prog_name
 
 
-def get_last_used_config():
-    """获取上次使用的配置文件路径"""
+def get_session_state():
+    """获取上次退出时保存的完整会话状态字典"""
     if os.path.exists(LAST_SESSION_FILE):
         try:
             with open(LAST_SESSION_FILE, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                filepath = data.get("last_config_file")
-                if filepath and os.path.exists(filepath):
-                    return filepath
+                return json.load(f)
         except Exception:
             pass
+    return {}
+
+
+def save_session_state(data):
+    """保存会话状态至 last_session.json"""
+    try:
+        current = get_session_state()
+        current.update(data)
+        with open(LAST_SESSION_FILE, "w", encoding="utf-8") as f:
+            json.dump(current, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+
+def get_last_used_config():
+    """获取上次使用的配置文件路径"""
+    session = get_session_state()
+    filepath = session.get("last_config_file")
+    if filepath and os.path.exists(filepath):
+        return filepath
     return CONFIG_FILE
 
 
 def save_last_used_config(filepath):
     """记录当前使用的配置文件路径，以便下次启动时默认加载"""
-    try:
-        with open(LAST_SESSION_FILE, "w", encoding="utf-8") as f:
-            json.dump({"last_config_file": os.path.abspath(filepath)}, f, ensure_ascii=False, indent=2)
-    except Exception:
-        pass
+    save_session_state({"last_config_file": os.path.abspath(filepath)})
 
 
 def get_window_list():
@@ -722,6 +1032,7 @@ class AutoClickerApp:
         self.topmost_var = tk.BooleanVar(value=False)
         self.follow_target_var = tk.BooleanVar(value=True)
         self.mini_dock_right_var = tk.BooleanVar(value=False)  # Mini面板吸附位置: False=下方, True=右方
+        self.anti_sleep_var = tk.BooleanVar(value=True)  # 脚本/点击运行时阻止电脑休眠与息屏
 
         # 10个点的配置数据框变量
         self.point_vars = []
@@ -766,9 +1077,26 @@ class AutoClickerApp:
         self.root.after(300, self.check_target_foreground_loop)
         self.root.after(1000, self._update_macro_mini_timer_loop)
 
-        # 默认自动加载上次使用的配置文件
-        initial_config_file = get_last_used_config()
+        # 默认自动恢复上次会话状态与配置
+        session_data = get_session_state()
+        initial_config_file = session_data.get("last_config_file") or get_last_used_config()
         self.load_config(initial_config_file)
+
+        # 恢复上次使用的按键脚本宏
+        last_script = session_data.get("last_script_file")
+        if last_script and os.path.exists(last_script):
+            self.load_script_content(last_script)
+
+        # 恢复 ADB 设置
+        if session_data.get("adb_enabled"):
+            self.adb_enabled_var.set(True)
+            self.adb_device_var.set(session_data.get("adb_device", ""))
+            self.adb_custom_path_var.set(session_data.get("adb_custom_path", ""))
+            self.refresh_adb_devices()
+
+        # 刷新系统窗口列表并比对恢复上次目标进程
+        self.restore_target_window_from_session(session_data)
+
         self.register_global_hotkeys()
 
         # 窗口关闭事件处理
@@ -977,7 +1305,7 @@ class AutoClickerApp:
         )
         self.chk_adb.pack(side="left", padx=15)
 
-        # 模式通用共享：右侧 Mini 面板切换按钮与吸附位置勾选框
+        # 模式通用共享：右侧 Mini 面板切换按钮、防休眠与吸附位置勾选框
         tk.Button(
             mode_inner,
             text="📱 Mini面板",
@@ -1001,14 +1329,25 @@ class AutoClickerApp:
         )
         self.chk_mini_dock.pack(side="right", padx=8)
 
+        self.chk_main_anti_sleep = ttk.Checkbutton(
+            mode_inner,
+            text="☕ 防休眠",
+            variable=self.anti_sleep_var,
+            command=self.on_anti_sleep_toggled,
+        )
+        self.chk_main_anti_sleep.pack(side="right", padx=8)
+        ToolTip(self.chk_main_anti_sleep, "【防休眠】勾选后，脚本宏或按键自动点击运行时阻止电脑进入睡眠或关闭屏幕")
+
         # 目标窗口选择面板 (放在进程框顶部)
         win_frame = ttk.Frame(top_frame)
         win_frame.pack(fill="x", pady=5)
         ttk.Label(win_frame, text="目标窗口:", font=("Segoe UI", 9, "bold")).pack(side="left", padx=5)
 
-        self.win_cb = ttk.Combobox(win_frame, width=50, state="readonly")
+        self.win_cb = SearchableCombobox(win_frame, width=50)
         self.win_cb.pack(side="left", padx=5, fill="x", expand=True)
         self.win_cb.bind("<<ComboboxSelected>>", self.on_window_selected)
+        self.win_cb.bind("<Return>", self.on_window_entry_submit)
+        ToolTip(self.win_cb, "【目标窗口搜索选择框】点击显示全部窗口，输入文字实时动态过滤备选项，直接点选即可锁定")
 
         ttk.Button(win_frame, text="🔄 刷新窗口", command=self.refresh_window_list).pack(side="left", padx=3)
         ttk.Button(win_frame, text="🎯 瞄准锁定窗口", command=self.pick_target_window).pack(side="left", padx=3)
@@ -1413,14 +1752,14 @@ class AutoClickerApp:
         mini_top = ttk.Frame(self.mini_frame, padding=(6, 4, 6, 2))
         mini_top.pack(fill="x", side="top")
 
-        lbl_mini_badge = ttk.Label(
+        self.chk_mini_anti_sleep = ttk.Checkbutton(
             mini_top,
-            text="⚡ Mini 控制台",
-            font=("Segoe UI", 9, "bold"),
-            foreground="#2980b9",
-            anchor="w",
+            text="☕ 防休眠",
+            variable=self.anti_sleep_var,
+            command=self.on_anti_sleep_toggled,
         )
-        lbl_mini_badge.pack(side="left", fill="x", expand=True)
+        self.chk_mini_anti_sleep.pack(side="left", padx=(2, 4))
+        ToolTip(self.chk_mini_anti_sleep, "【防休眠】勾选后，运行中阻止系统休眠")
 
         btn_to_main = tk.Button(
             mini_top,
@@ -1592,14 +1931,14 @@ class AutoClickerApp:
         macro_mini_top = ttk.Frame(self.macro_mini_frame, padding=(6, 4, 6, 2))
         macro_mini_top.pack(fill="x", side="top")
 
-        self.lbl_macro_mini_badge = ttk.Label(
+        self.chk_macro_anti_sleep = ttk.Checkbutton(
             macro_mini_top,
-            text="📜 脚本宏 Mini 面板",
-            font=("Segoe UI", 9, "bold"),
-            foreground="#8e44ad",
-            anchor="w",
+            text="☕ 防休眠",
+            variable=self.anti_sleep_var,
+            command=self.on_anti_sleep_toggled,
         )
-        self.lbl_macro_mini_badge.pack(side="left", fill="x", expand=True)
+        self.chk_macro_anti_sleep.pack(side="left", padx=(2, 4))
+        ToolTip(self.chk_macro_anti_sleep, "【防休眠】勾选后，运行中阻止系统休眠")
 
         btn_macro_to_main = tk.Button(
             macro_mini_top,
@@ -1665,9 +2004,30 @@ class AutoClickerApp:
         )
         self.btn_macro_topmost.pack(side="right", padx=(3, 3))
 
+        ttk.Separator(self.macro_mini_frame, orient="horizontal").pack(fill="x", pady=1)
+
+        # 2. Timer 运行耗时与状态显示行 (横跨上方按钮行下方，横向全宽展示)
+        macro_mini_timer_frame = ttk.Frame(self.macro_mini_frame, padding=(6, 1, 6, 2))
+        macro_mini_timer_frame.pack(fill="x", side="top")
+
+        self.lbl_macro_mini_timer = tk.Label(
+            macro_mini_timer_frame,
+            text="⏱️ 0s",
+            font=("Segoe UI", 9, "bold"),
+            fg="#95a5a6",
+            bg="#2c3e50",
+            relief="groove",
+            bd=1,
+            anchor="w",
+            padx=8,
+            pady=2,
+        )
+        self.lbl_macro_mini_timer.pack(fill="x", expand=True)
+        ToolTip(self.lbl_macro_mini_timer, "【脚本宏计时器】显示脚本总耗时及各 Timer(ID) 耗时")
+
         ttk.Separator(self.macro_mini_frame, orient="horizontal").pack(fill="x", pady=2)
 
-        # 2. 脚本宏 Mini 面板内容区 (网格布局：左侧脚本展示/载入 weight=1，右侧控制按钮 minsize=115 固定等宽)
+        # 3. 脚本宏 Mini 面板内容区 (网格布局：左侧脚本展示/载入 weight=1，右侧控制按钮 minsize=115 固定等宽)
         macro_mini_content = ttk.Frame(self.macro_mini_frame, padding=6)
         macro_mini_content.pack(fill="both", expand=True)
 
@@ -1857,6 +2217,30 @@ class AutoClickerApp:
                     root_target = win32gui.GetAncestor(target_hwnd, win32con.GA_ROOT) or target_hwnd
                     if root_my != root_target:
                         win32gui.SetWindowLong(root_my, win32con.GWL_HWNDPARENT, root_target)
+        except Exception:
+            pass
+
+    def on_anti_sleep_toggled(self):
+        """防休眠勾选状态改变回调"""
+        self.update_execution_state()
+        self.mark_dirty()
+        state_str = "已开启" if self.anti_sleep_var.get() else "已关闭"
+        self.log_msg(f"☕ 防休眠功能【{state_str}】(脚本或点击运行中阻止系统休眠与息屏)")
+
+    def update_execution_state(self):
+        """根据当前运行状态 (按键点击/脚本宏运行) 与防休眠设置，调用 Windows API 维持系统与屏幕唤醒或恢复默认"""
+        try:
+            is_active = (getattr(self, "clicking", False) or getattr(self, "script_running", False))
+            anti_sleep_enabled = self.anti_sleep_var.get() if hasattr(self, "anti_sleep_var") else False
+
+            if is_active and anti_sleep_enabled:
+                # 阻止系统休眠并阻止屏幕关闭
+                ctypes.windll.kernel32.SetThreadExecutionState(
+                    ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED
+                )
+            else:
+                # 恢复系统默认电源休眠策略
+                ctypes.windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS)
         except Exception:
             pass
 
@@ -2243,7 +2627,7 @@ class AutoClickerApp:
 
         self.mark_dirty()
 
-    def refresh_window_list(self):
+    def refresh_window_list(self, silent=False):
         """刷新窗口下拉菜单，并精准同步当前选中的目标窗口"""
         windows = get_window_list()
         self.window_map = {}
@@ -2271,7 +2655,7 @@ class AutoClickerApp:
                     break
 
         # 2. 若 HWND 改变 (例如进程/模拟器重启)，严格匹配完整标题；若存在多个同名实例，严禁随意猜测！
-        if not found_key and current_title and current_title != "选择目标窗口...":
+        if not found_key and current_title and current_title not in ["", "选择目标窗口..."]:
             # 先精确全字匹配 (含特定标识)
             for name, hwnd in self.window_map.items():
                 if current_title == name:
@@ -2296,7 +2680,8 @@ class AutoClickerApp:
                         # 检测到多个同名模拟器实例，严禁随意绑定第一个！清空 HWND 并提示用户手动选择
                         self.target_hwnd_var.set(0)
                         found_key = None
-                        self.log_msg(f"⚠️ 检测到系统中运行了 {len(matches)} 个同名模拟器窗口！为确保安全防止串台，请在下拉列表中手动选择具体要绑定的实例。")
+                        if not silent:
+                            self.log_msg(f"⚠️ 检测到系统中运行了 {len(matches)} 个同名模拟器窗口！为确保安全防止串台，请在输入选择框中手动选择具体要绑定的实例。")
 
         # 3. 匹配成功则同步更新下拉框与 target_title_var，保证主面板与 Mini 面板完全一致
         if found_key:
@@ -2305,18 +2690,20 @@ class AutoClickerApp:
         else:
             if current_hwnd and not win32gui.IsWindow(current_hwnd):
                 self.target_hwnd_var.set(0)
-            if current_title and current_title != "选择目标窗口...":
+            if current_title and current_title not in ["", "选择目标窗口..."]:
                 self.win_cb.set(current_title)
             else:
-                self.win_cb.set("选择目标窗口...")
-                self.target_title_var.set("选择目标窗口...")
+                self.win_cb.set("")
+                self.target_title_var.set("")
 
         self.update_mini_target_title()
 
-        self.log_msg(f"窗口列表已更新，找到 {len(values)} 个活动窗口。")
+        if not silent:
+            self.log_msg(f"窗口列表已更新，找到 {len(values)} 个活动窗口。")
 
-    def on_window_selected(self, event):
-        selected = self.win_cb.get()
+    def on_window_selected(self, event=None):
+        """下拉选择或回车锁定窗口项回调"""
+        selected = self.win_cb.get().strip()
         if selected in self.window_map:
             hwnd = self.window_map[selected]
             self.target_hwnd_var.set(hwnd)
@@ -2324,6 +2711,144 @@ class AutoClickerApp:
             self.mark_dirty()
             if self.adb_enabled_var.get():
                 self.refresh_adb_devices()
+            self.update_mini_target_title()
+
+    def on_window_entry_submit(self, event=None):
+        """用户在目标窗口输入框中手动输入/搜索后回车时的智能匹配处理"""
+        text = self.win_cb.get().strip()
+        if not text:
+            self.target_hwnd_var.set(0)
+            self.target_title_var.set("")
+            self.update_mini_target_title()
+            return
+
+        # 1. 精确匹配 window_map key
+        if text in self.window_map:
+            hwnd = self.window_map[text]
+            self.target_hwnd_var.set(hwnd)
+            self.target_title_var.set(text)
+            self.mark_dirty()
+            if self.adb_enabled_var.get():
+                self.refresh_adb_devices()
+            self.update_mini_target_title()
+            return
+
+        # 2. 若输入的是 HWND 数字 (如 123456)
+        if text.isdigit() and int(text) in self.window_map.values():
+            h = int(text)
+            for k, v in self.window_map.items():
+                if v == h:
+                    self.win_cb.set(k)
+                    self.target_hwnd_var.set(h)
+                    self.target_title_var.set(k)
+                    self.mark_dirty()
+                    if self.adb_enabled_var.get():
+                        self.refresh_adb_devices()
+                    self.update_mini_target_title()
+                    return
+
+        # 3. 模糊/子串匹配 window_map keys
+        matches = [k for k in self.window_map.keys() if text.lower() in k.lower()]
+        if len(matches) == 1:
+            matched_key = matches[0]
+            hwnd = self.window_map[matched_key]
+            self.win_cb.set(matched_key)
+            self.target_hwnd_var.set(hwnd)
+            self.target_title_var.set(matched_key)
+            self.mark_dirty()
+            if self.adb_enabled_var.get():
+                self.refresh_adb_devices()
+            self.update_mini_target_title()
+            self.log_msg(f"🎯 已根据输入自动匹配锁定目标窗口: {matched_key}")
+        elif len(matches) > 1:
+            self.log_msg(f"🔍 匹配到 {len(matches)} 个符合「{text}」的窗口，请在下拉列表中直接点选。")
+
+    def restore_target_window_from_session(self, session_data):
+        """
+        程序启动时，将当前系统获得的进程窗口与上次保存的会话记录比对：
+        如果能匹配，选择该进程为绑定进程；如果匹配不到，绑定进程置空。
+        """
+        self.refresh_window_list(silent=True)
+
+        saved_hwnd = session_data.get("target_hwnd", 0)
+        saved_title = session_data.get("target_title", "").strip()
+        saved_pid = session_data.get("target_pid", 0)
+
+        if not saved_hwnd and not saved_title:
+            self.target_hwnd_var.set(0)
+            self.target_title_var.set("")
+            self.win_cb.set("")
+            self.update_mini_target_title()
+            return
+
+        found_key = None
+        target_hwnd = 0
+
+        # 1. 优先比对 HWND 且 PID/有效性一致
+        if saved_hwnd and win32gui.IsWindow(saved_hwnd):
+            try:
+                _, curr_pid = win32process.GetWindowThreadProcessId(saved_hwnd)
+                if saved_pid == 0 or curr_pid == saved_pid:
+                    for k, h in self.window_map.items():
+                        if h == saved_hwnd:
+                            found_key = k
+                            target_hwnd = saved_hwnd
+                            break
+            except Exception:
+                pass
+
+        # 2. 若 HWND 已变动 (例如模拟器重启)，通过 PID/标题进行唯一匹配
+        if not found_key and saved_title:
+            if saved_title in self.window_map:
+                found_key = saved_title
+                target_hwnd = self.window_map[saved_title]
+            else:
+                _, saved_clean = format_target_title_components(saved_title)
+                if saved_clean and saved_clean != "未选择目标窗口":
+                    matches = []
+                    for k, h in self.window_map.items():
+                        _, k_clean = format_target_title_components(k)
+                        if k_clean == saved_clean or saved_clean in k:
+                            matches.append((k, h))
+                    if len(matches) == 1:
+                        found_key, target_hwnd = matches[0]
+
+        # 3. 判定结果
+        if found_key and target_hwnd:
+            self.target_hwnd_var.set(target_hwnd)
+            self.target_title_var.set(found_key)
+            self.win_cb.set(found_key)
+            self.update_mini_target_title()
+            self.log_msg(f"🎯 [会话恢复] 已自动匹配并重新绑定目标进程: {found_key}")
+        else:
+            self.target_hwnd_var.set(0)
+            self.target_title_var.set("")
+            self.win_cb.set("")
+            self.update_mini_target_title()
+            self.log_msg("ℹ️ [会话恢复] 未在当前系统中匹配到上次绑定的进程，目标进程已置空。")
+
+    def save_current_session_state(self):
+        """保存当前会话状态 (目标窗口/PID/HWND、ADB配置、当前使用的方案与脚本路径)"""
+        target_hwnd = self.target_hwnd_var.get()
+        target_title = self.target_title_var.get().strip()
+        target_pid = 0
+        if target_hwnd and win32gui.IsWindow(target_hwnd):
+            try:
+                _, target_pid = win32process.GetWindowThreadProcessId(target_hwnd)
+            except Exception:
+                target_pid = 0
+
+        session_data = {
+            "last_config_file": os.path.abspath(self.current_config_file) if self.current_config_file else "",
+            "last_script_file": os.path.abspath(self.current_script_file) if self.current_script_file else "",
+            "target_hwnd": target_hwnd,
+            "target_title": target_title,
+            "target_pid": target_pid,
+            "adb_enabled": self.adb_enabled_var.get(),
+            "adb_device": self.adb_device_var.get(),
+            "adb_custom_path": self.adb_custom_path_var.get(),
+        }
+        save_session_state(session_data)
 
     def pick_target_window(self):
         """鼠标拾取窗口句柄"""
@@ -3141,10 +3666,11 @@ class AutoClickerApp:
                 self.btn_macro_mini_stop.config(state="normal", bg="#e74c3c")
 
         self.update_macro_mini_timer_display()
+        self.update_execution_state()
 
     def update_macro_mini_timer_display(self):
-        """更新 脚本宏 Mini 面板左上角显示的运行时间与 3 个 Timer 耗时"""
-        if not hasattr(self, "lbl_macro_mini_badge"):
+        """更新 脚本宏 Mini 面板在按钮下方显示的运行时间与 3 个 Timer 耗时"""
+        if not hasattr(self, "lbl_macro_mini_timer"):
             return
 
         if getattr(self, "script_running", False):
@@ -3164,11 +3690,11 @@ class AutoClickerApp:
                 fg_color = "#e67e22"
             else:
                 disp_text = f"⏱️ {elapsed_sec}s{timer_part}"
-                fg_color = "#27ae60"
+                fg_color = "#2ecc71"
 
-            self.lbl_macro_mini_badge.config(text=disp_text, foreground=fg_color)
+            self.lbl_macro_mini_timer.config(text=disp_text, fg=fg_color)
         else:
-            self.lbl_macro_mini_badge.config(text="📜 脚本宏 Mini 面板", foreground="#8e44ad")
+            self.lbl_macro_mini_timer.config(text="⏱️ 0s", fg="#95a5a6")
 
     def _update_macro_mini_timer_loop(self):
         """每秒刷新一次脚本宏 Mini 面板时间显示"""
@@ -4445,6 +4971,7 @@ class AutoClickerApp:
         if hasattr(self, "btn_mini_start"):
             self.btn_mini_start.config(state="disabled", bg="#7f8c8d")
             self.btn_mini_stop.config(state="normal", bg="#e74c3c")
+        self.update_execution_state()
         self.log_msg("▶▶ 自动点击引擎已启动 (多级级联与双Timer模式)")
 
         self.click_thread = threading.Thread(target=self.auto_click_loop, daemon=True)
@@ -4462,10 +4989,11 @@ class AutoClickerApp:
         if hasattr(self, "btn_mini_start"):
             self.btn_mini_start.config(state="normal", bg="#2ecc71")
             self.btn_mini_stop.config(state="disabled", bg="#e74c3c")
+        self.update_execution_state()
         self.log_msg("⏹ 自动点击引擎已停止。")
 
     def save_config(self, target_file=None):
-        """保存配置至当前或指定的 .json 方案文件"""
+        """保存配置至当前或指定的 .json 方案文件 (不包含具体进程/窗口绑定)"""
         if not target_file:
             target_file = self.current_config_file
 
@@ -4484,17 +5012,13 @@ class AutoClickerApp:
 
         config = {
             "mode": self.mode_var.get(),
-            "target_hwnd": self.target_hwnd_var.get(),
-            "target_title": self.target_title_var.get(),
             "window_size": getattr(self, "target_window_size", [424, 901]),
             "base_render_size": getattr(self, "base_render_size", [390, 867]),
             "base_adb_resolution": getattr(self, "base_adb_resolution", [540, 1200]),
-            "adb_enabled": self.adb_enabled_var.get(),
-            "adb_device": self.adb_device_var.get(),
-            "adb_custom_path": self.adb_custom_path_var.get(),
             "topmost": self.topmost_var.get(),
             "follow_target": self.follow_target_var.get(),
             "mini_dock_right": self.mini_dock_right_var.get(),
+            "anti_sleep": self.anti_sleep_var.get(),
             "points": [],
         }
 
@@ -4566,10 +5090,9 @@ class AutoClickerApp:
             self.load_config(filepath)
 
     def load_config(self, filepath):
-        """从指定的 .json 文件读取配置"""
+        """从指定的 .json 文件读取配置 (保留当前选择的目标进程/窗口，不改变进程配置)"""
         if not os.path.exists(filepath):
             self.update_hierarchy_ui()
-            self.refresh_window_list()
             return
 
         try:
@@ -4579,24 +5102,18 @@ class AutoClickerApp:
             mode = config.get("mode", "foreground")
             self.mode_var.set(mode)
             self._last_mode = mode
-            self.target_hwnd_var.set(config.get("target_hwnd", 0))
-            self.target_title_var.set(config.get("target_title", ""))
 
             self.target_window_size = config.get("window_size", [424, 901])
             self.base_render_size = config.get("base_render_size", [390, 867])
             self.base_adb_resolution = config.get("base_adb_resolution", [540, 1200])
 
-            self.adb_enabled_var.set(config.get("adb_enabled", False))
-            self.adb_device_var.set(config.get("adb_device", ""))
-            self.adb_custom_path_var.set(config.get("adb_custom_path", ""))
-            if self.adb_enabled_var.get():
-                self.refresh_adb_devices()
-
             self.topmost_var.set(config.get("topmost", False))
             self.follow_target_var.set(config.get("follow_target", True))
             self.mini_dock_right_var.set(config.get("mini_dock_right", False))
+            self.anti_sleep_var.set(config.get("anti_sleep", True))
             self.apply_topmost_ui()
             self.apply_follow_target_ui()
+            self.update_execution_state()
 
             points_data = config.get("points", [])
             for i in range(min(NUM_POINTS, len(points_data))):
@@ -4616,9 +5133,8 @@ class AutoClickerApp:
             save_last_used_config(filepath)
             self.lbl_cfg_file.config(text=os.path.basename(filepath))
             self.update_hierarchy_ui()
-            self.refresh_window_list()
             self.mark_point_clean()
-            self.log_msg(f"成功加载配置方案: {os.path.basename(filepath)}")
+            self.log_msg(f"成功加载配置方案: {os.path.basename(filepath)} (保持当前进程绑定)")
         except Exception as e:
             messagebox.showerror("错误", f"加载配置文件出错: {e}")
             self.update_hierarchy_ui()
@@ -4645,6 +5161,12 @@ class AutoClickerApp:
                     return  # 保存失败或取消另存，放弃退出
             elif ans is None:
                 return  # 用户选择“取消”，中止退出流程
+
+        # 退出前自动记录当前界面上已选择/锁定的目标窗口与进程配置及会话路径
+        try:
+            self.save_current_session_state()
+        except Exception:
+            pass
 
         self.stop_clicking()
         try:

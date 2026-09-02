@@ -1,3 +1,10 @@
 {
-  "last_config_file": "D:\\GitHub\\kits\\AutoClick\\TheTower-点击升级.json"
+  "last_config_file": "C:\\Users\\ai\\.gemini\\antigravity-ide\\brain\\ce414c3c-90af-4ee9-8faf-4b61f754803e\\scratch\\test_scheme.json",
+  "last_script_file": "d:\\GitHub\\kits\\AutoClick\\scripts\\Jojo-farm-t8-speed4.5-recovery.kms",
+  "target_hwnd": 143987462,
+  "target_title": "[PID:43168 | HWND:143987462] Settings",
+  "target_pid": 43168,
+  "adb_enabled": true,
+  "adb_device": "",
+  "adb_custom_path": ""
 }
