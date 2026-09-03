@@ -1043,7 +1043,7 @@ class AutoClickerApp:
         self.topmost_var = tk.BooleanVar(value=False)
         self.follow_target_var = tk.BooleanVar(value=True)
         self.mini_dock_right_var = tk.BooleanVar(value=False)  # Mini面板吸附位置: False=下方, True=右方
-        self.anti_sleep_var = tk.BooleanVar(value=True)  # 脚本/点击运行时阻止电脑休眠(允许屏幕自动关闭)
+        self.anti_sleep_var = tk.BooleanVar(value=True)  # 脚本/点击运行时阻止电脑休眠与息屏(防止模拟器被系统挂起)
 
         # 10个点的配置数据框变量
         self.point_vars = []
@@ -1347,7 +1347,7 @@ class AutoClickerApp:
             command=self.on_anti_sleep_toggled,
         )
         self.chk_main_anti_sleep.pack(side="right", padx=8)
-        ToolTip(self.chk_main_anti_sleep, "【防休眠】勾选后，脚本宏或按键自动点击运行时阻止电脑休眠(允许屏幕正常自动关闭)")
+        ToolTip(self.chk_main_anti_sleep, "【防休眠】勾选后，运行中阻止系统休眠与息屏(防止Win11息屏挂起模拟器后台渲染)")
 
         # 目标窗口选择面板 (放在进程框顶部)
         win_frame = ttk.Frame(top_frame)
@@ -1770,7 +1770,7 @@ class AutoClickerApp:
             command=self.on_anti_sleep_toggled,
         )
         self.chk_mini_anti_sleep.pack(side="left", padx=(2, 4))
-        ToolTip(self.chk_mini_anti_sleep, "【防休眠】勾选后，运行中阻止系统休眠(允许屏幕正常自动关闭)")
+        ToolTip(self.chk_mini_anti_sleep, "【防休眠】勾选后，运行中阻止系统休眠与息屏")
 
         btn_to_main = tk.Button(
             mini_top,
@@ -1949,7 +1949,7 @@ class AutoClickerApp:
             command=self.on_anti_sleep_toggled,
         )
         self.chk_macro_anti_sleep.pack(side="left", padx=(2, 4))
-        ToolTip(self.chk_macro_anti_sleep, "【防休眠】勾选后，运行中阻止系统休眠(允许屏幕正常自动关闭)")
+        ToolTip(self.chk_macro_anti_sleep, "【防休眠】勾选后，运行中阻止系统休眠与息屏")
 
         btn_macro_to_main = tk.Button(
             macro_mini_top,
@@ -2236,18 +2236,18 @@ class AutoClickerApp:
         self.update_execution_state()
         self.mark_dirty()
         state_str = "已开启" if self.anti_sleep_var.get() else "已关闭"
-        self.log_msg(f"☕ 防休眠功能【{state_str}】(脚本或点击运行中阻止系统休眠，允许正常息屏)")
+        self.log_msg(f"☕ 防休眠功能【{state_str}】(脚本或点击运行中阻止系统休眠与息屏，防止游戏被系统挂起)")
 
     def update_execution_state(self):
-        """根据当前运行状态 (按键点击/脚本宏运行) 与防休眠设置，调用 Windows API 维持系统唤醒(阻止休眠，允许息屏)或恢复默认"""
+        """根据当前运行状态 (按键点击/脚本宏运行) 与防休眠设置，调用 Windows API 维持系统与屏幕唤醒或恢复默认"""
         try:
             is_active = (getattr(self, "clicking", False) or getattr(self, "script_running", False))
             anti_sleep_enabled = self.anti_sleep_var.get() if hasattr(self, "anti_sleep_var") else False
 
             if is_active and anti_sleep_enabled:
-                # 仅阻止系统休眠 (ES_SYSTEM_REQUIRED)，不阻止屏幕自动关闭 (不设置 ES_DISPLAY_REQUIRED)
+                # 阻止系统休眠并阻止屏幕关闭 (Win11 Modern Standby 下息屏会导致 GPU 挂起及模拟器冻结)
                 ctypes.windll.kernel32.SetThreadExecutionState(
-                    ES_CONTINUOUS | ES_SYSTEM_REQUIRED
+                    ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED
                 )
             else:
                 # 恢复系统默认电源休眠策略
@@ -2702,40 +2702,30 @@ class AutoClickerApp:
         if not silent:
             self.log_msg(f"窗口列表已更新，找到 {len(values)} 个活动窗口。")
 
-    def get_current_target_hwnd(self):
-        """统一获取并智能解析当前选中的目标窗口句柄 (确保从下拉框选择、手动输入或会话恢复后均能直接生效)"""
-        target_hwnd = self.target_hwnd_var.get()
-        if target_hwnd and win32gui.IsWindow(target_hwnd):
-            return target_hwnd
-
-        selected = self.win_cb.get().strip() if hasattr(self, "win_cb") else ""
-        if not selected or selected in ["选择目标窗口...", "未选择目标窗口"]:
-            selected = self.target_title_var.get().strip()
-        if not selected or selected in ["选择目标窗口...", "未选择目标窗口"]:
+    def resolve_hwnd_from_selection(self, text):
+        """从选择文本中高可靠性解析窗口句柄 HWND (严格依据用户所选文本解析，杜绝被旧状态篡改)"""
+        text = (text or "").strip()
+        if not text or text in ["选择目标窗口...", "未选择目标窗口"]:
             return 0
 
-        # 1. 尝试从 window_map 精确匹配
-        if hasattr(self, "window_map") and selected in self.window_map:
-            hwnd = self.window_map[selected]
-            if hwnd and win32gui.IsWindow(hwnd):
-                self.target_hwnd_var.set(hwnd)
-                self.target_title_var.set(selected)
-                return hwnd
+        # 1. 直接在 window_map 中精确匹配
+        if hasattr(self, "window_map") and text in self.window_map:
+            h = self.window_map[text]
+            if h and win32gui.IsWindow(h):
+                return h
 
-        # 2. 尝试从文本中解析 HWND (例如 [PID:1234 | HWND:56789] 或 HWND:56789)
-        m_hwnd = re.search(r"HWND:(\d+)", selected, re.IGNORECASE)
+        # 2. 从 [PID:xxx | HWND:yyy] 格式中直接提取 HWND (100% 最精准无歧义)
+        m_hwnd = re.search(r"HWND:(\d+)", text, re.IGNORECASE)
         if m_hwnd:
             try:
-                hwnd = int(m_hwnd.group(1))
-                if hwnd and win32gui.IsWindow(hwnd):
-                    self.target_hwnd_var.set(hwnd)
-                    self.target_title_var.set(selected)
-                    return hwnd
+                h = int(m_hwnd.group(1))
+                if h and win32gui.IsWindow(h):
+                    return h
             except Exception:
                 pass
 
-        # 3. 尝试从文本中解析 PID 并匹配窗口
-        m_pid = re.search(r"PID:(\d+)", selected, re.IGNORECASE)
+        # 3. 从 [PID:xxx] 格式中提取 PID 并查找对应窗口
+        m_pid = re.search(r"PID:(\d+)", text, re.IGNORECASE)
         if m_pid:
             try:
                 target_pid = int(m_pid.group(1))
@@ -2743,26 +2733,64 @@ class AutoClickerApp:
                 for h, t in windows:
                     _, p = win32process.GetWindowThreadProcessId(h)
                     if p == target_pid:
-                        self.target_hwnd_var.set(h)
-                        self.target_title_var.set(selected)
                         return h
             except Exception:
                 pass
 
-        # 4. 尝试重新刷新窗口列表并按子串/标题模糊匹配
+        # 4. 纯数字 HWND
+        if text.isdigit():
+            try:
+                h = int(text)
+                if h and win32gui.IsWindow(h):
+                    return h
+            except Exception:
+                pass
+
+        # 5. 子串 / 模糊匹配 window_map
+        if hasattr(self, "window_map"):
+            matches = [(k, h) for k, h in self.window_map.items() if text.lower() in k.lower()]
+            if len(matches) == 1:
+                return matches[0][1]
+
+        # 6. 系统活动窗口模糊匹配
         windows = get_window_list()
         for h, t in windows:
-            if t and (t in selected or selected in t):
-                self.target_hwnd_var.set(h)
-                self.target_title_var.set(selected)
+            if t and (text.lower() in t.lower() or t.lower() in text.lower()):
                 return h
 
         return 0
 
+    def get_current_target_hwnd(self):
+        """统一获取当前选中的目标窗口句柄 (优先以 UI 下拉框当前选择为准)"""
+        # 1. 优先解析 UI 当前选中的内容
+        selected = self.win_cb.get().strip() if hasattr(self, "win_cb") else ""
+        if selected and selected not in ["选择目标窗口...", "未选择目标窗口"]:
+            hwnd = self.resolve_hwnd_from_selection(selected)
+            if hwnd and win32gui.IsWindow(hwnd):
+                if self.target_hwnd_var.get() != hwnd:
+                    self.target_hwnd_var.set(hwnd)
+                    self.target_title_var.set(selected)
+                return hwnd
+
+        # 2. 次选 target_hwnd_var
+        target_hwnd = self.target_hwnd_var.get()
+        if target_hwnd and win32gui.IsWindow(target_hwnd):
+            return target_hwnd
+
+        # 3. 兜底 target_title_var
+        saved_title = self.target_title_var.get().strip()
+        if saved_title and saved_title not in ["选择目标窗口...", "未选择目标窗口"]:
+            hwnd = self.resolve_hwnd_from_selection(saved_title)
+            if hwnd and win32gui.IsWindow(hwnd):
+                self.target_hwnd_var.set(hwnd)
+                return hwnd
+
+        return 0
+
     def on_window_selected(self, event=None):
-        """下拉选择窗口项回调 (点选立即生效绑定)"""
+        """下拉选择窗口项回调 (点选立即生效绑定，严格以用户选定项为准)"""
         selected = self.win_cb.get().strip()
-        hwnd = self.get_current_target_hwnd()
+        hwnd = self.resolve_hwnd_from_selection(selected)
         if hwnd and win32gui.IsWindow(hwnd):
             self.target_hwnd_var.set(hwnd)
             self.target_title_var.set(selected)
@@ -2771,6 +2799,8 @@ class AutoClickerApp:
             if self.adb_enabled_var.get():
                 self.refresh_adb_devices()
             self.update_mini_target_title()
+        else:
+            self.log_msg(f"⚠️ 无法识别选中的目标窗口: {selected}")
 
     def on_window_entry_submit(self, event=None):
         """用户在目标窗口输入框中手动输入/搜索后回车时的智能匹配处理"""
@@ -2781,12 +2811,19 @@ class AutoClickerApp:
             self.update_mini_target_title()
             return
 
-        hwnd = self.get_current_target_hwnd()
+        hwnd = self.resolve_hwnd_from_selection(text)
         if hwnd and win32gui.IsWindow(hwnd):
+            matched_key = text
+            if hasattr(self, "window_map"):
+                for k, h in self.window_map.items():
+                    if h == hwnd:
+                        matched_key = k
+                        break
+            self.win_cb.set(matched_key)
             self.target_hwnd_var.set(hwnd)
-            self.target_title_var.set(text)
+            self.target_title_var.set(matched_key)
             self.mark_dirty()
-            self.log_msg(f"🎯 已锁定目标窗口: {text}")
+            self.log_msg(f"🎯 已锁定目标窗口: {matched_key}")
             if self.adb_enabled_var.get():
                 self.refresh_adb_devices()
             self.update_mini_target_title()
