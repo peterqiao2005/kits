@@ -992,7 +992,7 @@ def detect_adb_ports_by_hwnd(hwnd):
             if len(parts) >= 5 and parts[0].upper().startswith("TCP") and parts[3].upper() == "LISTENING":
                 proc_pid = parts[4]
                 if proc_pid in target_pids:
-                    local_addr = parts[1]  # 例如 127.0.0.1:5565 或 [::]:5565
+                    local_addr = parts[1]  # 例如 127.0.0.1:5576 或 [::]:5576
                     if ":" in local_addr:
                         port_str = local_addr.split(":")[-1]
                         try:
@@ -1121,7 +1121,14 @@ class AutoClickerApp:
     def _get_active_editor(self):
         """获取当前处于激活交互状态的脚本编辑器（Mini 模式下返回 mini_script_display，主面板下返回 script_editor）"""
         if getattr(self, "is_mini_mode", False) and hasattr(self, "mini_script_display"):
-            return self.mini_script_display
+            txt = self.mini_script_display.get("1.0", tk.END).strip()
+            if txt:
+                return self.mini_script_display
+            if hasattr(self, "script_editor"):
+                main_txt = self.script_editor.get("1.0", tk.END).strip()
+                if main_txt:
+                    self.sync_macro_mini_display()
+                    return self.mini_script_display
         return getattr(self, "script_editor", None)
 
     def apply_syntax_highlight(self, widget=None):
@@ -1836,6 +1843,23 @@ class AutoClickerApp:
         )
         self.btn_topmost.pack(side="right", padx=(3, 3))
 
+        btn_to_macro_mini = tk.Button(
+            mini_top,
+            text="📜 宏面板",
+            bg="#8e44ad",
+            fg="white",
+            font=("Segoe UI", 8, "bold"),
+            activebackground="#9b59b6",
+            activeforeground="white",
+            relief="raised",
+            bd=1,
+            padx=4,
+            pady=1,
+            command=self.switch_mini_to_macro,
+        )
+        btn_to_macro_mini.pack(side="right", padx=(3, 3))
+        ToolTip(btn_to_macro_mini, "【模式切换】快速切换到脚本宏 Mini 控制面板")
+
         ttk.Separator(self.mini_frame, orient="horizontal").pack(fill="x", pady=2)
 
         # 2. Mini 面板内容区：网格布局实现等比自动缩放 (左侧 10 个按钮 weight=1，右侧控制按钮 minsize=115 固定等宽)
@@ -2015,6 +2039,23 @@ class AutoClickerApp:
         )
         self.btn_macro_topmost.pack(side="right", padx=(3, 3))
 
+        btn_to_point_mini = tk.Button(
+            macro_mini_top,
+            text="🎯 点位",
+            bg="#8e44ad",
+            fg="white",
+            font=("Segoe UI", 8, "bold"),
+            activebackground="#9b59b6",
+            activeforeground="white",
+            relief="raised",
+            bd=1,
+            padx=4,
+            pady=1,
+            command=self.switch_mini_to_points,
+        )
+        btn_to_point_mini.pack(side="right", padx=(3, 3))
+        ToolTip(btn_to_point_mini, "【模式切换】快速切换到 10 组点位 Mini 控制面板")
+
         ttk.Separator(self.macro_mini_frame, orient="horizontal").pack(fill="x", pady=1)
 
         # 2. Timer 运行耗时与状态显示行 (横跨上方按钮行下方，横向全宽展示)
@@ -2190,6 +2231,7 @@ class AutoClickerApp:
         """更新置顶状态与按钮视觉表现"""
         is_top = self.topmost_var.get()
         self.root.attributes("-topmost", is_top)
+        self._current_topmost_state = is_top
         for btn in [getattr(self, "btn_topmost", None), getattr(self, "btn_macro_topmost", None)]:
             if btn:
                 if is_top:
@@ -2218,16 +2260,19 @@ class AutoClickerApp:
         self.update_window_ownership()
 
     def update_window_ownership(self):
-        """设置目标窗口为 Mini 面板的 Win32 HWNDPARENT，实现 Windows 原生窗口 Z-Order 联动/跟随"""
+        """设置/清理目标窗口为 Mini 面板的 Win32 HWNDPARENT，实现 Windows 原生窗口 Z-Order 联动/跟随"""
         try:
+            my_hwnd = self.root.winfo_id()
+            root_my = win32gui.GetAncestor(my_hwnd, win32con.GA_ROOT) or my_hwnd
             if getattr(self, "is_mini_mode", False) and self.follow_target_var.get():
                 target_hwnd = self.target_hwnd_var.get()
                 if target_hwnd and win32gui.IsWindow(target_hwnd):
-                    my_hwnd = self.root.winfo_id()
-                    root_my = win32gui.GetAncestor(my_hwnd, win32con.GA_ROOT) or my_hwnd
                     root_target = win32gui.GetAncestor(target_hwnd, win32con.GA_ROOT) or target_hwnd
                     if root_my != root_target:
                         win32gui.SetWindowLong(root_my, win32con.GWL_HWNDPARENT, root_target)
+                        return
+            # 未开启联动、非Mini模式或目标无效时，确保重置解绑父窗口所有权
+            win32gui.SetWindowLong(root_my, win32con.GWL_HWNDPARENT, 0)
         except Exception:
             pass
 
@@ -2259,51 +2304,61 @@ class AutoClickerApp:
         """轮询目标窗口前台状态：智能动态前台联动 (状态变化时才触发，避免多实例竞争引发标题栏闪烁)"""
         try:
             if getattr(self, "is_mini_mode", False):
-                # 若用户手动勾选了“全局置顶”，强制保持全局置顶
+                # 若用户手动开启了“全局置顶”，强制保持全局置顶
                 if self.topmost_var.get():
                     if not getattr(self, "_current_topmost_state", False):
                         self.root.attributes("-topmost", True)
                         self._current_topmost_state = True
-                elif self.follow_target_var.get():
-                    target_hwnd = self.target_hwnd_var.get()
-                    if target_hwnd and win32gui.IsWindow(target_hwnd):
-                        fg_hwnd = win32gui.GetForegroundWindow()
-                        if fg_hwnd and win32gui.IsWindow(fg_hwnd):
-                            my_hwnd = self.root.winfo_id()
-                            root_my = win32gui.GetAncestor(my_hwnd, win32con.GA_ROOT) or my_hwnd
+                else:
+                    # 用户未开启“全局置顶”，必须确保窗口绝不处于 attributes("-topmost") 置顶层级，杜绝遮挡其他非目标窗口
+                    if getattr(self, "_current_topmost_state", False):
+                        self.root.attributes("-topmost", False)
+                        self._current_topmost_state = False
 
-                            # 如果当前获得焦点的是当前 Mini 面板本身，保持现有置顶状态不变
-                            if fg_hwnd != my_hwnd and fg_hwnd != root_my:
-                                root_fg = win32gui.GetAncestor(fg_hwnd, win32con.GA_ROOT) or fg_hwnd
-                                root_target = win32gui.GetAncestor(target_hwnd, win32con.GA_ROOT) or target_hwnd
+                    if self.follow_target_var.get():
+                        target_hwnd = self.target_hwnd_var.get()
+                        if target_hwnd and win32gui.IsWindow(target_hwnd):
+                            fg_hwnd = win32gui.GetForegroundWindow()
+                            if fg_hwnd and win32gui.IsWindow(fg_hwnd):
+                                my_hwnd = self.root.winfo_id()
+                                root_my = win32gui.GetAncestor(my_hwnd, win32con.GA_ROOT) or my_hwnd
 
-                                try:
-                                    _, target_pid = win32process.GetWindowThreadProcessId(target_hwnd)
-                                    _, fg_pid = win32process.GetWindowThreadProcessId(fg_hwnd)
-                                except Exception:
-                                    target_pid = 0
-                                    fg_pid = -1
+                                # 如果当前获得焦点的是当前 Mini 面板本身，保持现有状态不变
+                                if fg_hwnd != my_hwnd and fg_hwnd != root_my:
+                                    root_fg = win32gui.GetAncestor(fg_hwnd, win32con.GA_ROOT) or fg_hwnd
+                                    root_target = win32gui.GetAncestor(target_hwnd, win32con.GA_ROOT) or target_hwnd
 
-                                fg_title = win32gui.GetWindowText(fg_hwnd)
+                                    try:
+                                        _, target_pid = win32process.GetWindowThreadProcessId(target_hwnd)
+                                        _, fg_pid = win32process.GetWindowThreadProcessId(fg_hwnd)
+                                    except Exception:
+                                        target_pid = 0
+                                        fg_pid = -1
 
-                                # 判定切到前台的是否为绑定的模拟器，或者协同运行的另一个 AutoClick 实例
-                                is_target_active = (
-                                    fg_hwnd == target_hwnd
-                                    or root_fg == root_target
-                                    or (target_pid > 0 and fg_pid == target_pid)
-                                    or ("AutoClick" in fg_title)
-                                )
+                                    # 判定切到前台的是否为绑定的模拟器 (严禁使用 "AutoClick" 标题模糊匹配，杜绝编辑器/文件夹误判)
+                                    is_target_active = (
+                                        fg_hwnd == target_hwnd
+                                        or root_fg == root_target
+                                        or (target_pid > 0 and fg_pid == target_pid)
+                                    )
 
-                                # 仅在状态真正发生跃变时才调用 attributes("-topmost")，彻底避免频繁重绘导致标题栏闪烁
-                                last_active = getattr(self, "_last_target_active_state", None)
-                                if is_target_active != last_active:
-                                    self._last_target_active_state = is_target_active
-                                    if is_target_active:
-                                        self.root.attributes("-topmost", True)
-                                        self._current_topmost_state = True
-                                    else:
-                                        self.root.attributes("-topmost", False)
-                                        self._current_topmost_state = False
+                                    # 仅在目标模拟器激活跃变时提升 Mini 面板至普通顶层（不提升为系统置顶）
+                                    last_active = getattr(self, "_last_target_active_state", None)
+                                    if is_target_active != last_active:
+                                        self._last_target_active_state = is_target_active
+                                        if is_target_active:
+                                            try:
+                                                win32gui.SetWindowPos(
+                                                    root_my,
+                                                    win32con.HWND_TOP,
+                                                    0,
+                                                    0,
+                                                    0,
+                                                    0,
+                                                    win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOACTIVATE,
+                                                )
+                                            except Exception:
+                                                self.root.lift()
         except Exception:
             pass
 
@@ -2424,37 +2479,50 @@ class AutoClickerApp:
             mini_w, mini_h = 415, 255
             dock_right = self.mini_dock_right_var.get() if hasattr(self, "mini_dock_right_var") else False
 
-            if dock_right:
-                # 停靠在目标窗口右侧
-                # X 轴：优先紧贴目标窗口右边缘 (t_right)；若右侧超出屏幕工作区，则贴齐工作区右边缘
-                pos_x = max(work_left, min(t_right, work_right - mini_w))
-                # Y 轴：优先与目标窗口顶部 (t_top) 对齐；若底部超出工作区，则向上贴齐工作区底部
-                pos_y = max(work_top, min(t_top, work_bottom - mini_h))
+            # 判断下方与右侧可用空间
+            can_fit_below = (t_bottom + mini_h <= work_bottom)
+            can_fit_right = (t_right + mini_w <= work_right)
+            can_fit_left = (t_left - mini_w >= work_left)
+
+            # 当用户要求停靠在右侧，或者下方空间不足以容纳 Mini 面板 (例如模拟器高度达到 901 时)
+            # 自动智能转为停靠在目标窗口右侧(或左侧)，杜绝面板钻入目标窗口底部的现象
+            if dock_right or not can_fit_below:
+                if can_fit_right or not can_fit_left:
+                    # 停靠在目标窗口右侧
+                    pos_x = max(work_left, min(t_right, work_right - mini_w))
+                    pos_y = max(work_top, min(t_top, work_bottom - mini_h))
+                else:
+                    # 右侧空间不足则停靠在目标窗口左侧
+                    pos_x = max(work_left, t_left - mini_w)
+                    pos_y = max(work_top, min(t_top, work_bottom - mini_h))
             else:
                 # 停靠在目标窗口下方
-                # X 轴：优先与目标窗口左对齐 (t_left)；若右侧超出屏幕工作区，则向左贴齐工作区右边缘
                 pos_x = max(work_left, min(t_left, work_right - mini_w))
-                # Y 轴：优先紧贴目标窗口下方 (t_bottom)；若底部空间不足，贴靠在工作区底部
                 pos_y = max(work_top, min(t_bottom, work_bottom - mini_h))
 
-            # 6. 更新 Tkinter 几何位置并调用 Win32 SetWindowPos 实现跨屏无缝精确定位 (使用 SWP_NOSIZE 保持固定尺寸，防止尺寸反复跳变)
+            # 6. 更新 Tkinter 几何位置并调用 Win32 SetWindowPos 实现跨屏无缝精确定位
             self.root.geometry(f"{mini_w}x{mini_h}{pos_x:+d}{pos_y:+d}")
 
             try:
                 my_hwnd = self.root.winfo_id()
                 root_my = win32gui.GetAncestor(my_hwnd, win32con.GA_ROOT) or my_hwnd
                 if root_my and win32gui.IsWindow(root_my):
+                    # 将 Mini 窗口置于 HWND_TOP，确保不被刚调整完尺寸的目标窗口遮挡覆盖
                     win32gui.SetWindowPos(
                         root_my,
-                        0,
+                        win32con.HWND_TOP,
                         pos_x,
                         pos_y,
                         0,
                         0,
-                        win32con.SWP_NOSIZE | win32con.SWP_NOZORDER | win32con.SWP_NOACTIVATE | win32con.SWP_SHOWWINDOW
+                        win32con.SWP_NOSIZE | win32con.SWP_SHOWWINDOW
                     )
             except Exception:
                 pass
+
+            self.root.lift()
+            if hasattr(self, "topmost_var") and self.topmost_var.get():
+                self.root.attributes("-topmost", True)
 
             return True
         except Exception:
@@ -2473,20 +2541,51 @@ class AutoClickerApp:
         pos_desc = "右方" if self.mini_dock_right_var.get() else "下方"
         self.log_msg(f"📱 已设置 Mini 面板吸附位置为: 目标窗口【{pos_desc}】")
 
+    def switch_mini_to_macro(self):
+        """Mini 面板内快速切换至 脚本宏 Mini 面板"""
+        if hasattr(self, "mini_frame"):
+            self.mini_frame.pack_forget()
+        if hasattr(self, "macro_mini_frame"):
+            self.macro_mini_frame.pack(fill="both", expand=True)
+        self.sync_macro_mini_display()
+        if hasattr(self, "notebook"):
+            try:
+                self.notebook.select(1)
+            except Exception:
+                pass
+        self.align_mini_to_target()
+
+    def switch_mini_to_points(self):
+        """Mini 面板内快速切换至 10组点位 Mini 面板"""
+        if hasattr(self, "macro_mini_frame"):
+            self.macro_mini_frame.pack_forget()
+        if hasattr(self, "mini_frame"):
+            self.mini_frame.pack(fill="both", expand=True)
+        for i in range(NUM_POINTS):
+            self.update_mini_point_button(i)
+        if hasattr(self, "notebook"):
+            try:
+                self.notebook.select(0)
+            except Exception:
+                pass
+        self.align_mini_to_target()
+
     def switch_to_mini_panel(self):
         """切换到 Mini 面板界面 (根据当前激活的 Notebook Tab 自动决定显示 10点位 Mini 面板还是 脚本宏 Mini 面板)"""
         self.is_mini_mode = True
         self.main_frame.pack_forget()
 
+        # 无论从何处进入 Mini，均预先同步脚本编辑器内容，杜绝空文本问题
+        self.sync_macro_mini_display()
+
         current_tab = self.notebook.index(self.notebook.select()) if hasattr(self, "notebook") else 0
 
-        if current_tab == 1:
-            # 切换至 脚本宏模式 Mini 面板
+        # 若脚本正在运行，或主面板停留在脚本宏选项卡，优先显示脚本宏 Mini 面板
+        if getattr(self, "script_running", False) or current_tab == 1:
             if hasattr(self, "mini_frame"):
                 self.mini_frame.pack_forget()
             if hasattr(self, "macro_mini_frame"):
                 self.macro_mini_frame.pack(fill="both", expand=True)
-            self.sync_macro_mini_display()
         else:
             # 切换至 10 组点位模式 Mini 面板
             if hasattr(self, "macro_mini_frame"):
@@ -2502,7 +2601,7 @@ class AutoClickerApp:
         self.update_mini_target_title()
 
         # 在所有 UI 结构与 Win32 父子关系建立完毕后，最后执行吸附粘连定位
-        if not self.align_mini_to_target_bottom():
+        if not self.align_mini_to_target():
             self.root.geometry("415x255")
 
     def switch_to_main_panel(self):
@@ -2521,6 +2620,8 @@ class AutoClickerApp:
         self.root.minsize(1100, 780)
         self.root.geometry("1180x860")
         self.update_window_title()
+        self.update_window_ownership()
+        self.apply_topmost_ui()
 
     def resolve_hierarchy(self):
         """解析 10 个坐标点的多级挂载父子关系"""
@@ -3088,7 +3189,7 @@ class AutoClickerApp:
         flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
 
         # 1. 依据目标窗口进程 PID 查找其在系统上正处于 LISTENING 状态的 TCP 端口
-        hwnd = self.target_hwnd_var.get()
+        hwnd = self.get_current_target_hwnd()
         pid_ports = []
         target_pid = 0
         if hwnd and win32gui.IsWindow(hwnd):
@@ -3110,20 +3211,8 @@ class AutoClickerApp:
                         )
                     except Exception:
                         pass
-
-        # 兜底尝试常用标准 ADB 端口连接 (如 5555, 5565)
-        for default_port in [5555, 5565]:
-            if default_port not in pid_ports:
-                try:
-                    subprocess.run(
-                        [adb_bin, "connect", f"127.0.0.1:{default_port}"],
-                        creationflags=flags,
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL,
-                        timeout=1.0
-                    )
-                except Exception:
-                    pass
+            else:
+                self.log_msg(f"⚠️ [ADB] 未在目标窗口进程 [PID:{target_pid}] 中检测到开放的 TCP 监听端口。")
 
         # 2. 查询当前系统已连接的 ADB 设备
         try:
@@ -3160,7 +3249,7 @@ class AutoClickerApp:
             if not valid_devices:
                 valid_devices = devices
 
-            # 4. 精准分配属于当前进程 PID 监听端口的 ADB 设备
+            # 4. 严格根据当前进程 PID 监听端口分配专属 ADB 设备 (严禁擅自回退绑定到无关实例端口如 5555)
             matched_dev = None
             matched_list = []
 
@@ -3173,41 +3262,33 @@ class AutoClickerApp:
                             if d not in matched_list:
                                 matched_list.append(d)
 
-                # 优先挑选 IP:Port 形式（如 127.0.0.1:5565）
+                # 优先挑选 IP:Port 形式（如 127.0.0.1:5576）
                 ip_ports = [d for d in matched_list if ":" in d]
                 if ip_ports:
                     matched_dev = ip_ports[0]
                 elif matched_list:
                     matched_dev = matched_list[0]
 
-            # 填充下拉列表内容
-            if matched_list:
-                final_dropdown_list = matched_list
+            # 5. 若已绑定目标窗口，下拉框严格只包含该进程专属设备；若未检测到端口，严禁擅自乱绑其他实例
+            if hwnd and win32gui.IsWindow(hwnd):
+                self.adb_dev_cb["values"] = matched_list
+                if matched_dev:
+                    self.adb_device_var.set(matched_dev)
+                    self.log_msg(f"✅ [ADB 锁定] 成功将目标窗口 [PID:{target_pid}] 精准绑定到专属 ADB 设备: [{matched_dev}]")
+                else:
+                    self.adb_device_var.set("")
+                    self.log_msg(f"⚠️ [ADB 提示] 目标进程 [PID:{target_pid}] 监听端口为 {pid_ports}，未匹配到专属在线设备。请确认模拟器已开启 ADB 调试。")
+                return matched_list
             else:
-                final_dropdown_list = valid_devices
-
-            self.adb_dev_cb["values"] = final_dropdown_list
-
-            curr_selected = self.adb_device_var.get().strip()
-
-            if matched_dev:
-                self.adb_device_var.set(matched_dev)
-                self.log_msg(f"✅ [ADB 锁定] 成功将目标窗口 [PID:{target_pid}] 精准绑定到 ADB 设备: [{matched_dev}]")
-            elif curr_selected and curr_selected in final_dropdown_list:
-                # 保持用户之前选中的有效设备
-                self.adb_device_var.set(curr_selected)
-                self.log_msg(f"✅ [ADB 保持] 继续使用当前 ADB 设备: [{curr_selected}]")
-            elif len(final_dropdown_list) == 1:
-                self.adb_device_var.set(final_dropdown_list[0])
-                self.log_msg(f"✅ [ADB 唯一设备] 绑定 ADB 设备: [{final_dropdown_list[0]}]")
-            elif len(final_dropdown_list) > 1:
-                self.adb_device_var.set(final_dropdown_list[0])
-                self.log_msg(f"ℹ️ [ADB 多设备] 检测到 {len(final_dropdown_list)} 个在线设备 ({', '.join(final_dropdown_list)})，已默认选中 [{final_dropdown_list[0]}]，可在下拉框中按需切换。")
-            else:
-                self.adb_device_var.set("")
-                self.log_msg("⚠️ 未检测到可正常响应的 ADB 设备。请确认目标模拟器已开启，且「设置 -> 高级」中已开启「Android 调试桥 (ADB)」。")
-
-            return final_dropdown_list
+                # 未绑定目标窗口时，开放显示所有在线设备
+                self.adb_dev_cb["values"] = valid_devices
+                if valid_devices:
+                    curr_selected = self.adb_device_var.get().strip()
+                    if curr_selected not in valid_devices:
+                        self.adb_device_var.set(valid_devices[0])
+                else:
+                    self.adb_device_var.set("")
+                return valid_devices
         except Exception as e:
             self.log_msg(f"❌ 获取 ADB 设备列表出错: {e}")
             return []
@@ -3394,8 +3475,6 @@ class AutoClickerApp:
             )
             render_hwnd, cl_w, cl_h, _, _ = self.get_emulator_render_info(root_target)
             self.log_msg(f"📐 已将目标窗口尺寸还原为标准大小: {target_w}x{target_h} (视口画布: {cl_w}x{cl_h})")
-            if getattr(self, "is_mini_mode", False):
-                self.root.after(100, self.align_mini_to_target_bottom)
         except Exception as e:
             self.log_msg(f"❌ 还原窗口尺寸失败: {e}")
 
@@ -3420,6 +3499,8 @@ class AutoClickerApp:
 
         target_x, target_y = int(x), int(y)
         hwnd = self.target_hwnd_var.get()
+        if not hwnd or not win32gui.IsWindow(hwnd):
+            hwnd = self.get_current_target_hwnd()
 
         if hwnd and win32gui.IsWindow(hwnd):
             try:
@@ -3484,8 +3565,8 @@ class AutoClickerApp:
 
     def dispatch_click(self, x, y, hwnd=None):
         """统一底层点击击发器 (支持三大模式调度)"""
-        if hwnd is None:
-            hwnd = self.target_hwnd_var.get()
+        if hwnd is None or not win32gui.IsWindow(hwnd):
+            hwnd = self.get_current_target_hwnd()
         mode = self.mode_var.get()
         is_adb = self.adb_enabled_var.get()
 
@@ -3922,10 +4003,15 @@ class AutoClickerApp:
 
         if start_pc > 0:
             self.log_msg(f"📜 [脚本宏] 从第 {commands[start_pc].line_num} 行 (指令 #{start_pc + 1}: {commands[start_pc].raw_text}) 开始启动脚本 (共 {len(commands)} 条指令)...")
-        else:
-            self.log_msg(f"📜 [脚本宏] 启动执行，共解析出 {len(commands)} 条指令...")
+        # 如果在 Mini 模式下触发脚本运行，确保切换到脚本宏 Mini 面板并激活显示
+        if getattr(self, "is_mini_mode", False) and hasattr(self, "macro_mini_frame"):
+            if hasattr(self, "mini_frame"):
+                self.mini_frame.pack_forget()
+            self.macro_mini_frame.pack(fill="both", expand=True)
+            self.sync_macro_mini_display()
 
         def macro_loop():
+            hwnd = target_hwnd
             block_stack = []
             loop_pairs = {}
             if_jump = {}
