@@ -2,6 +2,7 @@ import ctypes
 from ctypes import wintypes
 import json
 import os
+import random
 import re
 import shutil
 import subprocess
@@ -38,13 +39,53 @@ class MacroCommand:
         self.raw_text = raw_text
 
 
+def macro_rand(*args):
+    """
+    随机数函数 (支持 0 / 1 / 2 个参数):
+    - 无参数: 取值范围 0 到 1 的随机浮点数 (0.0 ~ 1.0)
+    - 1 个参数 b: 取值范围 0 到 b (若为整数则返回整数 0~b，若为浮点数则返回浮点数 0.0~b)
+    - 2 个参数 a, b: 取值范围 a 到 b (若均为整数则返回整数 a~b，若有浮点数则返回浮点数 a~b)
+    """
+    if len(args) == 0:
+        return random.random()
+
+    def _parse_num(val):
+        if isinstance(val, (int, float)) and not isinstance(val, bool):
+            return val
+        s = str(val).strip()
+        try:
+            return float(s) if "." in s else int(s)
+        except ValueError:
+            return float(s)
+
+    if len(args) == 1:
+        b = _parse_num(args[0])
+        if isinstance(b, int):
+            low, high = (0, b) if b >= 0 else (b, 0)
+            return random.randint(low, high)
+        else:
+            fb = float(b)
+            return random.uniform(min(0.0, fb), max(0.0, fb))
+    else:
+        a = _parse_num(args[0])
+        b = _parse_num(args[1])
+        if isinstance(a, int) and isinstance(b, int):
+            low, high = (a, b) if a <= b else (b, a)
+            return random.randint(low, high)
+        else:
+            fa, fb = float(a), float(b)
+            return random.uniform(min(fa, fb), max(fa, fb))
+
+
 def safe_eval_expr(expr_str, scope_vars):
     """安全求值表达式/变量值 (支持 int, float, bool, str, 算术运算及变量查找)"""
     expr = expr_str.strip()
-    # 大小写兼容处理 true/false/null
+    # 大小写兼容处理 true/false/null 及 rand/random
     expr_trans = re.sub(r"\btrue\b", "True", expr, flags=re.IGNORECASE)
     expr_trans = re.sub(r"\bfalse\b", "False", expr_trans, flags=re.IGNORECASE)
     expr_trans = re.sub(r"\bnull\b", "None", expr_trans, flags=re.IGNORECASE)
+    expr_trans = re.sub(r"\brand\b", "rand", expr_trans, flags=re.IGNORECASE)
+    expr_trans = re.sub(r"\brandom\b", "random", expr_trans, flags=re.IGNORECASE)
 
     safe_env = {
         "__builtins__": {},
@@ -56,6 +97,10 @@ def safe_eval_expr(expr_str, scope_vars):
         "min": min,
         "max": max,
         "round": round,
+        "rand": macro_rand,
+        "random": macro_rand,
+        "randint": random.randint,
+        "uniform": random.uniform,
         "True": True,
         "False": False,
         "None": None,
@@ -86,6 +131,8 @@ def safe_eval_cond(cond_str, scope_vars):
     cond_trans = re.sub(r"\btrue\b", "True", cond, flags=re.IGNORECASE)
     cond_trans = re.sub(r"\bfalse\b", "False", cond_trans, flags=re.IGNORECASE)
     cond_trans = re.sub(r"\bnull\b", "None", cond_trans, flags=re.IGNORECASE)
+    cond_trans = re.sub(r"\brand\b", "rand", cond_trans, flags=re.IGNORECASE)
+    cond_trans = re.sub(r"\brandom\b", "random", cond_trans, flags=re.IGNORECASE)
 
     safe_env = {
         "__builtins__": {},
@@ -93,6 +140,14 @@ def safe_eval_cond(cond_str, scope_vars):
         "float": float,
         "str": str,
         "bool": bool,
+        "abs": abs,
+        "min": min,
+        "max": max,
+        "round": round,
+        "rand": macro_rand,
+        "random": macro_rand,
+        "randint": random.randint,
+        "uniform": random.uniform,
         "True": True,
         "False": False,
         "None": None,
@@ -1621,6 +1676,8 @@ class AutoClickerApp:
              "【If-Else 条件分支】格式: If (条件表达式) { ... } Else { ... }\n支持变量判定(如 InTournament == 1 或 InTournament == True)，根据逻辑选择分支。"),
             ("[+ 🏷️ 变量赋值]", lambda: self.insert_script_snippet("InTournament = 1\n"),
              "【变量赋值】格式: 变量名 = 值\n支持整型 (1)、布尔值 (True/False)、字符串等。"),
+            ("[+ 🎲 随机数]", lambda: self.insert_script_snippet("rand_val = rand(100, 200)\n"),
+             "【随机数函数】格式: rand() 或 random()\n- 无参数: 0~1 随机浮点数 (如 If (rand() > 0.5))\n- 1个参数 b: 0 到 b 范围 (如 rand(10))\n- 2个参数 a, b: a 到 b 范围 (如 Delay(rand(1000, 2000)))\n若参数为整数则返回整数，若为浮点数则返回浮点数。"),
             ("[+ ClickEx 点位]", lambda: self.insert_script_snippet('ClickEx(0, 368, 22, 0.0, 900.0, 0, "右上菜单")\n'),
              "【ClickEx 点位】格式: ClickEx(层级, X, Y, 启动延迟, 点击间隔, 次数, 备注, [TimerID])\n支持多级 Timer 级联挂载及绑定计时器编号。"),
             ("[+ 点击坐标]", lambda: self.insert_script_snippet("Click(300, 400)\n"),
@@ -1632,7 +1689,7 @@ class AutoClickerApp:
             ("[+ 关联点位]", lambda: self.insert_script_snippet("ClickPoint(#1)\n"),
              "【关联点位】格式: ClickPoint(#N)\n触发主界面 10 组点位模式中第 N 个坐标点位的点击动作。"),
             ("[+ 延时等待]", lambda: self.insert_script_snippet("Delay(1000)\n"),
-             "【延时等待】格式: Delay(毫秒) 或 Sleep(毫秒/s)\n暂停当前脚本执行指定的毫秒数。"),
+             "【延时等待】格式: Delay(毫秒) 或 Sleep(毫秒/s)\n暂停当前脚本执行指定的毫秒数，支持 Delay(rand(1000, 2000)) 随机等待。"),
             ("[+ 循环区间]", lambda: self.insert_script_snippet("Loop(5) {\n    Click(300, 400)\n    Delay(500)\n}\n"),
              "【循环区间】格式: Loop(N) { ... }\n将大括号内部的指令重复执行 N 次。"),
             ("[+ 轨迹拖拽]", lambda: self.insert_script_snippet("Drag(300, 600, 300, 200, 500)\n"),
