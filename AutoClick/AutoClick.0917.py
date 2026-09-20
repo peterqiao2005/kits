@@ -213,114 +213,6 @@ def split_macro_args(arg_str):
     return parts
 
 
-def scale_coord_expr(expr_str, scale):
-    """缩放单个坐标或表达式中的基础数字常量"""
-    expr_str = expr_str.strip()
-    if not expr_str:
-        return expr_str
-    try:
-        val = float(expr_str)
-        new_val = round(val * scale)
-        return str(new_val)
-    except ValueError:
-        pass
-
-    m = re.match(r"^(\d+(?:\.\d+)?)(.*)$", expr_str)
-    if m:
-        try:
-            val = float(m.group(1))
-            new_val = round(val * scale)
-            return f"{new_val}{m.group(2)}"
-        except Exception:
-            pass
-    return expr_str
-
-
-def scale_kms_script(script_text, rec_w, rec_h, curr_w, curr_h):
-    """按坐标位置百分比将 .kms 脚本代码中的坐标点从 (rec_w, rec_h) 比例缩放到 (curr_w, curr_h)"""
-    if rec_w <= 0 or rec_h <= 0 or curr_w <= 0 or curr_h <= 0:
-        return script_text
-    if rec_w == curr_w and rec_h == curr_h:
-        return script_text
-
-    scale_x = curr_w / rec_w
-    scale_y = curr_h / rec_h
-
-    lines = script_text.splitlines()
-    new_lines = []
-    has_header = False
-
-    for line in lines:
-        raw = line.strip()
-        m_win = re.match(r"^(?://|#)?\s*WindowSize\s*[:=]\s*\d+[\text,xX\*]\d+", raw, re.IGNORECASE)
-        if m_win:
-            new_lines.append(f"// WindowSize={curr_w}x{curr_h}")
-            has_header = True
-            continue
-
-        # ClickEx(level, x, y, delay, interval, count, "remark", timer_id)
-        m_cex = re.match(r"^(\s*ClickEx\s*\(\s*)(.*?)(\s*\).*)$", line, re.IGNORECASE)
-        if m_cex:
-            prefix = m_cex.group(1)
-            args_str = m_cex.group(2)
-            suffix = m_cex.group(3)
-            parts = split_macro_args(args_str)
-
-            if len(parts) >= 2:
-                if len(parts) == 2:
-                    x_idx, y_idx = 0, 1
-                elif len(parts) == 3:
-                    if parts[2].strip().startswith('"') or parts[2].strip().startswith("'"):
-                        x_idx, y_idx = 0, 1
-                    else:
-                        x_idx, y_idx = 1, 2
-                else:
-                    x_idx, y_idx = 1, 2
-
-                if x_idx < len(parts):
-                    parts[x_idx] = scale_coord_expr(parts[x_idx], scale_x)
-                if y_idx < len(parts):
-                    parts[y_idx] = scale_coord_expr(parts[y_idx], scale_y)
-
-                new_lines.append(f"{prefix}{', '.join(parts)}{suffix}")
-                continue
-
-        # Click(x, y, count, interval_ms)
-        m_click = re.match(r"^(\s*Click\s*\(\s*)(.*?)(\s*\).*)$", line, re.IGNORECASE)
-        if m_click:
-            prefix = m_click.group(1)
-            args_str = m_click.group(2)
-            suffix = m_click.group(3)
-            parts = split_macro_args(args_str)
-            if len(parts) >= 2:
-                parts[0] = scale_coord_expr(parts[0], scale_x)
-                parts[1] = scale_coord_expr(parts[1], scale_y)
-                new_lines.append(f"{prefix}{', '.join(parts)}{suffix}")
-                continue
-
-        # Drag(x1, y1, x2, y2, duration) or Swipe(...)
-        m_drag = re.match(r"^(\s*(?:Drag|Swipe)\s*\(\s*)(.*?)(\s*\).*)$", line, re.IGNORECASE)
-        if m_drag:
-            prefix = m_drag.group(1)
-            args_str = m_drag.group(2)
-            suffix = m_drag.group(3)
-            parts = split_macro_args(args_str)
-            if len(parts) >= 4:
-                parts[0] = scale_coord_expr(parts[0], scale_x)
-                parts[1] = scale_coord_expr(parts[1], scale_y)
-                parts[2] = scale_coord_expr(parts[2], scale_x)
-                parts[3] = scale_coord_expr(parts[3], scale_y)
-                new_lines.append(f"{prefix}{', '.join(parts)}{suffix}")
-                continue
-
-        new_lines.append(line)
-
-    if not has_header:
-        new_lines.insert(0, f"// WindowSize={curr_w}x{curr_h}")
-
-    return "\n".join(new_lines)
-
-
 def parse_macro_script(script_text):
     """按键脚本 DSL 解析器，将文本解析为可调度的 Command 指令列表 (支持全参数变量与表达式、If-Else 分支、/// 块注释)"""
     lines = script_text.splitlines()
@@ -1261,14 +1153,15 @@ class AutoClickerApp:
         if last_script and os.path.exists(last_script):
             self.load_script_content(last_script)
 
-        # 刷新系统窗口列表并比对恢复上次目标进程
-        self.restore_target_window_from_session(session_data)
-
-        # 恢复 ADB 设置，并基于当前绑定的目标进程 PID 实时探测重新同步专属 ADB 端口
+        # 恢复 ADB 设置
         if session_data.get("adb_enabled"):
             self.adb_enabled_var.set(True)
+            self.adb_device_var.set(session_data.get("adb_device", ""))
             self.adb_custom_path_var.set(session_data.get("adb_custom_path", ""))
             self.refresh_adb_devices()
+
+        # 刷新系统窗口列表并比对恢复上次目标进程
+        self.restore_target_window_from_session(session_data)
 
         self.register_global_hotkeys()
 
@@ -3173,9 +3066,6 @@ class AutoClickerApp:
             self.update_mini_target_title()
             self.log_msg("ℹ️ [会话恢复] 未在当前系统中匹配到上次绑定的进程，目标进程已置空。")
 
-        if self.adb_enabled_var.get():
-            self.refresh_adb_devices()
-
     def save_current_session_state(self):
         """保存当前会话状态 (目标窗口/PID/HWND、ADB配置、当前使用的方案与脚本路径)"""
         target_hwnd = self.target_hwnd_var.get()
@@ -3528,21 +3418,10 @@ class AutoClickerApp:
         """
         获取模拟器游戏画面的 Viewport 子窗口句柄与物理尺寸。
         自动精确定位并消除 BlueStacks / 雷电 / MuMu 等模拟器的顶部标题栏 (约38px) 与侧边栏偏移。
-        (内置 3 秒高频缓存，防止高频点击循环中频繁 EnumChildWindows / GetWindowText 阻塞模拟器 UI 线程导致 ADB 掉线超时)
         返回: (render_hwnd, cl_w, cl_h, offset_x, offset_y)
         """
         if not hwnd or not win32gui.IsWindow(hwnd):
             return hwnd, 0, 0, 0, 0
-
-        now = time.monotonic()
-        if not hasattr(self, "_render_info_cache"):
-            self._render_info_cache = {}
-
-        cached = self._render_info_cache.get(hwnd)
-        if cached and (now - cached.get("time", 0) < 3.0):
-            r_hwnd = cached.get("render_hwnd", hwnd)
-            if r_hwnd and win32gui.IsWindow(r_hwnd):
-                return r_hwnd, cached.get("cl_w", 0), cached.get("cl_h", 0), cached.get("offset_x", 0), cached.get("offset_y", 0)
 
         render_hwnd = hwnd
         children = []
@@ -3630,34 +3509,7 @@ class AutoClickerApp:
                 cl_h = max(1, cl_h - 38)
                 cl_w = max(1, cl_w - 38)
 
-        res_tuple = (render_hwnd, cl_w, cl_h, offset_x, offset_y)
-        self._render_info_cache[hwnd] = {
-            "time": now,
-            "render_hwnd": render_hwnd,
-            "cl_w": cl_w,
-            "cl_h": cl_h,
-            "offset_x": offset_x,
-            "offset_y": offset_y,
-        }
-        return res_tuple
-
-    def get_current_target_window_size(self):
-        """获取当前已绑定的目标窗口(或模拟器窗口)的实际 Size [w, h]"""
-        target_hwnd = self.get_current_target_hwnd()
-        if target_hwnd and win32gui.IsWindow(target_hwnd):
-            try:
-                rect = win32gui.GetWindowRect(target_hwnd)
-                w, h = rect[2] - rect[0], rect[3] - rect[1]
-                if w > 100 and h > 100:
-                    self.target_window_size = [w, h]
-                    return [w, h]
-            except Exception:
-                pass
-        val = getattr(self, "target_window_size", None)
-        if not val or not isinstance(val, (list, tuple)) or len(val) < 2 or not val[0] or not val[1]:
-            val = [424, 901]
-            self.target_window_size = val
-        return val
+        return render_hwnd, cl_w, cl_h, offset_x, offset_y
 
     def restore_target_window_size(self):
         """将当前绑定的目标模拟器窗口还原为配置中指定的标准尺寸 (默认 424x901)"""
@@ -3668,8 +3520,7 @@ class AutoClickerApp:
 
         root_target = win32gui.GetAncestor(target_hwnd, win32con.GA_ROOT) or target_hwnd
 
-        target_size = self.get_current_target_window_size()
-        target_w, target_h = target_size[0], target_size[1]
+        target_w, target_h = getattr(self, "target_window_size", [424, 901])
         if target_w <= 0 or target_h <= 0:
             target_w, target_h = 424, 901
 
@@ -3754,74 +3605,27 @@ class AutoClickerApp:
             except Exception as err:
                 self.log_msg(f"⚠️ ADB 坐标换算异常: {err}")
 
-        # 使用 input swipe 按住 80 毫秒 (模拟真实手指点击，支持 1 次自动断线自愈重连)
-        flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
+        # 使用 input swipe 按住 80 毫秒 (模拟真实手指点击)
+        cmd = [adb_bin]
+        if device:
+            cmd.extend(["-s", device])
+        cmd.extend(["shell", "input", "swipe", str(target_x), str(target_y), str(target_x), str(target_y), "80"])
 
-        for attempt in range(2):
-            cmd = [adb_bin]
-            if device:
-                cmd.extend(["-s", device])
-            cmd.extend(["shell", "input", "swipe", str(target_x), str(target_y), str(target_x), str(target_y), "80"])
-
-            try:
-                res = subprocess.run(cmd, creationflags=flags, capture_output=True, text=True, timeout=3)
-                if res.returncode == 0:
-                    return True
-
+        try:
+            flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
+            res = subprocess.run(cmd, creationflags=flags, capture_output=True, text=True, timeout=3)
+            if res.returncode != 0:
                 err_info = (res.stderr or res.stdout or f"退出码 {res.returncode}").strip()
-                err_lower = err_info.lower()
-
-                # 判断是否为设备掉线/未找到/连接断开 (进行 1 次自动断线自愈)
-                if attempt == 0 and any(kw in err_lower for kw in ["not found", "offline", "closed", "device"]):
-                    self.log_msg(f"⚠️ [ADB 提示] 检测到设备 [{device}] 掉线断开 ({err_info})，正在尝试自动重连...")
-                    reconnected = False
-                    if ":" in device:
-                        try:
-                            res_conn = subprocess.run(
-                                [adb_bin, "connect", device],
-                                creationflags=flags,
-                                capture_output=True,
-                                text=True,
-                                timeout=3
-                            )
-                            conn_out = (res_conn.stdout or "") + (res_conn.stderr or "")
-                            if res_conn.returncode == 0 and ("connected" in conn_out.lower() or "already" in conn_out.lower()):
-                                reconnected = True
-                        except Exception:
-                            pass
-                    if not reconnected:
-                        try:
-                            devs = self.refresh_adb_devices()
-                            if device in devs or (devs and len(devs) == 1):
-                                if devs and len(devs) == 1:
-                                    device = devs[0]
-                                    self.adb_device_var.set(device)
-                                reconnected = True
-                        except Exception:
-                            pass
-
-                    if reconnected:
-                        self.log_msg(f"🔄 [ADB 自愈] 成功恢复与设备 [{device}] 的 connection，正在补发击发指令...")
-                        continue
-
-                if "error: closed" in err_lower or "offline" in err_lower or "not found" in err_lower:
+                if "error: closed" in err_info or "offline" in err_info or "not found" in err_info:
                     self.log_msg(f"❌ [ADB错误] 设备 [{device}] 点击失败: {err_info}")
                     self.log_msg("💡 建议排查：1. 在 BlueStacks 设置 -> 高级 中确认开启「Android 调试桥 (ADB)」；2. 确认设备未处于离线状态。")
                 else:
                     self.log_msg(f"❌ [ADB] 执行触控指令失败: {err_info}")
                 return False
-            except Exception as e:
-                if attempt == 0:
-                    try:
-                        if ":" in device:
-                            subprocess.run([adb_bin, "connect", device], creationflags=flags, timeout=3)
-                            continue
-                    except Exception:
-                        pass
-                self.log_msg(f"❌ [ADB] 点击命令执行异常: {e}")
-                return False
-
-        return False
+            return True
+        except Exception as e:
+            self.log_msg(f"❌ [ADB] 点击命令执行异常: {e}")
+            return False
 
     def dispatch_click(self, x, y, hwnd=None):
         """统一底层点击击发器 (支持三大模式调度)"""
@@ -5087,24 +4891,6 @@ class AutoClickerApp:
             try:
                 with open(filepath, "r", encoding="utf-8") as f:
                     content = f.read()
-
-                m_win = re.search(r"(?://|#)?\s*WindowSize\s*[:=]\s*(\d+)[\text,xX\*](\d+)", content, re.IGNORECASE)
-                if m_win:
-                    rec_w, rec_h = int(m_win.group(1)), int(m_win.group(2))
-                    curr_size = self.get_current_target_window_size()
-                    curr_w, curr_h = curr_size[0], curr_size[1]
-
-                    if rec_w > 0 and rec_h > 0 and curr_w > 0 and curr_h > 0 and (rec_w, rec_h) != (curr_w, curr_h):
-                        res = messagebox.askyesno(
-                            "窗口尺寸不一致提示",
-                            f"按键脚本 [{os.path.basename(filepath)}] 记录的窗口尺寸 ({rec_w} x {rec_h}) "
-                            f"与当前窗口尺寸 ({curr_w} x {curr_h}) 不一致！\n\n"
-                            f"是否依照当前窗口尺寸按位置百分比转换脚本中的坐标点？"
-                        )
-                        if res:
-                            content = scale_kms_script(content, rec_w, rec_h, curr_w, curr_h)
-                            self.log_msg(f"📐 [脚本坐标转换] 按键脚本坐标已成功从原尺寸 ({rec_w}x{rec_h}) 按比例转换至当前尺寸 ({curr_w}x{curr_h})")
-
                 if hasattr(self, "script_editor"):
                     self.script_editor.delete("1.0", tk.END)
                     self.script_editor.insert("1.0", content)
@@ -5141,45 +4927,23 @@ class AutoClickerApp:
         active_ed = self._get_active_editor()
         if active_ed:
             content = active_ed.get("1.0", tk.END)
-            curr_size = self.get_current_target_window_size()
-            curr_w, curr_h = curr_size[0], curr_size[1]
-
-            lines = content.splitlines()
-            has_header = False
-            new_lines = []
-            for line in lines:
-                if re.match(r"^(?://|#)?\s*WindowSize\s*[:=]\s*\d+[\text,xX\*]\d+", line.strip(), re.IGNORECASE):
-                    new_lines.append(f"// WindowSize={curr_w}x{curr_h}")
-                    has_header = True
-                else:
-                    new_lines.append(line)
-            if not has_header:
-                new_lines.insert(0, f"// WindowSize={curr_w}x{curr_h}")
-
-            content = "\n".join(new_lines)
-            if not content.endswith("\n"):
-                content += "\n"
-
             try:
                 with open(target_file, "w", encoding="utf-8") as f:
                     f.write(content)
                 self.current_script_file = target_file
                 self.script_file_var.set(os.path.basename(target_file))
 
-                if active_ed:
-                    active_ed.delete("1.0", tk.END)
-                    active_ed.insert("1.0", content)
-                    self.apply_syntax_highlight(active_ed)
-
+                # 双向同步至另一个编辑器
                 other_ed = getattr(self, "mini_script_display", None) if active_ed == getattr(self, "script_editor", None) else getattr(self, "script_editor", None)
                 if other_ed and other_ed != active_ed:
                     other_ed.delete("1.0", tk.END)
                     other_ed.insert("1.0", content)
                     self.apply_syntax_highlight(other_ed)
+                self.apply_syntax_highlight(active_ed)
 
                 self.refresh_scripts_list()
                 self.mark_script_clean()
-                self.log_msg(f"按键脚本已成功保存至: {os.path.basename(target_file)} (记录尺寸: {curr_w}x{curr_h})")
+                self.log_msg(f"按键脚本已成功保存至: {os.path.basename(target_file)}")
                 return True
             except Exception as e:
                 messagebox.showerror("错误", f"保存脚本文件失败: {e}")
@@ -5462,10 +5226,13 @@ class AutoClickerApp:
         if not target_file:
             target_file = self.current_config_file
 
-        curr_size = self.get_current_target_window_size()
         target_hwnd = self.target_hwnd_var.get()
         if target_hwnd and win32gui.IsWindow(target_hwnd):
             try:
+                rect = win32gui.GetWindowRect(target_hwnd)
+                w, h = rect[2] - rect[0], rect[3] - rect[1]
+                if w > 100 and h > 100:
+                    self.target_window_size = [w, h]
                 _, cl_w, cl_h, _, _ = self.get_emulator_render_info(target_hwnd)
                 if cl_w > 50 and cl_h > 50:
                     self.base_render_size = [cl_w, cl_h]
@@ -5474,7 +5241,7 @@ class AutoClickerApp:
 
         config = {
             "mode": self.mode_var.get(),
-            "window_size": curr_size,
+            "window_size": getattr(self, "target_window_size", [424, 901]),
             "base_render_size": getattr(self, "base_render_size", [390, 867]),
             "base_adb_resolution": getattr(self, "base_adb_resolution", [540, 1200]),
             "topmost": self.topmost_var.get(),
@@ -5565,41 +5332,7 @@ class AutoClickerApp:
             self.mode_var.set(mode)
             self._last_mode = mode
 
-            rec_size = config.get("window_size")
-            if not rec_size or not isinstance(rec_size, (list, tuple)) or len(rec_size) < 2 or not rec_size[0] or not rec_size[1]:
-                rec_size = [424, 901]
-            rec_w, rec_h = rec_size[0], rec_size[1]
-            curr_size = self.get_current_target_window_size()
-            curr_w, curr_h = curr_size[0], curr_size[1]
-
-            points_data = config.get("points", [])
-
-            if rec_w > 0 and rec_h > 0 and curr_w > 0 and curr_h > 0 and (rec_w, rec_h) != (curr_w, curr_h):
-                res = messagebox.askyesno(
-                    "窗口尺寸不一致提示",
-                    f"配置方案 [{os.path.basename(filepath)}] 记录的窗口尺寸 ({rec_w} x {rec_h}) "
-                    f"与当前窗口尺寸 ({curr_w} x {curr_h}) 不一致！\n\n"
-                    f"是否依照当前窗口尺寸按位置百分比转换坐标点？"
-                )
-                if res:
-                    scale_x = curr_w / rec_w
-                    scale_y = curr_h / rec_h
-                    for p_data in points_data:
-                        try:
-                            x_old = float(p_data.get("x", 0))
-                            y_old = float(p_data.get("y", 0))
-                            if x_old != 0 or y_old != 0:
-                                p_data["x"] = str(round(x_old * scale_x))
-                                p_data["y"] = str(round(y_old * scale_y))
-                        except Exception:
-                            pass
-                    self.target_window_size = [curr_w, curr_h]
-                    self.log_msg(f"📐 [坐标转换] 10组点位坐标已成功从原尺寸 ({rec_w}x{rec_h}) 按比例转换至当前尺寸 ({curr_w}x{curr_h})")
-                else:
-                    self.target_window_size = [rec_w, rec_h]
-            else:
-                self.target_window_size = [rec_w, rec_h]
-
+            self.target_window_size = config.get("window_size", [424, 901])
             self.base_render_size = config.get("base_render_size", [390, 867])
             self.base_adb_resolution = config.get("base_adb_resolution", [540, 1200])
 
@@ -5611,6 +5344,7 @@ class AutoClickerApp:
             self.apply_follow_target_ui()
             self.update_execution_state()
 
+            points_data = config.get("points", [])
             for i in range(min(NUM_POINTS, len(points_data))):
                 p_data = points_data[i]
                 p_vars = self.point_vars[i]

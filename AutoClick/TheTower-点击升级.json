@@ -1,12 +1,21 @@
 {
   "mode": "background",
-  "target_hwnd": 183112470,
-  "target_title": "[PID:43840 | HWND:183112470] BlueStacks-PQ",
-  "adb_enabled": true,
-  "adb_device": "127.0.0.1:5555",
-  "adb_custom_path": "",
+  "window_size": [
+    424,
+    901
+  ],
+  "base_render_size": [
+    390,
+    867
+  ],
+  "base_adb_resolution": [
+    540,
+    1200
+  ],
   "topmost": false,
   "follow_target": true,
+  "mini_dock_right": false,
+  "anti_sleep": true,
   "points": [
     {
       "id": 1,
