@@ -3443,10 +3443,12 @@ class AutoClickerApp:
             pass
 
         known_render_classes = [
+            "nemuwin",
+            "nemudisplay",
+            "nemurender",
             "renderwindow",
             "inputinteropwindow",
             "subwin",
-            "nemurender",
             "sdl_app",
             "bluestacksapp",
         ]
@@ -3454,8 +3456,12 @@ class AutoClickerApp:
         found_child = False
         for ch, cls_name, cw, ch_h in children:
             cls_lower = cls_name.lower()
+            try:
+                title_lower = win32gui.GetWindowText(ch).lower()
+            except Exception:
+                title_lower = ""
             for kw in known_render_classes:
-                if kw in cls_lower:
+                if kw in cls_lower or kw in title_lower:
                     render_hwnd = ch
                     found_child = True
                     break
@@ -3564,13 +3570,14 @@ class AutoClickerApp:
                 # 1. 自动定位模拟器内部实际渲染画布 Viewport 并获取除去外框/标题栏后的真实尺寸与偏移
                 render_hwnd, cl_w, cl_h, offset_x, offset_y = self.get_emulator_render_info(hwnd)
 
-                if self.mode_var.get() == "foreground":
+                ix, iy = int(x), int(y)
+                if self.mode_var.get() == "foreground" and (ix > cl_w or iy > cl_h or ix < 0 or iy < 0):
                     # 屏幕绝对坐标 -> 转换到模拟器游戏画布 Client 坐标 (完美去除顶栏与侧栏)
-                    cl_pt = win32gui.ScreenToClient(render_hwnd, (int(x), int(y)))
+                    cl_pt = win32gui.ScreenToClient(render_hwnd, (ix, iy))
                     rel_x_px, rel_y_px = cl_pt[0], cl_pt[1]
                 else:
-                    # 后台/脚本相对坐标：针对渲染画布的相对坐标
-                    rel_x_px, rel_y_px = int(x), int(y)
+                    # 已经是针对渲染画布 Viewport 的相对坐标 (如脚本 Click(x, y) 或已换算的视口点位)
+                    rel_x_px, rel_y_px = ix, iy
 
                 # 2. 计算在模拟器实际游戏画布内的归一化比例 (0.0 ~ 1.0)
                 norm_x = max(0.0, min(1.0, rel_x_px / max(1, cl_w)))
@@ -4811,7 +4818,8 @@ class AutoClickerApp:
             mode = self.mode_var.get()
             hwnd = self.target_hwnd_var.get()
 
-            if mode == "background" and hwnd and win32gui.IsWindow(hwnd):
+            is_adb = self.adb_enabled_var.get()
+            if (mode == "background" or is_adb) and hwnd and win32gui.IsWindow(hwnd):
                 try:
                     render_hwnd, _, _, _, _ = self.get_emulator_render_info(hwnd)
                     final_x, final_y = win32gui.ScreenToClient(render_hwnd, (screen_x, screen_y))

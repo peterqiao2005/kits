@@ -1,10 +1,10 @@
 {
   "last_config_file": "D:\\GitHub\\kits\\AutoClick\\temp.json",
   "last_script_file": "d:\\GitHub\\kits\\AutoClick\\scripts\\Jojo-farm-t8-speed4.5-recovery.kms",
-  "target_hwnd": 2957140,
-  "target_title": "[PID:56840 | HWND:2957140] BlueStacks-Jojo",
-  "target_pid": 56840,
+  "target_hwnd": 1115602,
+  "target_title": "[PID:30420 | HWND:1115602] MuMu安卓设备",
+  "target_pid": 0,
   "adb_enabled": true,
-  "adb_device": "127.0.0.1:5565",
+  "adb_device": "127.0.0.1:16384",
   "adb_custom_path": ""
 }
