@@ -1,12 +1,12 @@
 {
-  "mode": "adb",
+  "mode": "background",
   "window_size": [
-    422,
-    896
+    424,
+    901
   ],
   "base_render_size": [
-    388,
-    862
+    775,
+    436
   ],
   "base_adb_resolution": [
     540,
@@ -21,72 +21,72 @@
       "id": 1,
       "enabled": true,
       "level": 0,
-      "remark": "右上菜单",
-      "x": "rect(142, 256, 271, 321)",
+      "remark": "升级-左1",
+      "x": "476, 390",
       "y": "0",
       "delay": "0.0",
-      "interval": "1,1.5",
-      "count": "10",
+      "interval": "0.3",
+      "count": "2",
       "hotkey": "ctrl+shift+1"
     },
     {
       "id": 2,
       "enabled": false,
-      "level": 1,
-      "remark": "结束战斗",
-      "x": "0",
+      "level": 0,
+      "remark": "升级-右1",
+      "x": "328, 662",
       "y": "0",
       "delay": "1",
-      "interval": "0.5",
-      "count": "1",
+      "interval": "0.7",
+      "count": "0",
       "hotkey": "ctrl+shift+2"
     },
     {
       "id": 3,
       "enabled": false,
-      "level": 2,
-      "remark": "Retry",
-      "x": "0",
+      "level": 0,
+      "remark": "升级-左2",
+      "x": "143, 742",
       "y": "0",
       "delay": "2",
-      "interval": "0.5",
-      "count": "1",
+      "interval": "0.8",
+      "count": "0",
       "hotkey": "ctrl+shift+3"
     },
     {
       "id": 4,
       "enabled": false,
-      "level": 3,
-      "remark": "",
-      "x": "0",
+      "level": 0,
+      "remark": "升级-右2",
+      "x": "334, 740",
       "y": "0",
       "delay": "0.0",
-      "interval": "0.5",
-      "count": "1",
+      "interval": "0.9",
+      "count": "0",
       "hotkey": "ctrl+shift+4"
     },
     {
       "id": 5,
       "enabled": false,
-      "level": 4,
-      "remark": "",
-      "x": "0",
+      "level": 0,
+      "remark": "升级-左3",
+      "x": "140, 815",
       "y": "0",
       "delay": "0.0",
-      "interval": "0.5",
-      "count": "1",
+      "interval": "1.1",
+      "count": "0",
       "hotkey": "ctrl+shift+5"
     },
     {
       "id": 6,
       "enabled": false,
-      "level": 4,
-      "remark": "",
-      "x": "0",
+      "level": 0,
+      "remark": "升级-右3",
+      "x": "347, 810",
       "y": "0",
       "delay": "0.0",
-      "interval": "0.5",
-      "count": "1",
+      "interval": "1.2",
+      "count": "0",
       "hotkey": "ctrl+shift+6"
     },
     {
@@ -112,6 +112,30 @@
       "interval": "0.5",
       "count": "1",
       "hotkey": "ctrl+shift+8"
+    },
+    {
+      "id": 9,
+      "enabled": false,
+      "level": 0,
+      "remark": "",
+      "x": "53, 856",
+      "y": "0",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+9"
+    },
+    {
+      "id": 10,
+      "enabled": false,
+      "level": 0,
+      "remark": "",
+      "x": "140, 856",
+      "y": "0",
+      "delay": "0.0",
+      "interval": "0.5",
+      "count": "1",
+      "hotkey": "ctrl+shift+0"
     }
   ]
 }

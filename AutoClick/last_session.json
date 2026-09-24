@@ -1,10 +1,14 @@
 {
-  "last_config_file": "C:\\Github\\kits\\AutoClick\\TheTower-点击升级.json",
+  "last_config_file": "C:\\Github\\kits\\AutoClick\\config.json",
   "last_script_file": "C:\\Github\\kits\\AutoClick\\scripts\\Jojo-farm-t11-speed5.kms",
-  "target_hwnd": 331562,
-  "target_title": "[PID:27416 | HWND:331562] BlueStacks-PQ",
-  "target_pid": 0,
+  "target_hwnd": 920042,
+  "target_title": "[PID:22876 | HWND:920042] BlueStacks-PQ",
+  "target_pid": 22876,
   "adb_enabled": true,
   "adb_device": "127.0.0.1:5555",
-  "adb_custom_path": ""
+  "adb_custom_path": "",
+  "standard_window_size": [
+    422,
+    896
+  ]
 }
